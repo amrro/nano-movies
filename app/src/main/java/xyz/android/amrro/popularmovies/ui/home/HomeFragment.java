@@ -11,9 +11,6 @@ import android.view.ViewGroup;
 import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import xyz.android.amrro.popularmovies.R;
 import xyz.android.amrro.popularmovies.data.api.MoviesService;
 
@@ -39,20 +36,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         if (api != null) {
-            api.popular("popularity.desc")
-                    .enqueue(
-                            new Callback<Object>() {
-                                @Override
-                                public void onResponse(Call<Object> call, Response<Object> response) {
-
-                                }
-
-                                @Override
-                                public void onFailure(Call<Object> call, Throwable t) {
-
-                                }
-                            }
-                    );
+           
         }
     }
 
