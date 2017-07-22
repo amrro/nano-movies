@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="xyz.android.amrro.popularmovies.HomeActivity">
+    tools:context="xyz.android.amrro.popularmovies.ui.home.HomeActivity">
     <item
         android:id="@+id/action_filter"
         android:icon="@drawable/ic_filter_list_white_24dp"
