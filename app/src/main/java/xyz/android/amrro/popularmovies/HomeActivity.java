@@ -1,12 +1,13 @@
 package xyz.android.amrro.popularmovies;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.widget.TextView;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -17,10 +18,28 @@ public class HomeActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(view ->
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show());
+        animateToolbar(toolbar);
+    }
+
+    private void animateToolbar(Toolbar toolbar) {
+        View view = toolbar.getChildAt(0);
+        if (view != null && view instanceof TextView) {
+            TextView title = (TextView) view;
+
+            // fade in and space out the title.  Animating the letterSpacing performs horribly so
+            // fake it by setting the desired letterSpacing then animating the scaleX ¯\_(ツ)_/¯
+            title.setAlpha(0f);
+            title.setScaleX(0.8f);
+
+            title.animate()
+                    .alpha(1f)
+                    .scaleX(1f)
+                    .setStartDelay(300)
+                    .setDuration(1000)
+                    .setInterpolator(AnimationUtils.loadInterpolator(
+                            this,
+                            android.R.interpolator.fast_out_slow_in));
+        }
     }
 
     @Override
