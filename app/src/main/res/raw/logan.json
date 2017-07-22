@@ -1,0 +1,76 @@
+{
+  "adult": false,
+  "backdrop_path": "/5pAGnkFYSsFJ99ZxDIYnhQbQFXs.jpg",
+  "belongs_to_collection": {
+    "id": 453993,
+    "name": "The Wolverine Collection",
+    "poster_path": "/8Ht4a5A5Ypxh0PjbVoRTzm1kAu3.jpg",
+    "backdrop_path": "/QtSxEuCwcZSfCTMZfER3nHDVsG.jpg"
+  },
+  "budget": 97000000,
+  "genres": [
+    {
+      "id": 28,
+      "name": "Action"
+    },
+    {
+      "id": 18,
+      "name": "Drama"
+    },
+    {
+      "id": 878,
+      "name": "Science Fiction"
+    }
+  ],
+  "homepage": "http://www.foxmovies.com/movies/logan",
+  "id": 263115,
+  "imdb_id": "tt3315342",
+  "original_language": "en",
+  "original_title": "Logan",
+  "overview": "In the near future, a weary Logan cares for an ailing Professor X in a hideout on the Mexican border. But Logan's attempts to hide from the world and his legacy are upended when a young mutant arrives, pursued by dark forces.",
+  "popularity": 66.217608,
+  "poster_path": "/gGBu0hKw9BGddG8RkRAMX7B6NDB.jpg",
+  "production_companies": [
+    {
+      "name": "Twentieth Century Fox Film Corporation",
+      "id": 306
+    },
+    {
+      "name": "Donners' Company",
+      "id": 431
+    },
+    {
+      "name": "Marvel Entertainment",
+      "id": 7505
+    },
+    {
+      "name": "TSG Entertainment",
+      "id": 22213
+    }
+  ],
+  "production_countries": [
+    {
+      "iso_3166_1": "US",
+      "name": "United States of America"
+    }
+  ],
+  "release_date": "2017-02-28",
+  "revenue": 616218538,
+  "runtime": 137,
+  "spoken_languages": [
+    {
+      "iso_639_1": "en",
+      "name": "English"
+    },
+    {
+      "iso_639_1": "es",
+      "name": "Español"
+    }
+  ],
+  "status": "Released",
+  "tagline": "His time has come",
+  "title": "Logan",
+  "video": false,
+  "vote_average": 7.5,
+  "vote_count": 4846
+}
