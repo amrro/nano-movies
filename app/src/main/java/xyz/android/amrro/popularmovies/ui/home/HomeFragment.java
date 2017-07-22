@@ -11,8 +11,13 @@ import android.view.ViewGroup;
 import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import timber.log.Timber;
 import xyz.android.amrro.popularmovies.R;
 import xyz.android.amrro.popularmovies.data.api.MoviesService;
+import xyz.android.amrro.popularmovies.data.model.Movie;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -36,7 +41,21 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         if (api != null) {
-           
+           api.movie(263115).enqueue(
+                   new Callback<Movie>() {
+                       @Override
+                       public void onResponse(Call<Movie> call, Response<Movie> response) {
+                           if (response.isSuccessful()) {
+                               Timber.i(response.body().toString());
+                           }
+                       }
+
+                       @Override
+                       public void onFailure(Call<Movie> call, Throwable t) {
+                            Timber.e(t.getMessage());
+                       }
+                   }
+           );
         }
     }
 

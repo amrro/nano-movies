@@ -1,61 +1,75 @@
 package xyz.android.amrro.popularmovies.data.model;
 
-import android.support.annotation.NonNull;
-
-/**
- * Created by amrro <amr.elghobary@gmail.com> on 7/22/17.
- */
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class Collection {
-    @NonNull
-    String id;
-    @NonNull
-    String name;
-    String posterPath;
-    String backdropPath;
 
-    public Collection(@NonNull String id,
-                      @NonNull String name,
-                      String posterPath,
-                      String backdropPath) {
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("name")
+    @Expose
+    private String name;
+    @SerializedName("poster_path")
+    @Expose
+    private String posterPath;
+    @SerializedName("backdrop_path")
+    @Expose
+    private String backdropPath;
+
+    /**
+     * No args constructor for use in serialization
+     *
+     */
+    public Collection() {
+    }
+
+    /**
+     *
+     * @param id
+     * @param posterPath
+     * @param name
+     * @param backdropPath
+     */
+    public Collection(Integer id, String name, String posterPath, String backdropPath) {
+        super();
         this.id = id;
         this.name = name;
         this.posterPath = posterPath;
         this.backdropPath = backdropPath;
     }
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Collection)) return false;
-
-        Collection that = (Collection) o;
-
-        if (!id.equals(that.id)) return false;
-        if (!name.equals(that.name)) return false;
-        if (posterPath != null ? !posterPath.equals(that.posterPath) : that.posterPath != null)
-            return false;
-        return backdropPath != null ? backdropPath.equals(that.backdropPath) : that.backdropPath == null;
+    public Integer getId() {
+        return id;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + name.hashCode();
-        result = 31 * result + (posterPath != null ? posterPath.hashCode() : 0);
-        result = 31 * result + (backdropPath != null ? backdropPath.hashCode() : 0);
-        return result;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-
-    @Override
-    public String toString() {
-        return "Collection{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", posterPath='" + posterPath + '\'' +
-                ", backdropPath='" + backdropPath + '\'' +
-                '}';
+    public String getName() {
+        return name;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
+
+    public String getBackdropPath() {
+        return backdropPath;
+    }
+
+    public void setBackdropPath(String backdropPath) {
+        this.backdropPath = backdropPath;
+    }
+
 }

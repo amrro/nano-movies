@@ -1,65 +1,96 @@
 package xyz.android.amrro.popularmovies.data.model;
 
-import android.support.annotation.NonNull;
-
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by amrro <amr.elghobary@gmail.com> on 7/22/17.
- */
-
 public class Movie {
+    private Boolean adult;
+    private String backdropPath;
+    private Collection belongsToCollection;
+    private Integer budget;
+    private List<Genre> genres = new ArrayList<Genre>();
+    private String homepage;
+    private Integer id;
+    private String imdbId;
+    private String originalLanguage;
+    private String originalTitle;
+    private String overview;
+    private Double popularity;
+    private String posterPath;
+    private String releaseDate;
+    private Integer revenue;
+    private Integer runtime;
+    private String status;
+    private String tagline;
+    private String title;
+    private Boolean video;
+    private Double voteAverage;
+    private Integer voteCount;
 
-    @NonNull
-    public Integer id;
-    @NonNull
-    public Boolean adult;
-    public String backdropPath;
-    public Collection BelongsToCollection;
-    public Integer Budget;
-    public List<Genre> genres;
-    public String homepage;
-    public String originalTitle;
-    public String overview;
-    public Double popularity;
-    public String posterPath;
-    public String releaseDate;
-    public String revenue;
-    public String runtime;
-    public String status;
-    public String tagline;
-    public String title;
-    public Boolean video;
-    public Double voteAverage;
-    public Integer voteCount;
+    /**
+     * No args constructor for use in serialization
+     */
+    public Movie() {
+    }
 
-    public Movie(@NonNull Integer id,
-                 @NonNull Boolean adult,
+
+    /**
+     * @param budget
+     * @param genres
+     * @param runtime
+     * @param backdropPath
+     * @param voteCount
+     * @param id
+     * @param title
+     * @param releaseDate
+     * @param posterPath
+     * @param originalTitle
+     * @param voteAverage
+     * @param video
+     * @param popularity
+     * @param revenue
+     * @param status
+     * @param originalLanguage
+     * @param adult
+     * @param imdbId
+     * @param homepage
+     * @param overview
+     * @param belongsToCollection
+     * @param tagline
+     */
+    public Movie(Boolean adult,
                  String backdropPath,
                  Collection belongsToCollection,
                  Integer budget,
                  List<Genre> genres,
                  String homepage,
+                 Integer id,
+                 String imdbId,
+                 String originalLanguage,
                  String originalTitle,
                  String overview,
                  Double popularity,
                  String posterPath,
                  String releaseDate,
-                 String revenue,
-                 String runtime,
+                 Integer revenue,
+                 Integer runtime,
                  String status,
                  String tagline,
                  String title,
                  Boolean video,
                  Double voteAverage,
                  Integer voteCount) {
-        this.id = id;
+        super();
+
         this.adult = adult;
         this.backdropPath = backdropPath;
-        BelongsToCollection = belongsToCollection;
-        Budget = budget;
+        this.belongsToCollection = belongsToCollection;
+        this.budget = budget;
         this.genres = genres;
         this.homepage = homepage;
+        this.id = id;
+        this.imdbId = imdbId;
+        this.originalLanguage = originalLanguage;
         this.originalTitle = originalTitle;
         this.overview = overview;
         this.popularity = popularity;
@@ -75,6 +106,186 @@ public class Movie {
         this.voteCount = voteCount;
     }
 
+
+    public Boolean getAdult() {
+        return adult;
+    }
+
+    public void setAdult(Boolean adult) {
+        this.adult = adult;
+    }
+
+    public String getBackdropPath() {
+        return backdropPath;
+    }
+
+    public void setBackdropPath(String backdropPath) {
+        this.backdropPath = backdropPath;
+    }
+
+    public Collection getBelongsToCollection() {
+        return belongsToCollection;
+    }
+
+    public void setBelongsToCollection(Collection belongsToCollection) {
+        this.belongsToCollection = belongsToCollection;
+    }
+
+    public Integer getBudget() {
+        return budget;
+    }
+
+    public void setBudget(Integer budget) {
+        this.budget = budget;
+    }
+
+    public List<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
+    }
+
+    public String getHomepage() {
+        return homepage;
+    }
+
+    public void setHomepage(String homepage) {
+        this.homepage = homepage;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getImdbId() {
+        return imdbId;
+    }
+
+    public void setImdbId(String imdbId) {
+        this.imdbId = imdbId;
+    }
+
+    public String getOriginalLanguage() {
+        return originalLanguage;
+    }
+
+    public void setOriginalLanguage(String originalLanguage) {
+        this.originalLanguage = originalLanguage;
+    }
+
+    public String getOriginalTitle() {
+        return originalTitle;
+    }
+
+    public void setOriginalTitle(String originalTitle) {
+        this.originalTitle = originalTitle;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public Double getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(Double popularity) {
+        this.popularity = popularity;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
+
+
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public Integer getRevenue() {
+        return revenue;
+    }
+
+    public void setRevenue(Integer revenue) {
+        this.revenue = revenue;
+    }
+
+    public Integer getRuntime() {
+        return runtime;
+    }
+
+    public void setRuntime(Integer runtime) {
+        this.runtime = runtime;
+    }
+
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getTagline() {
+        return tagline;
+    }
+
+    public void setTagline(String tagline) {
+        this.tagline = tagline;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Boolean getVideo() {
+        return video;
+    }
+
+    public void setVideo(Boolean video) {
+        this.video = video;
+    }
+
+    public Double getVoteAverage() {
+        return voteAverage;
+    }
+
+    public void setVoteAverage(Double voteAverage) {
+        this.voteAverage = voteAverage;
+    }
+
+    public Integer getVoteCount() {
+        return voteCount;
+    }
+
+    public void setVoteCount(Integer voteCount) {
+        this.voteCount = voteCount;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -82,79 +293,96 @@ public class Movie {
 
         Movie movie = (Movie) o;
 
-        if (!id.equals(movie.id)) return false;
-        if (!adult.equals(movie.adult)) return false;
-        if (backdropPath != null ? !backdropPath.equals(movie.backdropPath) : movie.backdropPath != null)
+        if (getAdult() != null ? !getAdult().equals(movie.getAdult()) : movie.getAdult() != null)
             return false;
-        if (BelongsToCollection != null ? !BelongsToCollection.equals(movie.BelongsToCollection) : movie.BelongsToCollection != null)
+        if (getBackdropPath() != null ? !getBackdropPath().equals(movie.getBackdropPath()) : movie.getBackdropPath() != null)
             return false;
-        if (Budget != null ? !Budget.equals(movie.Budget) : movie.Budget != null) return false;
-        if (genres != null ? !genres.equals(movie.genres) : movie.genres != null) return false;
-        if (homepage != null ? !homepage.equals(movie.homepage) : movie.homepage != null)
+        if (getBelongsToCollection() != null ? !getBelongsToCollection().equals(movie.getBelongsToCollection()) : movie.getBelongsToCollection() != null)
             return false;
-        if (originalTitle != null ? !originalTitle.equals(movie.originalTitle) : movie.originalTitle != null)
+        if (getBudget() != null ? !getBudget().equals(movie.getBudget()) : movie.getBudget() != null)
             return false;
-        if (overview != null ? !overview.equals(movie.overview) : movie.overview != null)
+        if (getGenres() != null ? !getGenres().equals(movie.getGenres()) : movie.getGenres() != null)
             return false;
-        if (popularity != null ? !popularity.equals(movie.popularity) : movie.popularity != null)
+        if (getHomepage() != null ? !getHomepage().equals(movie.getHomepage()) : movie.getHomepage() != null)
             return false;
-        if (posterPath != null ? !posterPath.equals(movie.posterPath) : movie.posterPath != null)
+        if (getId() != null ? !getId().equals(movie.getId()) : movie.getId() != null) return false;
+        if (getImdbId() != null ? !getImdbId().equals(movie.getImdbId()) : movie.getImdbId() != null)
             return false;
-        if (releaseDate != null ? !releaseDate.equals(movie.releaseDate) : movie.releaseDate != null)
+        if (getOriginalLanguage() != null ? !getOriginalLanguage().equals(movie.getOriginalLanguage()) : movie.getOriginalLanguage() != null)
             return false;
-        if (revenue != null ? !revenue.equals(movie.revenue) : movie.revenue != null) return false;
-        if (runtime != null ? !runtime.equals(movie.runtime) : movie.runtime != null) return false;
-        if (status != null ? !status.equals(movie.status) : movie.status != null) return false;
-        if (tagline != null ? !tagline.equals(movie.tagline) : movie.tagline != null) return false;
-        if (title != null ? !title.equals(movie.title) : movie.title != null) return false;
-        if (video != null ? !video.equals(movie.video) : movie.video != null) return false;
-        if (voteAverage != null ? !voteAverage.equals(movie.voteAverage) : movie.voteAverage != null)
+        if (getOriginalTitle() != null ? !getOriginalTitle().equals(movie.getOriginalTitle()) : movie.getOriginalTitle() != null)
             return false;
-        return voteCount != null ? voteCount.equals(movie.voteCount) : movie.voteCount == null;
+        if (getOverview() != null ? !getOverview().equals(movie.getOverview()) : movie.getOverview() != null)
+            return false;
+        if (getPopularity() != null ? !getPopularity().equals(movie.getPopularity()) : movie.getPopularity() != null)
+            return false;
+        if (getPosterPath() != null ? !getPosterPath().equals(movie.getPosterPath()) : movie.getPosterPath() != null)
+            return false;
+        if (getReleaseDate() != null ? !getReleaseDate().equals(movie.getReleaseDate()) : movie.getReleaseDate() != null)
+            return false;
+        if (getRevenue() != null ? !getRevenue().equals(movie.getRevenue()) : movie.getRevenue() != null)
+            return false;
+        if (getRuntime() != null ? !getRuntime().equals(movie.getRuntime()) : movie.getRuntime() != null)
+            return false;
+        if (getStatus() != null ? !getStatus().equals(movie.getStatus()) : movie.getStatus() != null)
+            return false;
+        if (getTagline() != null ? !getTagline().equals(movie.getTagline()) : movie.getTagline() != null)
+            return false;
+        if (getTitle() != null ? !getTitle().equals(movie.getTitle()) : movie.getTitle() != null)
+            return false;
+        if (getVideo() != null ? !getVideo().equals(movie.getVideo()) : movie.getVideo() != null)
+            return false;
+        if (getVoteAverage() != null ? !getVoteAverage().equals(movie.getVoteAverage()) : movie.getVoteAverage() != null)
+            return false;
+        return getVoteCount() != null ? getVoteCount().equals(movie.getVoteCount()) : movie.getVoteCount() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + adult.hashCode();
-        result = 31 * result + (backdropPath != null ? backdropPath.hashCode() : 0);
-        result = 31 * result + (BelongsToCollection != null ? BelongsToCollection.hashCode() : 0);
-        result = 31 * result + (Budget != null ? Budget.hashCode() : 0);
-        result = 31 * result + (genres != null ? genres.hashCode() : 0);
-        result = 31 * result + (homepage != null ? homepage.hashCode() : 0);
-        result = 31 * result + (originalTitle != null ? originalTitle.hashCode() : 0);
-        result = 31 * result + (overview != null ? overview.hashCode() : 0);
-        result = 31 * result + (popularity != null ? popularity.hashCode() : 0);
-        result = 31 * result + (posterPath != null ? posterPath.hashCode() : 0);
-        result = 31 * result + (releaseDate != null ? releaseDate.hashCode() : 0);
-        result = 31 * result + (revenue != null ? revenue.hashCode() : 0);
-        result = 31 * result + (runtime != null ? runtime.hashCode() : 0);
-        result = 31 * result + (status != null ? status.hashCode() : 0);
-        result = 31 * result + (tagline != null ? tagline.hashCode() : 0);
-        result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + (video != null ? video.hashCode() : 0);
-        result = 31 * result + (voteAverage != null ? voteAverage.hashCode() : 0);
-        result = 31 * result + (voteCount != null ? voteCount.hashCode() : 0);
+        int result = getAdult() != null ? getAdult().hashCode() : 0;
+        result = 31 * result + (getBackdropPath() != null ? getBackdropPath().hashCode() : 0);
+        result = 31 * result + (getBelongsToCollection() != null ? getBelongsToCollection().hashCode() : 0);
+        result = 31 * result + (getBudget() != null ? getBudget().hashCode() : 0);
+        result = 31 * result + (getGenres() != null ? getGenres().hashCode() : 0);
+        result = 31 * result + (getHomepage() != null ? getHomepage().hashCode() : 0);
+        result = 31 * result + (getId() != null ? getId().hashCode() : 0);
+        result = 31 * result + (getImdbId() != null ? getImdbId().hashCode() : 0);
+        result = 31 * result + (getOriginalLanguage() != null ? getOriginalLanguage().hashCode() : 0);
+        result = 31 * result + (getOriginalTitle() != null ? getOriginalTitle().hashCode() : 0);
+        result = 31 * result + (getOverview() != null ? getOverview().hashCode() : 0);
+        result = 31 * result + (getPopularity() != null ? getPopularity().hashCode() : 0);
+        result = 31 * result + (getPosterPath() != null ? getPosterPath().hashCode() : 0);
+        result = 31 * result + (getReleaseDate() != null ? getReleaseDate().hashCode() : 0);
+        result = 31 * result + (getRevenue() != null ? getRevenue().hashCode() : 0);
+        result = 31 * result + (getRuntime() != null ? getRuntime().hashCode() : 0);
+        result = 31 * result + (getStatus() != null ? getStatus().hashCode() : 0);
+        result = 31 * result + (getTagline() != null ? getTagline().hashCode() : 0);
+        result = 31 * result + (getTitle() != null ? getTitle().hashCode() : 0);
+        result = 31 * result + (getVideo() != null ? getVideo().hashCode() : 0);
+        result = 31 * result + (getVoteAverage() != null ? getVoteAverage().hashCode() : 0);
+        result = 31 * result + (getVoteCount() != null ? getVoteCount().hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
         return "Movie{" +
-                "id=" + id +
-                ", adult=" + adult +
+                "adult=" + adult +
                 ", backdropPath='" + backdropPath + '\'' +
-                ", BelongsToCollection=" + BelongsToCollection +
-                ", Budget=" + Budget +
+                ", belongsToCollection=" + belongsToCollection +
+                ", budget=" + budget +
                 ", genres=" + genres +
                 ", homepage='" + homepage + '\'' +
+                ", id=" + id +
+                ", imdbId='" + imdbId + '\'' +
+                ", originalLanguage='" + originalLanguage + '\'' +
                 ", originalTitle='" + originalTitle + '\'' +
                 ", overview='" + overview + '\'' +
                 ", popularity=" + popularity +
                 ", posterPath='" + posterPath + '\'' +
                 ", releaseDate='" + releaseDate + '\'' +
-                ", revenue='" + revenue + '\'' +
-                ", runtime='" + runtime + '\'' +
+                ", revenue=" + revenue +
+                ", runtime=" + runtime +
                 ", status='" + status + '\'' +
                 ", tagline='" + tagline + '\'' +
                 ", title='" + title + '\'' +
