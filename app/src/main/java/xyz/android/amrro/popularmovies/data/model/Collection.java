@@ -3,7 +3,7 @@ package xyz.android.amrro.popularmovies.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Collection {
+public final class Collection {
 
     @SerializedName("id")
     @Expose

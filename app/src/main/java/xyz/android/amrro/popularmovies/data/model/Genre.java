@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
  * Created by amrro <amr.elghobary@gmail.com> on 7/22/17.
  */
 
-public class Genre {
+public final class Genre {
     @NonNull
     public String id;
 

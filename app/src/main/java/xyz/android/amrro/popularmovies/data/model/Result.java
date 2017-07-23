@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Result {
+public final class Result {
     private Integer voteCount;
     private Integer id;
     private boolean video;

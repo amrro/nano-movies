@@ -5,21 +5,20 @@ package xyz.android.amrro.popularmovies.data.model;
  */
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 
-public class Search {
-    private int page;
-    private int totalResults;
-    private int totalPages;
-    private List<Result> results = new ArrayList<Result>();
+public final class Search {
+    private final int page;
+    private final int totalResults;
+    private final int totalPages;
+    private final List<Result> results;
 
     /**
      * No args constructor for use in serialization
      */
-    public Search() {
-    }
+    /*public Search() {
+    }*/
 
     /**
      * @param results
@@ -39,33 +38,21 @@ public class Search {
         return page;
     }
 
-    public void setPage(int page) {
-        this.page = page;
-    }
 
     public int getTotalResults() {
         return totalResults;
     }
 
-    public void setTotalResults(int totalResults) {
-        this.totalResults = totalResults;
-    }
 
     public int getTotalPages() {
         return totalPages;
     }
 
-    public void setTotalPages(int totalPages) {
-        this.totalPages = totalPages;
-    }
 
     public List<Result> getResults() {
         return results;
     }
 
-    public void setResults(List<Result> results) {
-        this.results = results;
-    }
 
     @Override
     public boolean equals(Object o) {
