@@ -8,10 +8,10 @@ import android.support.annotation.NonNull;
 
 public final class Genre {
     @NonNull
-    public String id;
+    public final String id;
 
     @NonNull
-    public String name;
+    public final String name;
 
     public Genre(@NonNull String id, @NonNull String name) {
         this.id = id;

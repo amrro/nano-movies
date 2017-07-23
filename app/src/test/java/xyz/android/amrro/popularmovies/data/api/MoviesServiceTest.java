@@ -24,6 +24,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import xyz.android.amrro.popularmovies.data.model.Credit;
 import xyz.android.amrro.popularmovies.data.model.Movie;
+import xyz.android.amrro.popularmovies.data.model.Search;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -91,6 +92,18 @@ public class MoviesServiceTest {
 
     @Test
     public void popular() throws Exception {
+        enqueueResponse("popular.json");
+        final Response<Search> response = service.popular("popularity.desc").execute();
+        final RecordedRequest request = server.takeRequest();
+
+        assertThat(request.getPath(), is("/discover/movie?sort_by=popularity.desc"));
+        assertThat(response.body(), notNullValue());
+
+        assertThat(response.body().getResults().size(), is(20));
+        assertThat(response.body().getResults().get(0), notNullValue());
+        assertThat(response.body().getResults().get(0).getTitle(), is("Despicable Me 3"));
+        assertThat(response.body().getResults().get(0).getPosterPath(), is("/5qcUGqWoWhEsoQwNUrtf3y3fcWn.jpg"));
+        assertThat(response.body().getResults().get(0).getPopularity(), is(314.770213));
     }
 
 

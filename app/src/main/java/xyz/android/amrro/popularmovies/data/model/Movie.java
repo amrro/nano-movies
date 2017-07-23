@@ -111,80 +111,61 @@ public class Movie {
     }
 
 
-
     public String getBackdropPath() {
         return backdropPath;
     }
-
-
 
     public Collection getBelongsToCollection() {
         return belongsToCollection;
     }
 
-
-
     public Integer getBudget() {
         return budget;
     }
-
 
     public List<Genre> getGenres() {
         return genres;
     }
 
-
     public String getHomepage() {
         return homepage;
     }
-
 
     public Integer getId() {
         return id;
     }
 
-
     public String getImdbId() {
         return imdbId;
     }
-
 
     public String getOriginalLanguage() {
         return originalLanguage;
     }
 
-
-
     public String getOriginalTitle() {
         return originalTitle;
     }
-
 
     public String getOverview() {
         return overview;
     }
 
-
     public Double getPopularity() {
         return popularity;
     }
-
 
     public String getPosterPath() {
         return posterPath;
     }
 
-
-
     public String getReleaseDate() {
         return releaseDate;
     }
 
-
     public Integer getRevenue() {
         return revenue;
     }
-
 
     public Integer getRuntime() {
         return runtime;
