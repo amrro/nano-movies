@@ -22,6 +22,7 @@ import okio.Okio;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import xyz.android.amrro.popularmovies.data.model.Credit;
 import xyz.android.amrro.popularmovies.data.model.Movie;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -62,7 +63,7 @@ public class MoviesServiceTest {
     public void movie() throws Exception {
         enqueueResponse("logan.json");
         final Response<Movie> response = service.movie(263115).execute();
-        RecordedRequest request = server.takeRequest();
+        final RecordedRequest request = server.takeRequest();
 
         assertThat(request.getPath(), is("/movie/263115"));
         assertThat(response.body(), notNullValue());
@@ -73,6 +74,19 @@ public class MoviesServiceTest {
 
     @Test
     public void credits() throws Exception {
+        enqueueResponse("logan_credit.json");
+        final Response<Credit> response = service.credits(263115).execute();
+        final RecordedRequest request = server.takeRequest();
+
+        assertThat(request.getPath(), is("/movie/263115/credits"));
+        assertThat(response.body(), notNullValue());
+        assertThat(response.body().getCast().size(), is(104));
+
+        assertThat(response.body().getCast().get(0), notNullValue());
+        assertThat(response.body().getCast().get(0).getName(), is("Hugh Jackman"));
+
+        assertThat(response.body().getCast().get(1), notNullValue());
+        assertThat(response.body().getCast().get(1).getName(), is("Patrick Stewart"));
     }
 
     @Test
