@@ -2,7 +2,7 @@ package xyz.android.amrro.popularmovies.data.model;
 
 import java.util.List;
 
-public class Movie {
+public final class Movie {
     private final Boolean adult;
     private final String backdropPath;
     private final Collection belongsToCollection;
@@ -25,12 +25,6 @@ public class Movie {
     private final Boolean video;
     private final Double voteAverage;
     private final Integer voteCount;
-
-    /**
-     * No args constructor for use in serialization
-     */
-    /*public Movie() {
-    }*/
 
 
     /**
@@ -172,7 +166,6 @@ public class Movie {
     }
 
 
-
     public String getStatus() {
         return status;
     }
@@ -201,7 +194,6 @@ public class Movie {
     public Integer getVoteCount() {
         return voteCount;
     }
-
 
 
     @Override

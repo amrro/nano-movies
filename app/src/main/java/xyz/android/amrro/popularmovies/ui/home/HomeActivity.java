@@ -1,6 +1,5 @@
 package xyz.android.amrro.popularmovies.ui.home;
 
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import javax.inject.Inject;
 
@@ -26,14 +24,23 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
     @Inject
     DispatchingAndroidInjector<android.support.v4.app.Fragment> dispatchingAndroidInjector;
 
-    @Inject
-    SharedPreferences prfs;
-
     /**
      * indicates if the device is connected to network or not.
      */
     boolean connected = true;
+    private ConnectivityManager.NetworkCallback connectivityCallback
+            = new ConnectivityManager.NetworkCallback() {
+        @Override
+        public void onAvailable(Network network) {
+            connected = true;
+            // TODO: 7/22/17 Connection is active, do your home work.
+        }
 
+        @Override
+        public void onLost(Network network) {
+            connected = false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +54,6 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        if (prfs != null) {
-            Toast.makeText(this, "prfs is not null", Toast.LENGTH_SHORT).show();
-        }
-
         animateToolbar(toolbar);
     }
 
@@ -101,21 +103,6 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
     private void checkConnectivity() {
         // TODO: 7/22/17 check if there is a connection or not.
     }
-
-    private ConnectivityManager.NetworkCallback connectivityCallback
-            = new ConnectivityManager.NetworkCallback() {
-        @Override
-        public void onAvailable(Network network) {
-            connected = true;
-            // TODO: 7/22/17 Connection is active, do your home work.
-        }
-
-        @Override
-        public void onLost(Network network) {
-            connected = false;
-        }
-    };
-
 
     @Override
     public AndroidInjector<android.support.v4.app.Fragment> supportFragmentInjector() {

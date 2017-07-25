@@ -93,7 +93,7 @@ public class MoviesServiceTest {
     @Test
     public void popular() throws Exception {
         enqueueResponse("popular.json");
-        final Response<Search> response = service.popular("popularity.desc").execute();
+        final Response<Search> response = service.discover("popularity.desc").execute();
         final RecordedRequest request = server.takeRequest();
 
         assertThat(request.getPath(), is("/discover/movie?sort_by=popularity.desc"));

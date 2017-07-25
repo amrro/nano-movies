@@ -92,7 +92,7 @@ public final class Result {
 
 
     public String getPosterPath() {
-        return posterPath;
+        return "https://image.tmdb.org/t/p/w500" + posterPath;
     }
 
 

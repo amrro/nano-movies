@@ -17,13 +17,11 @@ public final class Credit {
 
     /**
      * No args constructor for use in serialization
-     *
      */
     public Credit() {
     }
 
     /**
-     *
      * @param id
      * @param cast
      */
@@ -49,4 +47,30 @@ public final class Credit {
         this.cast = cast;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Credit)) return false;
+
+        Credit credit = (Credit) o;
+
+        if (getId() != null ? !getId().equals(credit.getId()) : credit.getId() != null)
+            return false;
+        return getCast() != null ? getCast().equals(credit.getCast()) : credit.getCast() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId() != null ? getId().hashCode() : 0;
+        result = 31 * result + (getCast() != null ? getCast().hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Credit{" +
+                "id=" + id +
+                ", cast=" + cast +
+                '}';
+    }
 }

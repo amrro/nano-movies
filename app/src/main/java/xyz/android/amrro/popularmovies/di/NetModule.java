@@ -24,7 +24,7 @@ import xyz.android.amrro.popularmovies.data.api.MoviesService;
 public class NetModule {
 
     @NonNull
-    private String url  = "https://api.themoviedb.org/3/";
+    private String url = "https://api.themoviedb.org/3/";
 
 //    public NetModule(@NonNull String url) {
 //        this.url = url;

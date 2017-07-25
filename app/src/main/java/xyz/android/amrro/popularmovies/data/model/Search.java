@@ -5,6 +5,9 @@ package xyz.android.amrro.popularmovies.data.model;
  */
 
 
+import android.support.annotation.NonNull;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -49,8 +52,13 @@ public final class Search {
     }
 
 
-    public List<Result> getResults() {
-        return results;
+    @NonNull
+    public ArrayList<Result> getResults() {
+        if (results == null) {
+            return new ArrayList<>();
+        }
+
+        return (ArrayList<Result>) results;
     }
 
 

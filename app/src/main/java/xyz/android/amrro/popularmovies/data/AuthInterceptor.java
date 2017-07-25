@@ -9,11 +9,11 @@ import okhttp3.Response;
 
 /**
  * Created by amrro <amr.elghobary@gmail.com> on 7/22/17.
- *
+ * <p>
  * This interceptor is adding a query of the API key to each request.
  */
 
-public class AuthInterceptor implements Interceptor {
+public final class AuthInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         final Request original = chain.request();

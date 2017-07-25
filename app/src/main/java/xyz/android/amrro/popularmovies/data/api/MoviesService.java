@@ -21,6 +21,6 @@ public interface MoviesService {
     public Call<Credit> credits(@Path("movie_id") int id);
 
     @GET("discover/movie")
-    public Call<Search> popular(@Query("sort_by") String sort);
+    public Call<Search> discover(@Query("sort_by") String sort);
 
 }

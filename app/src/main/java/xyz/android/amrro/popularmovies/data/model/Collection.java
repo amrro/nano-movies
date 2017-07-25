@@ -20,13 +20,11 @@ public final class Collection {
 
     /**
      * No args constructor for use in serialization
-     *
      */
     public Collection() {
     }
 
     /**
-     *
      * @param id
      * @param posterPath
      * @param name
