@@ -86,7 +86,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void initRecyclerView() {
-        RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 2);
+        RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 1);
         binding.grid.setLayoutManager(manager);
         binding.grid.setHasFixedSize(true);
     }

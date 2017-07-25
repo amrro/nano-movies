@@ -43,7 +43,20 @@ public final class Result {
      * @param video
      * @param popularity
      */
-    public Result(Integer voteCount, Integer id, boolean video, double voteAverage, String title, double popularity, String posterPath, String originalLanguage, String originalTitle, List<Integer> genreIds, String backdropPath, boolean adult, String overview, String releaseDate) {
+    public Result(Integer voteCount,
+                  Integer id,
+                  boolean video,
+                  double voteAverage,
+                  String title,
+                  double popularity,
+                  String posterPath,
+                  String originalLanguage,
+                  String originalTitle,
+                  List<Integer> genreIds,
+                  String backdropPath,
+                  boolean adult,
+                  String overview,
+                  String releaseDate) {
         super();
         this.voteCount = voteCount;
         this.id = id;
@@ -112,7 +125,7 @@ public final class Result {
 
 
     public String getBackdropPath() {
-        return backdropPath;
+        return String.format("https://image.tmdb.org/t/p/w500%s", backdropPath);
     }
 
 
