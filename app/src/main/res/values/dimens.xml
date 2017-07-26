@@ -1,1 +1,4 @@
-<resources></resources>
+<resources>
+    <dimen name="ic_filter_dimen">30dp</dimen>
+    <dimen name="padding_filter_layout">5dp</dimen>
+</resources>

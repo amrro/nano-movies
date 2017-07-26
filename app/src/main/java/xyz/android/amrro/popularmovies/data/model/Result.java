@@ -125,7 +125,10 @@ public final class Result {
 
 
     public String getBackdropPath() {
-        return String.format("https://image.tmdb.org/t/p/w500%s", backdropPath);
+        if (backdropPath != null)
+            return String.format("https://image.tmdb.org/t/p/w500%s", backdropPath);
+        else
+            return null;
     }
 
 

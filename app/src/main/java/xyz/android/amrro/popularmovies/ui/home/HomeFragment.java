@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -49,24 +50,44 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setHasOptionsMenu(true);
         initRecyclerView();
+        getResults(getString(R.string.sort_popularity_desc));
+    }
 
-        getResults();
 
+    public interface FilterSelectionListener {
+        void onFilterSelected(final String filter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_filter:
+                final FiltersButtonSheetFragment sheetFragment = new FiltersButtonSheetFragment();
+
+                sheetFragment.setListener((String filter) -> {
+                    Timber.i(">>>> selectedFilter: %s", filter);
+                    binding.setShowLoading(false);
+                    getResults(filter);
+                });
+                sheetFragment.show(getFragmentManager(), sheetFragment.getTag());
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
 
     }
 
-    private void getResults() {
+    private void getResults(final String filter) {
         if (api != null) {
-            api.discover("popularity.desc").enqueue(
+            api.discover(filter).enqueue(
                     new Callback<Search>() {
                         @Override
                         public void onResponse(Call<Search> call, Response<Search> response) {
                             if (response.isSuccessful()) {
                                 final ArrayList<Result> results = response.body().getResults();
-
-                                Timber.i(">>>> Movie Results: %s", results.toString());
-
 
                                 if (results.size() > 0) {
                                     final MoviesAdapter adapter = new MoviesAdapter(getContext(), results);

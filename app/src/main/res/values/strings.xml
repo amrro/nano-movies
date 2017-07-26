@@ -3,4 +3,7 @@
     <string name="action_settings">Settings</string>
     <string name="action_filter">Filter</string>
     <string name="overview_sample">In the near future, a weary Logan cares for an ailing Professor X in a hideout on the Mexican border. But Logan\'s attempts to hide from the world and his legacy are upended when a young mutant arriv</string>
+    <string name="sort_by">Sort By:</string>
+    <string name="popularity">Popularity</string>
+    <string name="rating">Rating</string>
 </resources>

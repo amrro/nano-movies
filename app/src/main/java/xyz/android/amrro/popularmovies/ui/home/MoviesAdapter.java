@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import timber.log.Timber;
 import xyz.android.amrro.popularmovies.data.model.Result;
 import xyz.android.amrro.popularmovies.databinding.CardMovieBinding;
 
@@ -58,12 +59,16 @@ public final class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.Movi
         }
 
         public void bind(Result movie) {
+
             binding.setMovie(movie);
             binding.ratingBar.setRating((float) (movie.getVoteAverage() / 2.0));
 
-            Glide.with(context)
-                    .load(movie.getBackdropPath())
-                    .into(binding.backdrop);
+            Timber.i(">>>> %s: %s", movie.getTitle(), movie.getBackdropPath());
+            if (movie.getBackdropPath() != null) {
+                Glide.with(context)
+                        .load(movie.getBackdropPath())
+                        .into(binding.backdrop);
+            }
         }
     }
 }
