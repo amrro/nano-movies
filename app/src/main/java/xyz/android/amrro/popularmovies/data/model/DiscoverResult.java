@@ -2,6 +2,8 @@ package xyz.android.amrro.popularmovies.data.model;
 
 /**
  * Created by amrro <amr.elghobary@gmail.com> on 7/23/17.
+ *
+ *
  */
 
 
@@ -11,16 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public final class Search {
+public final class DiscoverResult {
     private final int page;
     private final int totalResults;
     private final int totalPages;
-    private final List<Result> results;
+    private final List<MovieResult> results;
 
     /**
      * No args constructor for use in serialization
      */
-    /*public Search() {
+    /*public DiscoverResult() {
     }*/
 
     /**
@@ -29,7 +31,7 @@ public final class Search {
      * @param page
      * @param totalPages
      */
-    public Search(int page, int totalResults, int totalPages, List<Result> results) {
+    public DiscoverResult(int page, int totalResults, int totalPages, List<MovieResult> results) {
         super();
         this.page = page;
         this.totalResults = totalResults;
@@ -53,26 +55,26 @@ public final class Search {
 
 
     @NonNull
-    public ArrayList<Result> getResults() {
+    public ArrayList<MovieResult> getResults() {
         if (results == null) {
             return new ArrayList<>();
         }
 
-        return (ArrayList<Result>) results;
+        return (ArrayList<MovieResult>) results;
     }
 
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Search)) return false;
+        if (!(o instanceof DiscoverResult)) return false;
 
-        Search search = (Search) o;
+        DiscoverResult discoverResult = (DiscoverResult) o;
 
-        if (getPage() != search.getPage()) return false;
-        if (getTotalResults() != search.getTotalResults()) return false;
-        if (getTotalPages() != search.getTotalPages()) return false;
-        return getResults() != null ? getResults().equals(search.getResults()) : search.getResults() == null;
+        if (getPage() != discoverResult.getPage()) return false;
+        if (getTotalResults() != discoverResult.getTotalResults()) return false;
+        if (getTotalPages() != discoverResult.getTotalPages()) return false;
+        return getResults() != null ? getResults().equals(discoverResult.getResults()) : discoverResult.getResults() == null;
     }
 
     @Override
@@ -86,7 +88,7 @@ public final class Search {
 
     @Override
     public String toString() {
-        return "Search{" +
+        return "DiscoverResult{" +
                 "page=" + page +
                 ", totalResults=" + totalResults +
                 ", totalPages=" + totalPages +

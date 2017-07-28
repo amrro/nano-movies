@@ -10,7 +10,7 @@ package xyz.android.amrro.popularmovies.data.model;
 import java.util.List;
 
 
-public final class Result {
+public final class MovieResult {
     private final Integer voteCount;
     private final Integer id;
     private final boolean video;
@@ -27,36 +27,20 @@ public final class Result {
     private final String releaseDate;
 
 
-    /**
-     * @param genreIds
-     * @param id
-     * @param title
-     * @param releaseDate
-     * @param overview
-     * @param posterPath
-     * @param originalTitle
-     * @param voteAverage
-     * @param originalLanguage
-     * @param adult
-     * @param backdropPath
-     * @param voteCount
-     * @param video
-     * @param popularity
-     */
-    public Result(Integer voteCount,
-                  Integer id,
-                  boolean video,
-                  double voteAverage,
-                  String title,
-                  double popularity,
-                  String posterPath,
-                  String originalLanguage,
-                  String originalTitle,
-                  List<Integer> genreIds,
-                  String backdropPath,
-                  boolean adult,
-                  String overview,
-                  String releaseDate) {
+    public MovieResult(Integer voteCount,
+                       Integer id,
+                       boolean video,
+                       double voteAverage,
+                       String title,
+                       double popularity,
+                       String posterPath,
+                       String originalLanguage,
+                       String originalTitle,
+                       List<Integer> genreIds,
+                       String backdropPath,
+                       boolean adult,
+                       String overview,
+                       String releaseDate) {
         super();
         this.voteCount = voteCount;
         this.id = id;
@@ -147,33 +131,33 @@ public final class Result {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Result)) return false;
+        if (!(o instanceof MovieResult)) return false;
 
-        Result result = (Result) o;
+        MovieResult movieResult = (MovieResult) o;
 
-        if (isVideo() != result.isVideo()) return false;
-        if (Double.compare(result.getVoteAverage(), getVoteAverage()) != 0) return false;
-        if (Double.compare(result.getPopularity(), getPopularity()) != 0) return false;
-        if (isAdult() != result.isAdult()) return false;
-        if (getVoteCount() != null ? !getVoteCount().equals(result.getVoteCount()) : result.getVoteCount() != null)
+        if (isVideo() != movieResult.isVideo()) return false;
+        if (Double.compare(movieResult.getVoteAverage(), getVoteAverage()) != 0) return false;
+        if (Double.compare(movieResult.getPopularity(), getPopularity()) != 0) return false;
+        if (isAdult() != movieResult.isAdult()) return false;
+        if (getVoteCount() != null ? !getVoteCount().equals(movieResult.getVoteCount()) : movieResult.getVoteCount() != null)
             return false;
-        if (getId() != null ? !getId().equals(result.getId()) : result.getId() != null)
+        if (getId() != null ? !getId().equals(movieResult.getId()) : movieResult.getId() != null)
             return false;
-        if (getTitle() != null ? !getTitle().equals(result.getTitle()) : result.getTitle() != null)
+        if (getTitle() != null ? !getTitle().equals(movieResult.getTitle()) : movieResult.getTitle() != null)
             return false;
-        if (getPosterPath() != null ? !getPosterPath().equals(result.getPosterPath()) : result.getPosterPath() != null)
+        if (getPosterPath() != null ? !getPosterPath().equals(movieResult.getPosterPath()) : movieResult.getPosterPath() != null)
             return false;
-        if (getOriginalLanguage() != null ? !getOriginalLanguage().equals(result.getOriginalLanguage()) : result.getOriginalLanguage() != null)
+        if (getOriginalLanguage() != null ? !getOriginalLanguage().equals(movieResult.getOriginalLanguage()) : movieResult.getOriginalLanguage() != null)
             return false;
-        if (getOriginalTitle() != null ? !getOriginalTitle().equals(result.getOriginalTitle()) : result.getOriginalTitle() != null)
+        if (getOriginalTitle() != null ? !getOriginalTitle().equals(movieResult.getOriginalTitle()) : movieResult.getOriginalTitle() != null)
             return false;
-        if (getGenreIds() != null ? !getGenreIds().equals(result.getGenreIds()) : result.getGenreIds() != null)
+        if (getGenreIds() != null ? !getGenreIds().equals(movieResult.getGenreIds()) : movieResult.getGenreIds() != null)
             return false;
-        if (getBackdropPath() != null ? !getBackdropPath().equals(result.getBackdropPath()) : result.getBackdropPath() != null)
+        if (getBackdropPath() != null ? !getBackdropPath().equals(movieResult.getBackdropPath()) : movieResult.getBackdropPath() != null)
             return false;
-        if (getOverview() != null ? !getOverview().equals(result.getOverview()) : result.getOverview() != null)
+        if (getOverview() != null ? !getOverview().equals(movieResult.getOverview()) : movieResult.getOverview() != null)
             return false;
-        return getReleaseDate() != null ? getReleaseDate().equals(result.getReleaseDate()) : result.getReleaseDate() == null;
+        return getReleaseDate() != null ? getReleaseDate().equals(movieResult.getReleaseDate()) : movieResult.getReleaseDate() == null;
     }
 
     @Override
@@ -201,7 +185,7 @@ public final class Result {
 
     @Override
     public String toString() {
-        return "Result{" +
+        return "MovieResult{" +
                 "voteCount=" + voteCount +
                 ", id=" + id +
                 ", video=" + video +

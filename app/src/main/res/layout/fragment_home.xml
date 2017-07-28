@@ -27,7 +27,7 @@
             android:elevation="1dp"
             android:scrollbarStyle="outsideOverlay"
             android:scrollbars="vertical"
-            android:visibility="@{showLoading? View.VISIBLE: View.GONE}"
+            android:visibility="@{showLoading? View.GONE: View.VISIBLE}"
             app:spanCount="1"
             tools:listitem="@layout/card_movie" />
 
@@ -39,7 +39,7 @@
             android:indeterminate="true"
             android:indeterminateTint="?android:colorAccent"
             android:indeterminateTintMode="src_in"
-            android:visibility="@{showLoading? View.GONE : View.VISIBLE}"
+            android:visibility="@{showLoading? View.VISIBLE: View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

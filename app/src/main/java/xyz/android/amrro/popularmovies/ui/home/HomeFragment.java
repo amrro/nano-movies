@@ -1,10 +1,12 @@
 package xyz.android.amrro.popularmovies.ui.home;
 
 import android.app.Activity;
+import android.arch.lifecycle.LifecycleFragment;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,25 +19,26 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import timber.log.Timber;
 import xyz.android.amrro.popularmovies.R;
 import xyz.android.amrro.popularmovies.data.api.MoviesService;
-import xyz.android.amrro.popularmovies.data.model.Result;
-import xyz.android.amrro.popularmovies.data.model.Search;
+import xyz.android.amrro.popularmovies.data.model.DiscoverResult;
+import xyz.android.amrro.popularmovies.data.model.MovieResult;
 import xyz.android.amrro.popularmovies.databinding.FragmentHomeBinding;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends LifecycleFragment {
+
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
 
     @Inject
     MoviesService api;
 
     private FragmentHomeBinding binding;
+    private MoviesAdapter adapter;
+    private DiscoverViewModel discoverViewModel;
 
     public HomeFragment() {
     }
@@ -51,10 +54,30 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
+        binding.setShowLoading(true);
         initRecyclerView();
-        getResults(getString(R.string.sort_popularity_desc));
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        discoverViewModel = ViewModelProviders.of(this, viewModelFactory).get(DiscoverViewModel.class);
+        discoverViewModel.setSort(getString(R.string.sort_popularity_desc));
+        discoverViewModel.getResults().observe(this, HomeFragment.this::updateAdapter);
+    }
+
+    public void updateAdapter(final DiscoverResult result) {
+        if (result != null) {
+            final ArrayList<MovieResult> movieResults = result.getResults();
+            if (movieResults != null) {
+                adapter.replace(movieResults);
+                binding.setShowLoading(false);
+            } else {
+                adapter.replace(null);
+            }
+        }
+    }
 
     public interface FilterSelectionListener {
         void onFilterSelected(final String filter);
@@ -67,9 +90,8 @@ public class HomeFragment extends Fragment {
                 final FiltersButtonSheetFragment sheetFragment = new FiltersButtonSheetFragment();
 
                 sheetFragment.setListener((String filter) -> {
-                    Timber.i(">>>> selectedFilter: %s", filter);
-                    binding.setShowLoading(false);
-                    getResults(filter);
+                    binding.setShowLoading(true);
+                    discoverViewModel.setSort(filter);
                 });
                 sheetFragment.show(getFragmentManager(), sheetFragment.getTag());
                 return true;
@@ -77,39 +99,14 @@ public class HomeFragment extends Fragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
-
-    }
-
-    private void getResults(final String filter) {
-        if (api != null) {
-            api.discover(filter).enqueue(
-                    new Callback<Search>() {
-                        @Override
-                        public void onResponse(Call<Search> call, Response<Search> response) {
-                            if (response.isSuccessful()) {
-                                final ArrayList<Result> results = response.body().getResults();
-
-                                if (results.size() > 0) {
-                                    final MoviesAdapter adapter = new MoviesAdapter(getContext(), results);
-                                    binding.grid.setAdapter(adapter);
-                                    binding.setShowLoading(true);
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<Search> call, Throwable t) {
-
-                        }
-                    }
-            );
-        }
     }
 
     public void initRecyclerView() {
         RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 1);
         binding.grid.setLayoutManager(manager);
         binding.grid.setHasFixedSize(true);
+        adapter = new MoviesAdapter(getContext(), new ArrayList<>());
+        binding.grid.setAdapter(adapter);
     }
 
 
@@ -117,5 +114,12 @@ public class HomeFragment extends Fragment {
     public void onAttach(Activity activity) {
         AndroidSupportInjection.inject(this);
         super.onAttach(activity);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+        adapter = null;
     }
 }

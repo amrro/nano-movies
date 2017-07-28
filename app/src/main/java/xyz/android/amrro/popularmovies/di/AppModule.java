@@ -13,7 +13,7 @@ import dagger.Provides;
 /**
  * Created by amrro <amr.elghobary@gmail.com> on 7/22/17.
  */
-@Module
+@Module(includes = ViewModelModule.class)
 public class AppModule {
 
     @NonNull

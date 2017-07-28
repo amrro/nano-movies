@@ -11,7 +11,7 @@
     <data>
         <variable
             name="movie"
-            type="xyz.android.amrro.popularmovies.data.model.Result"/>
+            type="xyz.android.amrro.popularmovies.data.model.MovieResult"/>
     </data>
 
 
