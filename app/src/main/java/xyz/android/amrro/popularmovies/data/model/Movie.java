@@ -27,30 +27,6 @@ public final class Movie {
     private final Integer voteCount;
 
 
-    /**
-     * @param budget
-     * @param genres
-     * @param runtime
-     * @param backdropPath
-     * @param voteCount
-     * @param id
-     * @param title
-     * @param releaseDate
-     * @param posterPath
-     * @param originalTitle
-     * @param voteAverage
-     * @param video
-     * @param popularity
-     * @param revenue
-     * @param status
-     * @param originalLanguage
-     * @param adult
-     * @param imdbId
-     * @param homepage
-     * @param overview
-     * @param belongsToCollection
-     * @param tagline
-     */
     public Movie(Boolean adult,
                  String backdropPath,
                  Collection belongsToCollection,
@@ -106,7 +82,10 @@ public final class Movie {
 
 
     public String getBackdropPath() {
-        return backdropPath;
+        if (backdropPath != null)
+            return String.format("https://image.tmdb.org/t/p/w500%s", backdropPath);
+
+        return null;
     }
 
     public Collection getBelongsToCollection() {
@@ -150,7 +129,9 @@ public final class Movie {
     }
 
     public String getPosterPath() {
-        return posterPath;
+        if (posterPath != null)
+            return "https://image.tmdb.org/t/p/w500" + posterPath;
+        return null;
     }
 
     public String getReleaseDate() {

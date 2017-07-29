@@ -6,16 +6,21 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
+
 import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
-import timber.log.Timber;
 import xyz.android.amrro.popularmovies.R;
+import xyz.android.amrro.popularmovies.data.api.ApiResponse;
+import xyz.android.amrro.popularmovies.data.model.Movie;
+import xyz.android.amrro.popularmovies.data.model.ReviewsResponse;
 import xyz.android.amrro.popularmovies.databinding.FragmentMovieDetailsBinding;
 
 /**
@@ -23,7 +28,7 @@ import xyz.android.amrro.popularmovies.databinding.FragmentMovieDetailsBinding;
  */
 public class MovieDetailsFragment extends LifecycleFragment {
 
-    public static final int ID = 263115;
+    public static final int ID = 315635;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -41,25 +46,45 @@ public class MovieDetailsFragment extends LifecycleFragment {
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        binding.setShowLoading(true);
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         movieViewModel = ViewModelProviders.of(this, viewModelFactory).get(MovieViewModel.class);
         movieViewModel.setMovieId(ID);
-        movieViewModel.getMovie().observe(this, response -> {
+        movieViewModel.getMovie().observe(this, this::updateMovieUI);
+        movieViewModel.getReviews().observe(this, this::updateReviews);
+        movieViewModel.getTrailers().observe(this, response -> {});
+    }
 
-        });
+    private void updateMovieUI(@NonNull final ApiResponse<Movie> response) {
+        if (response.isSuccessful()) {
+            final Movie movie = response.getData();
+            binding.setMovie(movie);
+            Glide.with(this)
+                    .load(movie.getBackdropPath())
+                    .into(binding.backdrop);
 
-        movieViewModel.getReviews().observe(this, response -> {
+            Glide.with(this)
+                    .load(movie.getPosterPath())
+                    .into(binding.poster);
 
-        });
+            binding.setShowLoading(false);
+            animateFAB();
+        }
+    }
 
-        movieViewModel.getTrailers().observe(this, response -> {
-            if (response != null && response.isSuccessful()) {
-                Timber.d(response.getData().toString());
-            } else {
-                Timber.d(response.getError().getMessage());
-            }
-        });
+    private void animateFAB() {
+        // TODO: 7/29/17 animate fab.
+        // TODO: 7/29/17 change icon.
+    }
+
+    private void updateReviews(@NonNull final ApiResponse<ReviewsResponse> response) {
+
     }
 
     @SuppressWarnings("deprecation")

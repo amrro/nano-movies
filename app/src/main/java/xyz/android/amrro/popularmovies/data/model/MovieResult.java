@@ -89,7 +89,9 @@ public final class MovieResult {
 
 
     public String getPosterPath() {
-        return "https://image.tmdb.org/t/p/w500" + posterPath;
+        if (posterPath != null)
+            return "https://image.tmdb.org/t/p/w500" + posterPath;
+        return null;
     }
 
 
@@ -111,8 +113,8 @@ public final class MovieResult {
     public String getBackdropPath() {
         if (backdropPath != null)
             return String.format("https://image.tmdb.org/t/p/w500%s", backdropPath);
-        else
-            return null;
+
+        return null;
     }
 
 
