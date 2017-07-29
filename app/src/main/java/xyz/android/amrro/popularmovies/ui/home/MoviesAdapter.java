@@ -60,7 +60,7 @@ public final class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.Movi
     @SuppressLint("StaticFieldLeak")
     @MainThread
     public void replace(@NonNull final ArrayList<MovieResult> update) {
-        dataVersion ++;
+        dataVersion++;
 
         if (movieResults == null) {
             if (update == null) {

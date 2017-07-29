@@ -6,10 +6,6 @@ import android.support.annotation.NonNull;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import timber.log.Timber;
 import xyz.android.amrro.popularmovies.data.api.MoviesService;
 import xyz.android.amrro.popularmovies.data.model.DiscoverResult;
 
@@ -19,7 +15,6 @@ import xyz.android.amrro.popularmovies.data.model.DiscoverResult;
 
 @Singleton
 public final class DiscoverRepository {
-
     @NonNull
     private final MoviesService moviesService;
 
@@ -32,31 +27,7 @@ public final class DiscoverRepository {
 
     @NonNull
     public LiveData<DiscoverResult> discover(@NonNull String sorting) {
-        return new LiveData<DiscoverResult>() {
-            @Override
-            protected void onActive() {
-                super.onActive();
-                moviesService.discover(sorting).enqueue(
-                        new Callback<DiscoverResult>() {
-                            @Override
-                            public void onResponse(Call<DiscoverResult> call, Response<DiscoverResult> response) {
-                                if (response.isSuccessful() && response.body() != null) {
-                                    postValue(response.body());
-                                    Timber.d(">>>>%s", response.body());
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<DiscoverResult> call, Throwable t) {
-                                Timber.i(">>>> error getting Discover: %s", t.getMessage());
-                                Timber.e(">>>> ERROR: %s", t.getStackTrace());
-                                // TODO E: >>>> error getting Discover: timeout
-                            }
-                        }
-                );
-            }
-        };
-
+        return moviesService.discover(sorting);
     }
 
 }

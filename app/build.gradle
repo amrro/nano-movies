@@ -47,17 +47,21 @@ dependencies {
     implementation "com.android.support:design:$supportLibVersion"
     implementation "com.android.support:palette-v7:$supportLibVersion"
     implementation "com.android.support:cardview-v7:$supportLibVersion"
+    implementation "com.android.support:palette-v7:$supportLibVersion"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.jakewharton.timber:timber:4.5.1'
     // Arch
-    implementation "android.arch.lifecycle:runtime:1.0.0-alpha7"
-    implementation "android.arch.lifecycle:extensions:1.0.0-alpha7"
+    implementation 'android.arch.lifecycle:runtime:1.0.0-alpha7'
+    implementation 'android.arch.lifecycle:extensions:1.0.0-alpha7'
     annotationProcessor "android.arch.lifecycle:compiler:1.0.0-alpha7"
     // API
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
-    compile 'com.github.simonpercic:oklog3:2.1.0'
+    implementation 'com.github.simonpercic:oklog3:2.1.0'
+
+    // UI
+    implementation 'com.github.bumptech.glide:glide:4.0.0-RC1'
     // Dagger.
     implementation "com.google.dagger:dagger:$dagger_version"
     implementation "com.google.dagger:dagger-android:$dagger_version"
@@ -71,6 +75,5 @@ dependencies {
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestCompile "org.mockito:mockito-android:+"
-    implementation 'com.github.bumptech.glide:glide:4.0.0-RC1'
+    androidTestCompile 'org.mockito:mockito-android:+'
 }

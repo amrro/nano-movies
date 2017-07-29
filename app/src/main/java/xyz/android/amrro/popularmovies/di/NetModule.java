@@ -16,6 +16,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import xyz.android.amrro.popularmovies.data.AuthInterceptor;
 import xyz.android.amrro.popularmovies.data.api.MoviesService;
+import xyz.android.amrro.popularmovies.utils.LiveDataCallAdapterFactory;
 
 /**
  * Created by amrro <amr.elghobary@gmail.com> on 7/22/17.
@@ -72,6 +73,7 @@ public class NetModule {
     public MoviesService provideMoviesService(OkHttpClient client, Gson gson) {
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(new LiveDataCallAdapterFactory())
                 .baseUrl(url)
                 .client(client)
                 .build()

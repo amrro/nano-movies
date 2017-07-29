@@ -1,5 +1,7 @@
 package xyz.android.amrro.popularmovies.data.api;
 
+import android.arch.lifecycle.LiveData;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -21,6 +23,6 @@ public interface MoviesService {
     Call<Credit> credits(@Path("movie_id") int id);
 
     @GET("discover/movie")
-    Call<DiscoverResult> discover(@Query("sort_by") String sort);
+    LiveData<DiscoverResult> discover(@Query("sort_by") String sort);
 
 }
