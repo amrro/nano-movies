@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -63,8 +64,8 @@ public class HomeFragment extends LifecycleFragment {
         super.onActivityCreated(savedInstanceState);
 
         discoverViewModel = ViewModelProviders.of(this, viewModelFactory).get(DiscoverViewModel.class);
-        discoverViewModel.setSort(getString(R.string.sort_popularity_desc));
         discoverViewModel.getResults().observe(this, HomeFragment.this::updateAdapter);
+        discoverViewModel.setSort(getString(R.string.sort_popularity_desc));
     }
 
     public void updateAdapter(final DiscoverResult result) {
@@ -80,7 +81,7 @@ public class HomeFragment extends LifecycleFragment {
     }
 
     public interface FilterSelectionListener {
-        void onFilterSelected(final String filter);
+        void onFilterSelected(@NonNull final String filter);
     }
 
     @Override
@@ -104,7 +105,7 @@ public class HomeFragment extends LifecycleFragment {
     public void initRecyclerView() {
         RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 1);
         binding.grid.setLayoutManager(manager);
-        binding.grid.setHasFixedSize(true);
+//        binding.grid.setHasFixedSize(true);
         adapter = new MoviesAdapter(getContext(), new ArrayList<>());
         binding.grid.setAdapter(adapter);
     }

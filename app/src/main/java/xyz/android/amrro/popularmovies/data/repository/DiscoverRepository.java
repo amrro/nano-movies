@@ -19,6 +19,7 @@ import xyz.android.amrro.popularmovies.data.model.DiscoverResult;
 
 @Singleton
 public final class DiscoverRepository {
+
     @NonNull
     private final MoviesService moviesService;
 
@@ -47,8 +48,8 @@ public final class DiscoverRepository {
 
                             @Override
                             public void onFailure(Call<DiscoverResult> call, Throwable t) {
-                                Timber.e(">>>> error getting Discover: %s", t.getMessage());
-
+                                Timber.i(">>>> error getting Discover: %s", t.getMessage());
+                                Timber.e(">>>> ERROR: %s", t.getStackTrace());
                                 // TODO E: >>>> error getting Discover: timeout
                             }
                         }
