@@ -21,6 +21,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
 import xyz.android.amrro.popularmovies.R;
+import xyz.android.amrro.popularmovies.data.api.ApiResponse;
 import xyz.android.amrro.popularmovies.data.api.MoviesService;
 import xyz.android.amrro.popularmovies.data.model.DiscoverResult;
 import xyz.android.amrro.popularmovies.data.model.MovieResult;
@@ -68,16 +69,14 @@ public class HomeFragment extends LifecycleFragment {
         discoverViewModel.setSort(getString(R.string.sort_popularity_desc));
     }
 
-    public void updateAdapter(final DiscoverResult result) {
-        if (result != null) {
+    public void updateAdapter(final ApiResponse<DiscoverResult> response) {
+        if (response != null && response.isSuccessful()) {
+            final DiscoverResult result = response.getData();
             final ArrayList<MovieResult> movieResults = result.getResults();
-            if (movieResults != null) {
-                adapter.replace(movieResults);
-                binding.setShowLoading(false);
-            } else {
-                adapter.replace(null);
-            }
+            adapter.replace(movieResults);
+            binding.setShowLoading(false);
         }
+
     }
 
     public interface FilterSelectionListener {
@@ -111,6 +110,7 @@ public class HomeFragment extends LifecycleFragment {
     }
 
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onAttach(Activity activity) {
         AndroidSupportInjection.inject(this);

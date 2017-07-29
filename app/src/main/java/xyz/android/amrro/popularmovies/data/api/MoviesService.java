@@ -12,6 +12,8 @@ import xyz.android.amrro.popularmovies.data.model.Movie;
 
 /**
  * Created by amrro <amr.elghobary@gmail.com> on 7/22/17.
+ *
+ * The Gate Point for all movies db APIs.
  */
 
 public interface MoviesService {
@@ -23,6 +25,6 @@ public interface MoviesService {
     Call<Credit> credits(@Path("movie_id") int id);
 
     @GET("discover/movie")
-    LiveData<DiscoverResult> discover(@Query("sort_by") String sort);
+    LiveData<ApiResponse<DiscoverResult>> discover(@Query("sort_by") String sort);
 
 }

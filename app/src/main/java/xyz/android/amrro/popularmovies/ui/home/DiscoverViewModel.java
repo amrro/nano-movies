@@ -10,22 +10,23 @@ import java.util.Objects;
 
 import javax.inject.Inject;
 
+import xyz.android.amrro.popularmovies.data.api.ApiResponse;
 import xyz.android.amrro.popularmovies.data.model.DiscoverResult;
 import xyz.android.amrro.popularmovies.data.repository.DiscoverRepository;
 
 /**
  * Created by amrro <amr.elghobary@gmail.com> on 7/27/17.
- *
+ * <p>
  * This class is responsible for getting list of movies based on sorting criteria.
  */
 
 public final class DiscoverViewModel extends ViewModel {
 
     private final MutableLiveData<String> sort = new MutableLiveData<>();
-    private final LiveData<DiscoverResult> results;
+    private final LiveData<ApiResponse<DiscoverResult>> results;
 
     @Inject
-    public DiscoverViewModel(@NonNull DiscoverRepository repository) {
+    DiscoverViewModel(@NonNull DiscoverRepository repository) {
         results = Transformations.switchMap(sort, repository::discover);
     }
 
@@ -38,7 +39,7 @@ public final class DiscoverViewModel extends ViewModel {
         this.sort.setValue(sorting);
     }
 
-    LiveData<DiscoverResult> getResults() {
+    LiveData<ApiResponse<DiscoverResult>> getResults() {
         return results;
     }
 
