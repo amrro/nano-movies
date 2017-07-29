@@ -3,6 +3,7 @@ package xyz.android.amrro.popularmovies.ui.home;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -21,7 +22,7 @@ import xyz.android.amrro.popularmovies.R;
 public class HomeActivity extends AppCompatActivity implements HasSupportFragmentInjector {
 
     @Inject
-    DispatchingAndroidInjector<android.support.v4.app.Fragment> dispatchingAndroidInjector;
+    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
     /**
      * indicates if the device is connected to network or not.
@@ -90,7 +91,7 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
     }
 
     @Override
-    public AndroidInjector<android.support.v4.app.Fragment> supportFragmentInjector() {
+    public AndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
     }
 }

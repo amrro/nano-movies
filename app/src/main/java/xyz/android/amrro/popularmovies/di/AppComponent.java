@@ -14,7 +14,7 @@ import xyz.android.amrro.popularmovies.MoviesApp;
         AndroidInjectionModule.class,
         AppModule.class,
         NetModule.class,
-        HomeActivityModule.class,
+        ActivitiesModule.class,
         FragmentsModule.class
 })
 public interface AppComponent {

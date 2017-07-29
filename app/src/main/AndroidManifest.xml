@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="xyz.android.amrro.popularmovies">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".MoviesApp"
@@ -12,8 +12,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".ui.home.HomeActivity"
             android:label="@string/app_name"
@@ -24,6 +23,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.movie.MovieDetailsActivity"
+            android:label="@string/title_activity_movie_details"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

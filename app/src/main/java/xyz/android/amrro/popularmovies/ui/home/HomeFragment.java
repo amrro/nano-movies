@@ -22,7 +22,6 @@ import javax.inject.Inject;
 import dagger.android.support.AndroidSupportInjection;
 import xyz.android.amrro.popularmovies.R;
 import xyz.android.amrro.popularmovies.data.api.ApiResponse;
-import xyz.android.amrro.popularmovies.data.api.MoviesService;
 import xyz.android.amrro.popularmovies.data.model.DiscoverResult;
 import xyz.android.amrro.popularmovies.data.model.MovieResult;
 import xyz.android.amrro.popularmovies.databinding.FragmentHomeBinding;
@@ -34,9 +33,6 @@ public class HomeFragment extends LifecycleFragment {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
-
-    @Inject
-    MoviesService api;
 
     private FragmentHomeBinding binding;
     private MoviesAdapter adapter;

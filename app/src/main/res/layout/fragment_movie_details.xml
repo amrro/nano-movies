@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="showLoading"
+            type="boolean" />
+    </data>
+
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="xyz.android.amrro.popularmovies.ui.movie.MovieDetailsFragment"
+        tools:ignore="ContentDescription"
+        tools:showIn="@layout/activity_movie_details">
+
+
+        <ProgressBar
+            android:id="@android:id/empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:indeterminateTint="?android:colorAccent"
+            android:indeterminateTintMode="src_in"
+            android:visibility="@{showLoading? View.VISIBLE: View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_add_to_favorites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@android:drawable/ic_dialog_email" />
+
+        <ImageView
+            android:id="@+id/backdrop"
+            android:layout_width="0dp"
+            android:layout_height="184dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/logan_back"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/poster"
+            android:layout_width="103dp"
+            android:layout_height="164dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:foreground="@drawable/image_frame"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/logan"
+            app:layout_constraintBottom_toBottomOf="@+id/backdrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/backdrop"
+            tools:layout_editor_absoluteY="113dp" />
+
+        <TextView
+            android:id="@+id/title_year"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="0dp"
+            android:text="Logan 2017"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@android:color/black"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/poster"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/poster"
+            app:layout_constraintTop_toBottomOf="@+id/backdrop" />
+
+        <TextView
+            android:id="@+id/overview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/scrim"
+            android:fontFamily="@font/comfortaa_regular"
+            android:text="9/10"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/backdrop"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="0dp"
+            android:layout_height="124dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/comfortaa_regular"
+            android:maxLines="6"
+            android:text="@string/overview_sample"
+            android:textColor="@android:color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/poster" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_play_circle_outline_white_24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/backdrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/backdrop" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>
