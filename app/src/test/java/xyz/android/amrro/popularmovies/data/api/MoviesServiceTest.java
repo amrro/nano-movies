@@ -21,6 +21,10 @@ import okio.BufferedSource;
 import okio.Okio;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import xyz.android.amrro.popularmovies.data.model.DiscoverResult;
+import xyz.android.amrro.popularmovies.data.model.ReviewsResponse;
+
+import static com.android.example.github.util.LiveDataTestUtil.getValue;
 
 /**
  * Created by amrro <amr.elghobary@gmail.com> on 7/23/17.
@@ -86,6 +90,7 @@ public class MoviesServiceTest {
     @Test
     public void discover() throws Exception {
         enqueueResponse("popular.json");
+        final ApiResponse<DiscoverResult> value = getValue(service.discover("popularity.desc"));
         final RecordedRequest request = server.takeRequest();
 /*
 
@@ -98,6 +103,12 @@ public class MoviesServiceTest {
         assertThat(response.body().getResults().get(0).getTitle(), is("Despicable Me 3"));
         assertThat(response.body().getResults().get(0).getPosterPath(), is("/5qcUGqWoWhEsoQwNUrtf3y3fcWn.jpg"));
         assertThat(response.body().getResults().get(0).getPopularity(), is(314.770213));*/
+    }
+
+    @Test
+    public void reviews() throws Exception {
+        enqueueResponse("reviews.json");
+        final ApiResponse<ReviewsResponse> value = getValue(service.reviews(263115));
     }
 
 
