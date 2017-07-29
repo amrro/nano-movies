@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context="xyz.android.amrro.popularmovies.ui.movie.MovieDetailsActivity">
 
-    <include layout="@layout/content_movie_details" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+        <include layout="@layout/content_movie_details" />
+    </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

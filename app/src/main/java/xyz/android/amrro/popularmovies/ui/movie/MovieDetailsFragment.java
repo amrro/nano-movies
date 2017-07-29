@@ -8,11 +8,16 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -20,6 +25,7 @@ import dagger.android.support.AndroidSupportInjection;
 import xyz.android.amrro.popularmovies.R;
 import xyz.android.amrro.popularmovies.data.api.ApiResponse;
 import xyz.android.amrro.popularmovies.data.model.Movie;
+import xyz.android.amrro.popularmovies.data.model.Review;
 import xyz.android.amrro.popularmovies.data.model.ReviewsResponse;
 import xyz.android.amrro.popularmovies.databinding.FragmentMovieDetailsBinding;
 
@@ -28,13 +34,14 @@ import xyz.android.amrro.popularmovies.databinding.FragmentMovieDetailsBinding;
  */
 public class MovieDetailsFragment extends LifecycleFragment {
 
-    public static final int ID = 315635;
+    public static final int ID = 263115;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
     FragmentMovieDetailsBinding binding;
     private MovieViewModel movieViewModel;
+    private ReviewsAdapter adapter;
 
     public MovieDetailsFragment() {
     }
@@ -49,6 +56,7 @@ public class MovieDetailsFragment extends LifecycleFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.setShowLoading(true);
+        initRecyclerView();
     }
 
     @Override
@@ -58,7 +66,8 @@ public class MovieDetailsFragment extends LifecycleFragment {
         movieViewModel.setMovieId(ID);
         movieViewModel.getMovie().observe(this, this::updateMovieUI);
         movieViewModel.getReviews().observe(this, this::updateReviews);
-        movieViewModel.getTrailers().observe(this, response -> {});
+        movieViewModel.getTrailers().observe(this, response -> {
+        });
     }
 
     private void updateMovieUI(@NonNull final ApiResponse<Movie> response) {
@@ -78,13 +87,33 @@ public class MovieDetailsFragment extends LifecycleFragment {
         }
     }
 
+    private void updateReviews(@NonNull final ApiResponse<ReviewsResponse> response) {
+        if (response.isSuccessful()) {
+            List<Review> reviews = response.getData().getResults();
+            if (reviews.size() > 0) {
+                adapter.replace((ArrayList<Review>) reviews);
+            } else {
+                adapter.replace(null);
+                binding.setNoReviews(true);
+            }
+        }
+    }
+
     private void animateFAB() {
         // TODO: 7/29/17 animate fab.
         // TODO: 7/29/17 change icon.
     }
 
-    private void updateReviews(@NonNull final ApiResponse<ReviewsResponse> response) {
+    public void initRecyclerView() {
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext());
+        binding.reviews.setLayoutManager(manager);
+        adapter = new ReviewsAdapter(getContext(), null);
+        binding.reviews.setAdapter(adapter);
 
+        /*binding.grid.setLayoutManager(manager);
+//        binding.grid.setHasFixedSize(true);
+        adapter = new MoviesAdapter(getContext(), new ArrayList<>());
+        binding.grid.setAdapter(adapter);*/
     }
 
     @SuppressWarnings("deprecation")

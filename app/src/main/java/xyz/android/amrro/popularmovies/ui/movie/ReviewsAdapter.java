@@ -1,4 +1,4 @@
-package xyz.android.amrro.popularmovies.ui.home;
+package xyz.android.amrro.popularmovies.ui.movie;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -6,62 +6,61 @@ import android.os.AsyncTask;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
+
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
-
 import java.util.ArrayList;
 
-import timber.log.Timber;
-import xyz.android.amrro.popularmovies.data.model.MovieResult;
-import xyz.android.amrro.popularmovies.databinding.CardMovieBinding;
+import xyz.android.amrro.popularmovies.data.model.Review;
+import xyz.android.amrro.popularmovies.databinding.ItemReviewBinding;
 
 /**
- * Created by amrro <amr.elghobary@gmail.com> on 7/23/17.
- *
- * Adapter to populate discover results in the {@link HomeFragment}
+ * Created by amrro <amr.elghobary@gmail.com> on 7/29/17.
  */
 
-public final class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {
+public final class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewViewHolder> {
 
     @NonNull
     private final Context context;
 
     @NonNull
-    private ArrayList<MovieResult> data ;
+    private ArrayList<Review> data;
 
     // each time data is set, we update this variable so that if DiffUtil calculation returns
     // after repetitive updates, we can ignore the old calculation
     private int dataVersion = 0;
 
-    public MoviesAdapter(@NonNull Context context, @NonNull ArrayList<MovieResult> data) {
+    public ReviewsAdapter(@NonNull Context context, @NonNull ArrayList<Review> data) {
         this.context = context;
         this.data = data;
     }
 
     @Override
-    public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ReviewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        final CardMovieBinding binding = CardMovieBinding.inflate(inflater, parent, false);
-        return new MovieViewHolder(binding);
+        final ItemReviewBinding binding = ItemReviewBinding.inflate(inflater, parent, false);
+        return new ReviewViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(MovieViewHolder holder, int position) {
-        final MovieResult movie = data.get(position);
-        holder.bind(movie);
+    public void onBindViewHolder(ReviewViewHolder holder, int position) {
+        final Review review = data.get(position);
+        holder.bind(review);
     }
 
     @Override
     public int getItemCount() {
-        return data.size();
+        if (data != null)
+            return data.size();
+        return 0;
     }
+
 
     @SuppressLint("StaticFieldLeak")
     @MainThread
-    public void replace(final ArrayList<MovieResult> update) {
+    public void replace(final ArrayList<Review> update) {
         dataVersion++;
 
         if (data == null) {
@@ -71,14 +70,13 @@ public final class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.Movi
             data = update;
             notifyDataSetChanged();
         } else if (update == null) {
-            int size = data.size();
+            final int size = data.size();
             data = update;
             notifyItemRangeChanged(0, size);
         } else {
-            final int startVersion = dataVersion;
-            ArrayList<MovieResult> old = this.data;
+            int startVersion = this.dataVersion;
+            ArrayList<Review> old = this.data;
             new AsyncTask<Void, Void, DiffUtil.DiffResult>() {
-
                 @Override
                 protected DiffUtil.DiffResult doInBackground(Void... voids) {
                     return DiffUtil.calculateDiff(new DiffUtil.Callback() {
@@ -100,7 +98,8 @@ public final class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.Movi
 
                         @Override
                         public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-                            return old.get(oldItemPosition).equals(update.get(newItemPosition));
+                            return old.get(oldItemPosition).getAuthor().equals(update.get(newItemPosition).getAuthor()) &&
+                                    old.get(oldItemPosition).getContent().equals(update.get(newItemPosition).getContent());
                         }
                     });
                 }
@@ -108,39 +107,29 @@ public final class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.Movi
                 @Override
                 protected void onPostExecute(DiffUtil.DiffResult diffResult) {
                     super.onPostExecute(diffResult);
-
                     if (startVersion != dataVersion) {
                         return;
                     }
                     data = update;
-                    diffResult.dispatchUpdatesTo(MoviesAdapter.this);
+                    diffResult.dispatchUpdatesTo(ReviewsAdapter.this);
                     notifyDataSetChanged();
                 }
             }.execute();
         }
     }
 
-    final class MovieViewHolder extends RecyclerView.ViewHolder {
+    final class ReviewViewHolder extends RecyclerView.ViewHolder {
 
-        private final CardMovieBinding binding;
+        private ItemReviewBinding binding;
 
-        MovieViewHolder(CardMovieBinding binding) {
+        public ReviewViewHolder(@NonNull final ItemReviewBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
 
-        void bind(MovieResult movie) {
-
-            binding.setMovie(movie);
-            binding.ratingBar.setRating((float) (movie.getVoteAverage() / 2.0));
-
-            Timber.i(">>>> %s: %s", movie.getTitle(), movie.getBackdropPath());
-            if (movie.getBackdropPath() != null) {
-                Glide.with(context)
-                        .load(movie.getBackdropPath())
-                        .into(binding.backdrop);
-            }
+        void bind(@NonNull final Review review) {
+            this.binding.setReview(review);
         }
     }
-}
 
+}
