@@ -98,10 +98,13 @@ public final class Movie {
 
 
     public String getBackdropPath() {
-        if (backdropPath != null)
-            return String.format("https://image.tmdb.org/t/p/w500%s", backdropPath);
+        if (backdropPath == null)
+            return null;
 
-        return null;
+        if (backdropPath.startsWith("https://"))
+            return backdropPath;
+
+        return String.format("https://image.tmdb.org/t/p/w500%s", backdropPath);
     }
 
     public Collection getBelongsToCollection() {
@@ -145,9 +148,13 @@ public final class Movie {
     }
 
     public String getPosterPath() {
-        if (posterPath != null)
-            return "https://image.tmdb.org/t/p/w500" + posterPath;
-        return null;
+        if (posterPath == null)
+            return null;
+
+        if (posterPath.startsWith("https://"))
+            return posterPath;
+
+        return "https://image.tmdb.org/t/p/w500" + posterPath;
     }
 
     public String getReleaseDate() {

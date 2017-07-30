@@ -24,10 +24,10 @@ public interface MovieDao {
     void insert(Movie movie);
 
     @Query("SELECT * FROM movie WHERE id = :id")
-    LiveData<Movie> findMovieById(String id);
+    LiveData<Movie> findMovieById(Integer id);
 
-//    @Query("DELETE from movie WHERE id = :id")
-//    void delete(String id);
+    @Query("DELETE from movie WHERE id = :id")
+    void deleteMovieById(Integer id);
 
     @Delete
     void delete(Movie movie);
