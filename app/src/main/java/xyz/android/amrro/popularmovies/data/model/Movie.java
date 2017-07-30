@@ -1,31 +1,47 @@
 package xyz.android.amrro.popularmovies.data.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+
 import java.util.List;
 
+@Entity
 public final class Movie {
-    private final Boolean adult;
-    private final String backdropPath;
-    private final Collection belongsToCollection;
-    private final Integer budget;
-    private final List<Genre> genres;
-    private final String homepage;
-    private final Integer id;
-    private final String imdbId;
-    private final String originalLanguage;
-    private final String originalTitle;
-    private final String overview;
-    private final Double popularity;
-    private final String posterPath;
-    private final String releaseDate;
-    private final Integer revenue;
-    private final Integer runtime;
-    private final String status;
-    private final String tagline;
-    private final String title;
-    private final Boolean video;
-    private final Double voteAverage;
-    private final Integer voteCount;
+    @PrimaryKey
+    private /*final*/ Integer id;
+    private /*final*/ Boolean adult;
+    private /*final*/ String backdropPath;
+    @Ignore
+    private /*final*/ Collection belongsToCollection;
+    @Ignore
+    private /*final*/ Integer budget;
+    @Ignore
+    private /*final*/ List<Genre> genres;
+    @Ignore
+    private /*final*/ String homepage;
+    private /*final*/ String imdbId;
+    @Ignore
+    private /*final*/ String originalLanguage;
+    private /*final*/ String originalTitle;
+    private /*final*/ String overview;
+    private /*final*/ Double popularity;
+    private /*final*/ String posterPath;
+    private /*final*/ String releaseDate;
+    private /*final*/ Integer revenue;
+    private /*final*/ Integer runtime;
+    @Ignore
+    private /*final*/ String status;
+    @Ignore
+    private /*final*/ String tagline;
+    private /*final*/ String title;
+    private /*final*/ Boolean video;
+    private /*final*/ Double voteAverage;
+    private /*final*/ Integer voteCount;
 
+
+    public Movie() {
+    }
 
     public Movie(Boolean adult,
                  String backdropPath,
@@ -176,6 +192,94 @@ public final class Movie {
         return voteCount;
     }
 
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setAdult(Boolean adult) {
+        this.adult = adult;
+    }
+
+    public void setBackdropPath(String backdropPath) {
+        this.backdropPath = backdropPath;
+    }
+
+    public void setBelongsToCollection(Collection belongsToCollection) {
+        this.belongsToCollection = belongsToCollection;
+    }
+
+    public void setBudget(Integer budget) {
+        this.budget = budget;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
+    }
+
+    public void setHomepage(String homepage) {
+        this.homepage = homepage;
+    }
+
+    public void setImdbId(String imdbId) {
+        this.imdbId = imdbId;
+    }
+
+    public void setOriginalLanguage(String originalLanguage) {
+        this.originalLanguage = originalLanguage;
+    }
+
+    public void setOriginalTitle(String originalTitle) {
+        this.originalTitle = originalTitle;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public void setPopularity(Double popularity) {
+        this.popularity = popularity;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public void setRevenue(Integer revenue) {
+        this.revenue = revenue;
+    }
+
+    public void setRuntime(Integer runtime) {
+        this.runtime = runtime;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setTagline(String tagline) {
+        this.tagline = tagline;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setVideo(Boolean video) {
+        this.video = video;
+    }
+
+    public void setVoteAverage(Double voteAverage) {
+        this.voteAverage = voteAverage;
+    }
+
+    public void setVoteCount(Integer voteCount) {
+        this.voteCount = voteCount;
+    }
 
     @Override
     public boolean equals(Object o) {

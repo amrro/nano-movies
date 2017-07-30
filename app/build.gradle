@@ -38,6 +38,7 @@ ext {
     retrofit = '2.3.0'
     okhttp_version = '3.8.0'
     dagger_version = "2.11"
+    arch_version = '1.0.0-alpha7'
 }
 
 dependencies {
@@ -45,15 +46,16 @@ dependencies {
     // Support
     implementation "com.android.support:appcompat-v7:$supportLibVersion"
     implementation "com.android.support:design:$supportLibVersion"
-    implementation "com.android.support:palette-v7:$supportLibVersion"
     implementation "com.android.support:cardview-v7:$supportLibVersion"
     implementation "com.android.support:palette-v7:$supportLibVersion"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.jakewharton.timber:timber:4.5.1'
     // Arch
-    implementation 'android.arch.lifecycle:runtime:1.0.0-alpha7'
-    implementation 'android.arch.lifecycle:extensions:1.0.0-alpha7'
-    annotationProcessor "android.arch.lifecycle:compiler:1.0.0-alpha7"
+    implementation "android.arch.lifecycle:runtime:$arch_version"
+    implementation "android.arch.lifecycle:extensions:$arch_version"
+    implementation "android.arch.persistence.room:runtime:$arch_version"
+    annotationProcessor "android.arch.lifecycle:compiler:$arch_version"
+    annotationProcessor "android.arch.persistence.room:compiler:$arch_version"
     // API
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
@@ -72,8 +74,9 @@ dependencies {
     // test
     testImplementation 'junit:junit:4.12'
     testImplementation "com.squareup.okhttp3:mockwebserver:$okhttp_version"
+    testImplementation "android.arch.persistence.room:testing:$arch_version"
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestCompile 'org.mockito:mockito-android:+'
+    androidTestCompile 'org.mockito:mockito-android:2.8.47'
 }
