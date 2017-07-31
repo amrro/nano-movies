@@ -16,7 +16,10 @@ public final class Review {
     private final String url;
 
 
-    public Review(String id, String author, String content, String url) {
+    public Review(String id,
+                  String author,
+                  String content,
+                  String url) {
         Objects.requireNonNull(id);
         Objects.requireNonNull(author);
         Objects.requireNonNull(content);
@@ -40,9 +43,6 @@ public final class Review {
         return content;
     }
 
-    public String getUrl() {
-        return url;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -54,7 +54,7 @@ public final class Review {
         return (getId() != null ? getId().equals(review.getId()) : review.getId() == null) &&
                 (getAuthor() != null ? getAuthor().equals(review.getAuthor()) : review.getAuthor() == null) &&
                 (getContent() != null ? getContent().equals(review.getContent()) : review.getContent() == null) &&
-                (getUrl() != null ? getUrl().equals(review.getUrl()) : review.getUrl() == null);
+                (url != null ? url.equals(review.url) : review.url == null);
     }
 
     @Override
@@ -62,7 +62,7 @@ public final class Review {
         int result = getId() != null ? getId().hashCode() : 0;
         result = 31 * result + (getAuthor() != null ? getAuthor().hashCode() : 0);
         result = 31 * result + (getContent() != null ? getContent().hashCode() : 0);
-        result = 31 * result + (getUrl() != null ? getUrl().hashCode() : 0);
+        result = 31 * result + (url != null ? url.hashCode() : 0);
         return result;
     }
 

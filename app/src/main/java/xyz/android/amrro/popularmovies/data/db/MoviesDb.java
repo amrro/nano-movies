@@ -12,10 +12,9 @@ import xyz.android.amrro.popularmovies.data.model.Review;
  * Database to store favorite {@link Movie}s with its corresponding {@link Review}s
  */
 
-@Database(entities = {Movie.class, Review.class}, version = 1)
+@Database(entities = {Movie.class}, version = 1)
 public abstract class MoviesDb extends RoomDatabase {
 
     public abstract MovieDao movieDao();
 
-    public abstract ReviewDao reviewDao();
 }
