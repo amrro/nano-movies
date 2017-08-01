@@ -28,6 +28,12 @@
             android:label="@string/title_activity_movie_details"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <provider
+            android:authorities="xyz.android.amrro.popularmovies.provider"
+            android:name=".data.provider.MoviesContentProvider"
+            android:exported="true"
+            android:permission="xyz.android.amrro.popularmovies.provider.READ_WRITE"/>
     </application>
 
 </manifest>

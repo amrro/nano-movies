@@ -1,13 +1,12 @@
 package xyz.android.amrro.popularmovies.data.db;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
-
-import java.util.List;
+import android.arch.persistence.room.Update;
+import android.database.Cursor;
 
 import xyz.android.amrro.popularmovies.data.model.Movie;
 
@@ -21,17 +20,23 @@ import xyz.android.amrro.popularmovies.data.model.Movie;
 public interface MovieDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Movie movie);
+    Long insert(Movie movie);
 
-    @Query("SELECT * FROM movie WHERE id = :id")
-    LiveData<Movie> findMovieById(Integer id);
+    @Query("SELECT * FROM " + Movie.TABLE_NAME + " WHERE id = :id")
+    Cursor findById(Long id);
 
-    @Query("DELETE from movie WHERE id = :id")
-    void deleteMovieById(Integer id);
+    @Query("DELETE from " + Movie.TABLE_NAME + " WHERE id = :id")
+    int deleteById(Long id);
 
     @Delete
     void delete(Movie movie);
 
-    @Query("SELECT * from movie")
-    LiveData<List<Movie>> laodAllMovies();
+    @Query("SELECT * from " + Movie.TABLE_NAME)
+    Cursor selectAll();
+
+    @Update
+    int update(Movie movie);
+
+    @Query("SELECT COUNT(*) FROM " + Movie.TABLE_NAME)
+    int count();
 }

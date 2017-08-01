@@ -15,6 +15,6 @@ import xyz.android.amrro.popularmovies.data.model.Review;
 @Database(entities = {Movie.class}, version = 1)
 public abstract class MoviesDb extends RoomDatabase {
 
-    public abstract MovieDao movieDao();
+    public abstract MovieDao movies();
 
 }

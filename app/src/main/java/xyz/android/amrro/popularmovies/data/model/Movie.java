@@ -6,8 +6,12 @@ import android.arch.persistence.room.PrimaryKey;
 
 import java.util.List;
 
-@Entity
+@Entity(tableName = Movie.TABLE_NAME)
 public final class Movie {
+
+
+    public static final String TABLE_NAME = "favorite_movies";
+
     @PrimaryKey
     private /*final*/ Integer id;
     private /*final*/ Boolean adult;
@@ -90,6 +94,9 @@ public final class Movie {
         this.voteAverage = voteAverage;
         this.voteCount = voteCount;
     }
+
+
+
 
 
     public Boolean getAdult() {
@@ -392,5 +399,147 @@ public final class Movie {
                 ", voteAverage=" + voteAverage +
                 ", voteCount=" + voteCount +
                 '}';
+    }
+
+    public static class Builder {
+        private Boolean adult;
+        private String backdropPath;
+        private Collection belongsToCollection;
+        private Integer budget;
+        private List<Genre> genres;
+        private String homepage;
+        private Integer id;
+        private String imdbId;
+        private String originalLanguage;
+        private String originalTitle;
+        private String overview;
+        private Double popularity;
+        private String posterPath;
+        private String releaseDate;
+        private Integer revenue;
+        private Integer runtime;
+        private String status;
+        private String tagline;
+        private String title;
+        private Boolean video;
+        private Double voteAverage;
+        private Integer voteCount;
+
+        public Builder() {
+        }
+
+        public Builder setAdult(Boolean adult) {
+            this.adult = adult;
+            return this;
+        }
+
+        public Builder setBackdropPath(String backdropPath) {
+            this.backdropPath = backdropPath;
+            return this;
+        }
+
+        public Builder setBelongsToCollection(Collection belongsToCollection) {
+            this.belongsToCollection = belongsToCollection;
+            return this;
+        }
+
+        public Builder setBudget(Integer budget) {
+            this.budget = budget;
+            return this;
+        }
+
+        public Builder setGenres(List<Genre> genres) {
+            this.genres = genres;
+            return this;
+        }
+
+        public Builder setHomepage(String homepage) {
+            this.homepage = homepage;
+            return this;
+        }
+
+        public Builder setId(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setImdbId(String imdbId) {
+            this.imdbId = imdbId;
+            return this;
+        }
+
+        public Builder setOriginalLanguage(String originalLanguage) {
+            this.originalLanguage = originalLanguage;
+            return this;
+        }
+
+        public Builder setOriginalTitle(String originalTitle) {
+            this.originalTitle = originalTitle;
+            return this;
+        }
+
+        public Builder setOverview(String overview) {
+            this.overview = overview;
+            return this;
+        }
+
+        public Builder setPopularity(Double popularity) {
+            this.popularity = popularity;
+            return this;
+        }
+
+        public Builder setPosterPath(String posterPath) {
+            this.posterPath = posterPath;
+            return this;
+        }
+
+        public Builder setReleaseDate(String releaseDate) {
+            this.releaseDate = releaseDate;
+            return this;
+        }
+
+        public Builder setRevenue(Integer revenue) {
+            this.revenue = revenue;
+            return this;
+        }
+
+        public Builder setRuntime(Integer runtime) {
+            this.runtime = runtime;
+            return this;
+        }
+
+        public Builder setStatus(String status) {
+            this.status = status;
+            return this;
+        }
+
+        public Builder setTagline(String tagline) {
+            this.tagline = tagline;
+            return this;
+        }
+
+        public Builder setTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder setVideo(Boolean video) {
+            this.video = video;
+            return this;
+        }
+
+        public Builder setVoteAverage(Double voteAverage) {
+            this.voteAverage = voteAverage;
+            return this;
+        }
+
+        public Builder setVoteCount(Integer voteCount) {
+            this.voteCount = voteCount;
+            return this;
+        }
+
+        public Movie build() {
+            return new Movie(adult, backdropPath, belongsToCollection, budget, genres, homepage, id, imdbId, originalLanguage, originalTitle, overview, popularity, posterPath, releaseDate, revenue, runtime, status, tagline, title, video, voteAverage, voteCount);
+        }
     }
 }

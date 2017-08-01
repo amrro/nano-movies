@@ -1,6 +1,7 @@
 package xyz.android.amrro.popularmovies.data.db;
 
 import android.arch.persistence.room.Room;
+import android.database.Cursor;
 import android.support.test.InstrumentationRegistry;
 
 import org.junit.After;
@@ -8,13 +9,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.List;
 
 import xyz.android.amrro.popularmovies.data.model.Movie;
 
-import static com.android.example.github.util.LiveDataTestUtil.getValue;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -50,8 +48,8 @@ public class MovieDaoTest {
 
         // insert movie to db.
         Integer id = logan.getId();
-        db.movieDao().insert(logan);
-        final Movie fromDb = getValue(db.movieDao().findMovieById(logan.getId()));
+        db.movies().insert(logan);
+        /*final Movie fromDb = getValue(db.movies().findById(logan.getId()));
 
         assertThat(fromDb, notNullValue());
         assertThat(fromDb.getId(), is(logan.getId()));
@@ -64,28 +62,42 @@ public class MovieDaoTest {
 
         // insert another and test if it load all.
         logan.setId(6814060);
-        db.movieDao().insert(logan);
-        List<Movie> movies = getValue(db.movieDao().laodAllMovies());
+        db.movies().insert(logan);
+        List<Movie> movies = getValue(db.movies().selectAll());
         assertThat(movies, notNullValue());
         assertThat(movies.size(), is(2));
 
         // delete movie from db.
-        db.movieDao().delete(logan);
-        List<Movie> movies1 = getValue(db.movieDao().laodAllMovies());
+        db.movies().delete(logan);
+        List<Movie> movies1 = getValue(db.movies().selectAll());
         assertThat(movies1, notNullValue());
         assertThat(movies1.size(), is(1));
 
         // delete movie by Id.
-        db.movieDao().deleteMovieById(ID);
-        List<Movie> emptyMovies = getValue(db.movieDao().laodAllMovies());
+        db.movies().deleteById(ID);
+        List<Movie> emptyMovies = getValue(db.movies().selectAll());
         assertThat(emptyMovies, notNullValue());
-        assertThat(emptyMovies.size(), is(0));
+        assertThat(emptyMovies.size(), is(0));*/
+    }
+
+    @Test
+    public void insertAndLoadCursors() throws Exception {
+        final Movie logan = createMovie();
+
+        // insert movie to db.
+        Integer id = logan.getId();
+        db.movies().insert(logan);
+        final Cursor loaded = db.movies().findById(Long.valueOf(logan.getId()));
+        assertThat(db.movies().count(), is(1));
+
+        db.movies().delete(logan);
+        assertThat(db.movies().count(), is(0));
     }
 
 
 
-    private Movie createMovie() throws IOException {
-        final Movie logan = new Movie();
+    public static Movie createMovie() throws IOException {
+        final Movie logan = new Movie.Builder().build();
         logan.setId(ID);
         logan.setTitle(TITLE);
         logan.setBackdropPath(BACKDROP_PATH);
