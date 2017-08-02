@@ -8,8 +8,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,9 @@ import xyz.android.amrro.popularmovies.data.api.ApiResponse;
 import xyz.android.amrro.popularmovies.data.model.Movie;
 import xyz.android.amrro.popularmovies.data.model.Review;
 import xyz.android.amrro.popularmovies.data.model.ReviewsResponse;
+import xyz.android.amrro.popularmovies.data.provider.MoviesContentProvider;
 import xyz.android.amrro.popularmovies.databinding.FragmentMovieDetailsBinding;
+import xyz.android.amrro.popularmovies.utils.Utils;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -35,6 +36,7 @@ import xyz.android.amrro.popularmovies.databinding.FragmentMovieDetailsBinding;
 public class MovieDetailsFragment extends LifecycleFragment {
 
     public static final int ID = 263115;
+    private Movie movie;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -56,7 +58,8 @@ public class MovieDetailsFragment extends LifecycleFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.setShowLoading(true);
-        initRecyclerView();
+//        initRecyclerView();
+        binding.fabAddToFavorites.setOnClickListener(this::addToFavorites);
     }
 
     @Override
@@ -65,21 +68,21 @@ public class MovieDetailsFragment extends LifecycleFragment {
         movieViewModel = ViewModelProviders.of(this, viewModelFactory).get(MovieViewModel.class);
         movieViewModel.setMovieId(ID);
         movieViewModel.getMovie().observe(this, this::updateMovieUI);
-        movieViewModel.getReviews().observe(this, this::updateReviews);
+//        movieViewModel.getReviews().observe(this, this::updateReviews);
         movieViewModel.getTrailers().observe(this, response -> {
         });
     }
 
     private void updateMovieUI(@NonNull final ApiResponse<Movie> response) {
         if (response.isSuccessful()) {
-            final Movie movie = response.getData();
+            movie = response.getData();
             binding.setMovie(movie);
             Glide.with(this)
-                    .load(movie.getBackdropPath())
+                    .load(Utils.toPosterFullPath(movie.getBackdropPath()))
                     .into(binding.backdrop);
 
             Glide.with(this)
-                    .load(movie.getPosterPath())
+                    .load(Utils.toPosterFullPath(movie.getPosterPath()))
                     .into(binding.poster);
 
             binding.setShowLoading(false);
@@ -105,15 +108,26 @@ public class MovieDetailsFragment extends LifecycleFragment {
     }
 
     public void initRecyclerView() {
-        RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext());
-        binding.reviews.setLayoutManager(manager);
-        adapter = new ReviewsAdapter(getContext(), null);
-        binding.reviews.setAdapter(adapter);
+//        RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext());
+//        binding.reviews.setLayoutManager(manager);
+//        adapter = new ReviewsAdapter(getContext(), null);
+//        binding.reviews.setAdapter(adapter);
 
         /*binding.grid.setLayoutManager(manager);
 //        binding.grid.setHasFixedSize(true);
         adapter = new MoviesAdapter(getContext(), new ArrayList<>());
         binding.grid.setAdapter(adapter);*/
+    }
+
+    private void addToFavorites(View view) {
+        getContext().getContentResolver()
+                .insert(
+                        MoviesContentProvider.URI_MOVIE,
+                        Utils.toContentValues(movie)
+                );
+
+        Snackbar.make(view, movie.getTitle() + " added to your favorites!", Snackbar.LENGTH_LONG)
+                .show();
     }
 
     @SuppressWarnings("deprecation")
