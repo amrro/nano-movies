@@ -52,19 +52,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:visibility="@{showLoading? View.GONE: View.VISIBLE}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/backdrop"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/ic_dialog_email"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toBottomOf="@+id/backdrop"
+            app:srcCompat="@drawable/ic_favorite_empty" />
 
         <ImageView
             android:id="@+id/backdrop"
@@ -84,7 +78,7 @@
             android:id="@+id/poster"
             android:layout_width="103dp"
             android:layout_height="164dp"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:elevation="5dp"
             android:foreground="@drawable/image_frame"
@@ -94,7 +88,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/backdrop"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/backdrop"
-            tools:layout_editor_absoluteY="113dp" />
+            app:layout_constraintVertical_bias="0.186" />
 
         <TextView
             android:id="@+id/title_year"
@@ -113,36 +107,37 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/poster"
             app:layout_constraintTop_toBottomOf="@+id/backdrop"
-            tools:text="Logan" />
+            tools:text="Logan"
+            app:layout_constraintVertical_bias="0.089999974" />
 
         <TextView
             android:id="@+id/overview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/scrim"
             android:fontFamily="@font/comfortaa_regular"
             android:text="@{@string/rating_value(movie.voteAverage)}"
             android:textColor="@android:color/white"
             android:textSize="24sp"
             android:visibility="@{showLoading? View.GONE: View.VISIBLE}"
-            app:layout_constraintBottom_toBottomOf="@+id/backdrop"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="9/10" />
 
         <TextView
             android:id="@+id/textView6"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="sans-serif"
             android:maxLines="6"
             android:text="@{movie.overview}"
             android:visibility="@{showLoading? View.GONE: View.VISIBLE}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/fab_add_to_favorites"
+            app:layout_constraintStart_toStartOf="@+id/poster"
             app:layout_constraintTop_toBottomOf="@+id/poster"
             tools:text="@string/overview_sample" />
 
@@ -203,6 +198,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+        <TextView
+            android:id="@+id/Release"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="8dp"
+            android:text="@{movie.releaseDate}"
+            app:layout_constraintStart_toStartOf="@+id/title_year"
+            app:layout_constraintTop_toBottomOf="@+id/title_year"
+            tools:text="2017" />
 
     </android.support.constraint.ConstraintLayout>
     <!--</ScrollView>-->

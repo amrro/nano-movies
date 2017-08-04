@@ -22,6 +22,14 @@ public class MovieDetailsActivity extends AppCompatActivity implements HasSuppor
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
+
+        final int id = getIntent().getExtras().getInt(MovieDetailsFragment.KEY_MOVIE_ID);
+        final MovieDetailsFragment detailsFragment = new MovieDetailsFragment();
+        detailsFragment.setMovieId(id);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.detailsFragment, detailsFragment)
+                .commit();
     }
 
     @Override

@@ -8,11 +8,9 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -27,7 +25,6 @@ import xyz.android.amrro.popularmovies.data.api.ApiResponse;
 import xyz.android.amrro.popularmovies.data.model.Movie;
 import xyz.android.amrro.popularmovies.data.model.Review;
 import xyz.android.amrro.popularmovies.data.model.ReviewsResponse;
-import xyz.android.amrro.popularmovies.data.provider.MoviesContentProvider;
 import xyz.android.amrro.popularmovies.databinding.FragmentMovieDetailsBinding;
 import xyz.android.amrro.popularmovies.utils.Utils;
 
@@ -39,6 +36,10 @@ public class MovieDetailsFragment extends LifecycleFragment {
     public static final int BEAUTY_AND_THE_BEAST = 321612;
     public static final int LOGAN = 263115;
     public static final int SPIDERMAN = 315635;
+    public static final String KEY_MOVIE_ID = "KEY_MOVIE_ID";
+
+
+    public static Integer movieId;
 
     private Movie movie;
 
@@ -50,6 +51,10 @@ public class MovieDetailsFragment extends LifecycleFragment {
     private ReviewsAdapter adapter;
 
     public MovieDetailsFragment() {
+    }
+
+    public void setMovieId(Integer movieId) {
+        this.movieId = movieId;
     }
 
     @Override
@@ -69,7 +74,7 @@ public class MovieDetailsFragment extends LifecycleFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         movieViewModel = ViewModelProviders.of(this, viewModelFactory).get(MovieViewModel.class);
-        movieViewModel.setMovieId(LOGAN);
+        movieViewModel.setMovieId(movieId);
         movieViewModel.getMovie().observe(this, this::updateMovieUI);
 //        movieViewModel.getReviews().observe(this, this::updateReviews);
         movieViewModel.getTrailers().observe(this, response -> {

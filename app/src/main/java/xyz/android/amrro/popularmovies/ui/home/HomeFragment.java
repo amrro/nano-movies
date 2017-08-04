@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -25,6 +26,8 @@ import xyz.android.amrro.popularmovies.data.api.ApiResponse;
 import xyz.android.amrro.popularmovies.data.model.DiscoverResult;
 import xyz.android.amrro.popularmovies.data.model.MovieResult;
 import xyz.android.amrro.popularmovies.databinding.FragmentHomeBinding;
+import xyz.android.amrro.popularmovies.ui.movie.MovieDetailsActivity;
+import xyz.android.amrro.popularmovies.ui.movie.MovieDetailsFragment;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -79,6 +82,11 @@ public class HomeFragment extends LifecycleFragment {
         void onFilterSelected(@NonNull final String filter);
     }
 
+    public interface OnMovieSelectedListener {
+        void onMovieSelected(final Integer movieId);
+    }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -100,8 +108,11 @@ public class HomeFragment extends LifecycleFragment {
     public void initRecyclerView() {
         RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 1);
         binding.grid.setLayoutManager(manager);
-//        binding.grid.setHasFixedSize(true);
-        adapter = new MoviesAdapter(getContext(), new ArrayList<>());
+        adapter = new MoviesAdapter(getContext(), new ArrayList<>(), id -> {
+            final Intent toDetailsIntent = new Intent(getContext(), MovieDetailsActivity.class);
+            toDetailsIntent.putExtra(MovieDetailsFragment.KEY_MOVIE_ID, id);
+            startActivity(toDetailsIntent);
+        });
         binding.grid.setAdapter(adapter);
     }
 

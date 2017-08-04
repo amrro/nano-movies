@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
-import timber.log.Timber;
 import xyz.android.amrro.popularmovies.data.model.MovieResult;
 import xyz.android.amrro.popularmovies.databinding.CardMovieBinding;
 
@@ -32,13 +32,21 @@ public final class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.Movi
     @NonNull
     private ArrayList<MovieResult> data ;
 
+    @NonNull
+    HomeFragment.OnMovieSelectedListener listener;
+
     // each time data is set, we update this variable so that if DiffUtil calculation returns
     // after repetitive updates, we can ignore the old calculation
     private int dataVersion = 0;
 
-    public MoviesAdapter(@NonNull Context context, @NonNull ArrayList<MovieResult> data) {
+    public MoviesAdapter(@NonNull Context context,
+                         @NonNull ArrayList<MovieResult> data,
+                         HomeFragment.OnMovieSelectedListener listener) {
+        Objects.requireNonNull(context, "Context cannot be null for adapter");
+        Objects.requireNonNull(listener, "Listener cannot be null");
         this.context = context;
         this.data = data;
+        this.listener = listener;
     }
 
     @Override
@@ -130,16 +138,20 @@ public final class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.Movi
         }
 
         void bind(MovieResult movie) {
-
+            binding.getRoot().setOnClickListener(view -> {
+                if (movie != null) {
+                    listener.onMovieSelected(movie.getId());
+                }
+            });
             binding.setMovie(movie);
             binding.ratingBar.setRating((float) (movie.getVoteAverage() / 2.0));
-
-            Timber.i(">>>> %s: %s", movie.getTitle(), movie.getBackdropPath());
             if (movie.getBackdropPath() != null) {
                 Glide.with(context)
                         .load(movie.getBackdropPath())
                         .into(binding.backdrop);
             }
+
+
         }
     }
 }
