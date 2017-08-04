@@ -12,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -35,7 +36,10 @@ import xyz.android.amrro.popularmovies.utils.Utils;
  */
 public class MovieDetailsFragment extends LifecycleFragment {
 
-    public static final int ID = 263115;
+    public static final int BEAUTY_AND_THE_BEAST = 321612;
+    public static final int LOGAN = 263115;
+    public static final int SPIDERMAN = 315635;
+
     private Movie movie;
 
     @Inject
@@ -59,18 +63,18 @@ public class MovieDetailsFragment extends LifecycleFragment {
         super.onViewCreated(view, savedInstanceState);
         binding.setShowLoading(true);
 //        initRecyclerView();
-        binding.fabAddToFavorites.setOnClickListener(this::addToFavorites);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         movieViewModel = ViewModelProviders.of(this, viewModelFactory).get(MovieViewModel.class);
-        movieViewModel.setMovieId(ID);
+        movieViewModel.setMovieId(LOGAN);
         movieViewModel.getMovie().observe(this, this::updateMovieUI);
 //        movieViewModel.getReviews().observe(this, this::updateReviews);
         movieViewModel.getTrailers().observe(this, response -> {
         });
+
     }
 
     private void updateMovieUI(@NonNull final ApiResponse<Movie> response) {
@@ -86,7 +90,7 @@ public class MovieDetailsFragment extends LifecycleFragment {
                     .into(binding.poster);
 
             binding.setShowLoading(false);
-            animateFAB();
+            initFAB();
         }
     }
 
@@ -102,7 +106,7 @@ public class MovieDetailsFragment extends LifecycleFragment {
         }
     }
 
-    private void animateFAB() {
+    private void initFAB() {
         // TODO: 7/29/17 animate fab.
         // TODO: 7/29/17 change icon.
     }
@@ -119,16 +123,6 @@ public class MovieDetailsFragment extends LifecycleFragment {
         binding.grid.setAdapter(adapter);*/
     }
 
-    private void addToFavorites(View view) {
-        getContext().getContentResolver()
-                .insert(
-                        MoviesContentProvider.URI_MOVIE,
-                        Utils.toContentValues(movie)
-                );
-
-        Snackbar.make(view, movie.getTitle() + " added to your favorites!", Snackbar.LENGTH_LONG)
-                .show();
-    }
 
     @SuppressWarnings("deprecation")
     @Override

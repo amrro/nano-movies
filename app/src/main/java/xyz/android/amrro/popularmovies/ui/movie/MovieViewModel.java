@@ -19,6 +19,7 @@ import xyz.android.amrro.popularmovies.data.repository.MovieRepository;
 /**
  * Created by amrro <amr.elghobary@gmail.com> on 7/29/17.
  *
+ * ViewModel for movie {@link MovieDetailsFragment}
  */
 
 public final class MovieViewModel extends ViewModel {
@@ -27,12 +28,14 @@ public final class MovieViewModel extends ViewModel {
     private final LiveData<ApiResponse<Movie>> movie;
     private final LiveData<ApiResponse<ReviewsResponse>> reviews;
     private final LiveData<ApiResponse<TrailerResponse>> trailers;
+    private final LiveData<Boolean> isFavorite;
 
     @Inject
     MovieViewModel(@NonNull final MovieRepository repository) {
         movie = Transformations.switchMap(movieId, repository::movie);
         reviews = Transformations.switchMap(movieId, repository::reviews);
         trailers = Transformations.switchMap(movieId, repository::trailers);
+        isFavorite = Transformations.switchMap(movieId, repository::query);
     }
 
 
@@ -57,6 +60,11 @@ public final class MovieViewModel extends ViewModel {
     LiveData<ApiResponse<TrailerResponse>> getTrailers() {
         return trailers;
     }
+
+    public LiveData<Boolean> isFavorite() {
+        return isFavorite;
+    }
+
 
     void retry() {
         if (this.movieId.getValue() != null) {

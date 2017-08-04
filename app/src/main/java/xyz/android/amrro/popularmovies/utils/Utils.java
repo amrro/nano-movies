@@ -2,6 +2,7 @@ package xyz.android.amrro.popularmovies.utils;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 import xyz.android.amrro.popularmovies.data.model.Movie;
+import xyz.android.amrro.popularmovies.data.provider.MoviesContentProvider;
 
 import static xyz.android.amrro.popularmovies.data.model.Movie.COLUMN_BACKDROP;
 import static xyz.android.amrro.popularmovies.data.model.Movie.COLUMN_ID;
@@ -111,5 +113,10 @@ public final class Utils {
         values.put(COLUMN_VOTE_AVERAGE, movie.getVoteAverage());
         values.put(COLUMN_VOTE_COUNT, movie.getVoteCount());
         return values;
+    }
+
+    public static Uri itemUri(@NonNull final Integer id) {
+        Objects.requireNonNull(id);
+        return MoviesContentProvider.URI_MOVIE.buildUpon().appendPath(id.toString()).build();
     }
 }
