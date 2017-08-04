@@ -29,6 +29,8 @@ public final class MovieViewModel extends ViewModel {
     private final LiveData<ApiResponse<ReviewsResponse>> reviews;
     private final LiveData<ApiResponse<TrailerResponse>> trailers;
     private final LiveData<Boolean> isFavorite;
+    @NonNull
+    private final MovieRepository repository;
 
     @Inject
     MovieViewModel(@NonNull final MovieRepository repository) {
@@ -36,6 +38,7 @@ public final class MovieViewModel extends ViewModel {
         reviews = Transformations.switchMap(movieId, repository::reviews);
         trailers = Transformations.switchMap(movieId, repository::trailers);
         isFavorite = Transformations.switchMap(movieId, repository::query);
+        this.repository = repository;
     }
 
 
@@ -61,8 +64,15 @@ public final class MovieViewModel extends ViewModel {
         return trailers;
     }
 
-    public LiveData<Boolean> isFavorite() {
+    @NonNull
+    LiveData<Boolean> isFavorite() {
         return isFavorite;
+    }
+
+    LiveData<Boolean> un_favorite(@NonNull final Movie movie) {
+        Objects.requireNonNull(movie);
+
+        return repository.un_Favorite(movie);
     }
 
 

@@ -67,6 +67,8 @@ public class MovieDetailsFragment extends LifecycleFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.setShowLoading(true);
+        binding.favoriteFab.setOnClickListener(view1 ->
+                movieViewModel.un_favorite(movie).observe(this, aBoolean -> movieViewModel.retry()));
 //        initRecyclerView();
     }
 
@@ -80,7 +82,15 @@ public class MovieDetailsFragment extends LifecycleFragment {
         movieViewModel.getTrailers().observe(this, response -> {
         });
 
-    }
+        movieViewModel.isFavorite().observe(this, isFavorite -> {
+            if (isFavorite) {
+                binding.favoriteFab.setImageResource(R.drawable.ic_favorite_fill);
+            } else {
+                binding.favoriteFab.setImageResource(R.drawable.ic_favorite_empty);
+            }
+        });
+
+}
 
     private void updateMovieUI(@NonNull final ApiResponse<Movie> response) {
         if (response.isSuccessful()) {

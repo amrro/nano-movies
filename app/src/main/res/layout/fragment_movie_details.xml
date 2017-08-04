@@ -18,6 +18,10 @@
         <variable
             name="movie"
             type="xyz.android.amrro.popularmovies.data.model.Movie" />
+
+        <variable
+            name="isFavorite"
+            type="boolean"/>
     </data>
 
     <!--<ScrollView-->
@@ -45,10 +49,11 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5" />
+            app:layout_constraintVertical_bias="0.5"
+            tools:visibility="gone" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_add_to_favorites"
+            android:id="@+id/favorite_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
@@ -63,7 +68,7 @@
         <ImageView
             android:id="@+id/backdrop"
             android:layout_width="0dp"
-            android:layout_height="184dp"
+            android:layout_height="183dp"
             android:layout_marginEnd="0dp"
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
@@ -85,10 +90,8 @@
             android:scaleType="centerCrop"
             android:src="@mipmap/logan"
             android:visibility="@{showLoading? View.GONE: View.VISIBLE}"
-            app:layout_constraintBottom_toBottomOf="@+id/backdrop"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/backdrop"
-            app:layout_constraintVertical_bias="0.186" />
+            app:layout_constraintTop_toBottomOf="@+id/backdrop" />
 
         <TextView
             android:id="@+id/title_year"
@@ -96,8 +99,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:maxLines="2"
             android:text="@{movie.title}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@android:color/black"
@@ -105,25 +109,24 @@
             android:visibility="@{showLoading? View.GONE: View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@+id/poster"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/poster"
-            app:layout_constraintTop_toBottomOf="@+id/backdrop"
-            tools:text="Logan"
-            app:layout_constraintVertical_bias="0.089999974" />
+            app:layout_constraintTop_toTopOf="@+id/poster"
+            app:layout_constraintVertical_bias="0.18"
+            tools:text="Logan" />
 
         <TextView
             android:id="@+id/overview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="0dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/scrim"
             android:fontFamily="@font/comfortaa_regular"
             android:text="@{@string/rating_value(movie.voteAverage)}"
-            android:textColor="@android:color/white"
-            android:textSize="24sp"
+            android:textSize="18sp"
             android:visibility="@{showLoading? View.GONE: View.VISIBLE}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/title_year"
+            app:layout_constraintTop_toBottomOf="@+id/Release"
             tools:text="9/10" />
 
         <TextView
@@ -136,7 +139,7 @@
             android:maxLines="6"
             android:text="@{movie.overview}"
             android:visibility="@{showLoading? View.GONE: View.VISIBLE}"
-            app:layout_constraintEnd_toEndOf="@+id/fab_add_to_favorites"
+            app:layout_constraintEnd_toEndOf="@+id/favorite_fab"
             app:layout_constraintStart_toStartOf="@+id/poster"
             app:layout_constraintTop_toBottomOf="@+id/poster"
             tools:text="@string/overview_sample" />
@@ -206,6 +209,7 @@
             android:layout_marginStart="0dp"
             android:layout_marginTop="8dp"
             android:text="@{movie.releaseDate}"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@+id/title_year"
             app:layout_constraintTop_toBottomOf="@+id/title_year"
             tools:text="2017" />

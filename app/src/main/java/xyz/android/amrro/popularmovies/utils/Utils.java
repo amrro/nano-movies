@@ -119,4 +119,8 @@ public final class Utils {
         Objects.requireNonNull(id);
         return MoviesContentProvider.URI_MOVIE.buildUpon().appendPath(id.toString()).build();
     }
+
+    public static void shareLink() {
+
+    }
 }

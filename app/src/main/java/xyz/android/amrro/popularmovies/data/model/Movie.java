@@ -3,6 +3,8 @@ package xyz.android.amrro.popularmovies.data.model;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.util.Objects;
+
 @Entity(tableName = Movie.TABLE_NAME)
 public final class Movie {
 
@@ -126,8 +128,6 @@ public final class Movie {
         this.voteCount = voteCount;
     }
 
-
-    @SuppressWarnings("SimplifiableIfStatement")
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -135,36 +135,28 @@ public final class Movie {
 
         Movie movie = (Movie) o;
 
-        if (getId() != null ? !getId().equals(movie.getId()) : movie.getId() != null) return false;
-        if (getTitle() != null ? !getTitle().equals(movie.getTitle()) : movie.getTitle() != null)
-            return false;
-        if (getOverview() != null ? !getOverview().equals(movie.getOverview()) : movie.getOverview() != null)
-            return false;
-        if (getBackdropPath() != null ? !getBackdropPath().equals(movie.getBackdropPath()) : movie.getBackdropPath() != null)
-            return false;
-        if (getPosterPath() != null ? !getPosterPath().equals(movie.getPosterPath()) : movie.getPosterPath() != null)
-            return false;
-        if (getReleaseDate() != null ? !getReleaseDate().equals(movie.getReleaseDate()) : movie.getReleaseDate() != null)
-            return false;
-        if (getPopularity() != null ? !getPopularity().equals(movie.getPopularity()) : movie.getPopularity() != null)
-            return false;
-        if (getVoteAverage() != null ? !getVoteAverage().equals(movie.getVoteAverage()) : movie.getVoteAverage() != null)
-            return false;
-        return getVoteCount() != null ? getVoteCount().equals(movie.getVoteCount()) : movie.getVoteCount() == null;
+        return Objects.equals(getId(), movie.getId()) &&
+                Objects.equals(getTitle(), movie.getTitle()) &&
+                Objects.equals(getOverview(), movie.getOverview()) &&
+                Objects.equals(getBackdropPath(), movie.getBackdropPath()) &&
+                Objects.equals(getPosterPath(), movie.getPosterPath()) &&
+                Objects.equals(getReleaseDate(), movie.getReleaseDate()) &&
+                Objects.equals(getPopularity(), movie.getPopularity()) &&
+                Objects.equals(getVoteAverage(), movie.getVoteAverage()) &&
+                Objects.equals(getVoteCount(), movie.getVoteCount());
     }
 
     @Override
     public int hashCode() {
-        int result = getId() != null ? getId().hashCode() : 0;
-        result = 31 * result + (getTitle() != null ? getTitle().hashCode() : 0);
-        result = 31 * result + (getOverview() != null ? getOverview().hashCode() : 0);
-        result = 31 * result + (getBackdropPath() != null ? getBackdropPath().hashCode() : 0);
-        result = 31 * result + (getPosterPath() != null ? getPosterPath().hashCode() : 0);
-        result = 31 * result + (getReleaseDate() != null ? getReleaseDate().hashCode() : 0);
-        result = 31 * result + (getPopularity() != null ? getPopularity().hashCode() : 0);
-        result = 31 * result + (getVoteAverage() != null ? getVoteAverage().hashCode() : 0);
-        result = 31 * result + (getVoteCount() != null ? getVoteCount().hashCode() : 0);
-        return result;
+        return Objects.hash(getId(),
+                getTitle(),
+                getOverview(),
+                getBackdropPath(),
+                getPosterPath(),
+                getReleaseDate(),
+                getPopularity(),
+                getVoteAverage(),
+                getVoteCount());
     }
 
     @Override

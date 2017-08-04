@@ -2,7 +2,10 @@ package xyz.android.amrro.popularmovies.data.repository;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Transformations;
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import java.util.Objects;
@@ -14,11 +17,12 @@ import xyz.android.amrro.popularmovies.data.api.MoviesService;
 import xyz.android.amrro.popularmovies.data.model.Movie;
 import xyz.android.amrro.popularmovies.data.model.ReviewsResponse;
 import xyz.android.amrro.popularmovies.data.model.TrailerResponse;
+import xyz.android.amrro.popularmovies.data.provider.MoviesContentProvider;
 import xyz.android.amrro.popularmovies.utils.Utils;
 
 /**
  * Created by amrro <amr.elghobary@gmail.com> on 7/29/17.
- *
+ * <p>
  * Retrieves all data related to movie.
  */
 
@@ -28,7 +32,7 @@ public final class MovieRepository {
     private final MoviesService api;
 
     @Inject
-    public MovieRepository(@NonNull final Application application, @NonNull final MoviesService api) {
+    MovieRepository(@NonNull final Application application, @NonNull final MoviesService api) {
         this.application = application;
         this.api = api;
     }
@@ -69,21 +73,92 @@ public final class MovieRepository {
                                 selectionArgs,
                                 null
                         );
-            try {
-                if (cursor != null) {
-                    if (cursor.getCount() == 1) {
-                        cursor.moveToFirst();
-                        if (Objects.equals(cursor.getString(cursor.getColumnIndex(Movie.COLUMN_ID)), movieId.toString())) {
-                            postValue(true);
+                try {
+                    if (cursor != null) {
+                        if (cursor.getCount() == 1) {
+                            cursor.moveToFirst();
+                            postValue(Objects.equals(cursor.getString(cursor.getColumnIndex(Movie.COLUMN_ID)), movieId.toString()));
+
+                        } else {
+                            postValue(false);
                         }
-                    } else {
-                        postValue(false);
+                    }
+                } finally {
+                    if (cursor != null) {
+                        cursor.close();
                     }
                 }
-            } finally {
-                cursor.close();
-            }
             }
         };
     }
+
+
+    @NonNull
+    public LiveData<Boolean> un_Favorite(@NonNull final Movie movie) {
+        Objects.requireNonNull(movie, "Check twice, how to add null to favorites movie.");
+
+        return Transformations.switchMap(query(movie.getId()), isFavorite -> new LiveData<Boolean>() {
+            @Override
+            protected void onActive() {
+                super.onActive();
+                if (! isFavorite) {
+                    final Uri uri = application.getContentResolver().insert(
+                            MoviesContentProvider.URI_MOVIE,
+                            Utils.toContentValues(movie)
+                    );
+
+                    if (uri != null) {
+                        postValue(uri.getLastPathSegment().equals(movie.getId().toString()));
+                    }
+                } else {
+                    final int count = application.getContentResolver().delete(
+                            Utils.itemUri(movie.getId()),
+                            null, null
+                    );
+
+                    postValue(count == 1);
+                }
+            }
+        });
+    }
+
+    @NonNull
+    public LiveData<Boolean> favorite(@NonNull final Movie movie) {
+        Objects.requireNonNull(movie);
+
+        return new MutableLiveData<Boolean>(){
+            @Override
+            protected void onActive() {
+                super.onActive();
+
+                final Uri uri = application.getContentResolver().insert(
+                        MoviesContentProvider.URI_MOVIE,
+                        Utils.toContentValues(movie)
+                );
+
+                if (uri != null) {
+                    postValue(uri.getLastPathSegment().equals(movie.getId().toString()));
+                }
+            }
+        };
+    }
+
+    @NonNull
+    public LiveData<Boolean> unfavorite(@NonNull final Movie movie) {
+        Objects.requireNonNull(movie);
+        return new LiveData<Boolean>() {
+            @Override
+            protected void onActive() {
+                super.onActive();
+                final int count = application.getContentResolver().delete(
+                        Utils.itemUri(movie.getId()),
+                        null, null
+                );
+
+                postValue(count == 1);
+            }
+        };
+    }
+
+
 }
