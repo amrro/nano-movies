@@ -36,10 +36,9 @@ public class FiltersButtonSheetFragment extends BottomSheetDialogFragment
             ((BottomSheetBehavior) behavior).setBottomSheetCallback(mBottomSheetBehaviorCallback);
         }
 
-        contentView.findViewById(R.id.popularity_asc).setOnClickListener(this);
-        contentView.findViewById(R.id.popularity_desc).setOnClickListener(this);
-        contentView.findViewById(R.id.rating_asc).setOnClickListener(this);
-        contentView.findViewById(R.id.rating_desc).setOnClickListener(this);
+        contentView.findViewById(R.id.popularity).setOnClickListener(this);
+        contentView.findViewById(R.id.favorites).setOnClickListener(this);
+        contentView.findViewById(R.id.rating).setOnClickListener(this);
     }
 
 
@@ -75,16 +74,13 @@ public class FiltersButtonSheetFragment extends BottomSheetDialogFragment
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.popularity_asc:
-                listener.onFilterSelected(getString(R.string.sort_popularity_asc));
-                break;
-            case R.id.popularity_desc:
+            case R.id.popularity:
                 listener.onFilterSelected(getString(R.string.sort_popularity_desc));
                 break;
-            case R.id.rating_asc:
-                listener.onFilterSelected(getString(R.string.sort_vot_count_asc));
+            case R.id.favorites:
+                listener.onFilterSelected(getString(R.string.sort_favorites));
                 break;
-            case R.id.rating_desc:
+            case R.id.rating:
                 listener.onFilterSelected(getString(R.string.sort_vot_count_desc));
                 break;
         }

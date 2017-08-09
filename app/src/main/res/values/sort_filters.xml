@@ -4,4 +4,5 @@
     <string name="sort_popularity_desc">popularity.desc</string>
     <string name="sort_vot_count_asc">vote_count.asc</string>
     <string name="sort_vot_count_desc">vote_count.desc</string>
+    <string name="sort_favorites">Favorites</string>
 </resources>

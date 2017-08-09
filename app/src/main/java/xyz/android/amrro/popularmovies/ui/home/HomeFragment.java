@@ -4,7 +4,11 @@ import android.app.Activity;
 import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.support.v4.app.LoaderManager;
 import android.content.Intent;
+import android.support.v4.content.Loader;
+import android.support.v4.content.CursorLoader;
+import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -24,10 +29,13 @@ import dagger.android.support.AndroidSupportInjection;
 import xyz.android.amrro.popularmovies.R;
 import xyz.android.amrro.popularmovies.data.api.ApiResponse;
 import xyz.android.amrro.popularmovies.data.model.DiscoverResult;
+import xyz.android.amrro.popularmovies.data.model.Movie;
 import xyz.android.amrro.popularmovies.data.model.MovieResult;
+import xyz.android.amrro.popularmovies.data.provider.MoviesContentProvider;
 import xyz.android.amrro.popularmovies.databinding.FragmentHomeBinding;
 import xyz.android.amrro.popularmovies.ui.movie.MovieDetailsActivity;
 import xyz.android.amrro.popularmovies.ui.movie.MovieDetailsFragment;
+import xyz.android.amrro.popularmovies.utils.Utils;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -40,6 +48,11 @@ public class HomeFragment extends LifecycleFragment {
     private FragmentHomeBinding binding;
     private MoviesAdapter adapter;
     private DiscoverViewModel discoverViewModel;
+
+    private static final int LOADER_MOVIES = 684;
+    public static final String KEY_ROTATE = "KEY_ROTATE";
+
+    private String filter;
 
     public HomeFragment() {
     }
@@ -57,6 +70,22 @@ public class HomeFragment extends LifecycleFragment {
         setHasOptionsMenu(true);
         binding.setShowLoading(true);
         initRecyclerView();
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            setFilter(savedInstanceState.getString(KEY_ROTATE, getString(R.string.sort_popularity_desc)));
+        } else if (filter == null) {
+            filter = getString(R.string.sort_popularity_desc);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString(KEY_ROTATE, filter);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -92,11 +121,7 @@ public class HomeFragment extends LifecycleFragment {
         switch (item.getItemId()) {
             case R.id.action_filter:
                 final FiltersButtonSheetFragment sheetFragment = new FiltersButtonSheetFragment();
-
-                sheetFragment.setListener((String filter) -> {
-                    binding.setShowLoading(true);
-                    discoverViewModel.setSort(filter);
-                });
+                sheetFragment.setListener(this::setFilter);
                 sheetFragment.show(getFragmentManager(), sheetFragment.getTag());
                 return true;
 
@@ -104,6 +129,20 @@ public class HomeFragment extends LifecycleFragment {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    private void setFilter(String newFilter) {
+        binding.setShowLoading(true);
+        if (!Objects.equals(this.filter, newFilter)) {
+            this.filter = newFilter;
+            if (filter.equals(getString(R.string.sort_favorites))) {
+                getActivity().getSupportLoaderManager()
+                        .initLoader(LOADER_MOVIES, null, loaderCallbacks);
+            } else {
+                discoverViewModel.setSort(filter);
+            }
+        }
+    }
+
 
     public void initRecyclerView() {
         RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 1);
@@ -115,6 +154,40 @@ public class HomeFragment extends LifecycleFragment {
         });
         binding.grid.setAdapter(adapter);
     }
+
+    private LoaderManager.LoaderCallbacks<Cursor> loaderCallbacks =
+            new LoaderManager.LoaderCallbacks<Cursor>() {
+                @Override
+                public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
+                    switch (id) {
+                        case LOADER_MOVIES:
+                            return new CursorLoader(getContext(),
+                                    MoviesContentProvider.URI_MOVIE,
+                                    new String[]{Movie.COLUMN_ID, Movie.COLUMN_TITLE, Movie.COLUMN_BACKDROP, Movie.COLUMN_VOTE_AVERAGE},
+                                    null, null, null);
+                        default:
+                            throw new IllegalArgumentException("Supposedly, there is no id other 684");
+                    }
+                }
+
+                @Override
+                public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+                    switch (loader.getId()) {
+                        case LOADER_MOVIES:
+                            adapter.replace((ArrayList<MovieResult>) Utils.toMoviesResultList(cursor));
+                            break;
+                    }
+                    binding.setShowLoading(false);
+                }
+
+                @Override
+                public void onLoaderReset(Loader<Cursor> loader) {
+                    switch (loader.getId()) {
+                        case LOADER_MOVIES:
+                            adapter.replace(null);
+                    }
+                }
+            };
 
 
     @SuppressWarnings("deprecation")

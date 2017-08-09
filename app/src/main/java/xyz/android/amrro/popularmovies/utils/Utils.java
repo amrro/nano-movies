@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 import xyz.android.amrro.popularmovies.data.model.Movie;
+import xyz.android.amrro.popularmovies.data.model.MovieResult;
 import xyz.android.amrro.popularmovies.data.provider.MoviesContentProvider;
 
 import static xyz.android.amrro.popularmovies.data.model.Movie.COLUMN_BACKDROP;
@@ -34,7 +35,7 @@ public final class Utils {
     /**
      * Convert {@link Cursor} to a {@link List} of {@link Movie}s.
      */
-    public static List<Movie> fromCusor(@NonNull final Cursor cursor) {
+    public static List<Movie> toMoviesList(@NonNull final Cursor cursor) {
         List<Movie> movies = new ArrayList<>();
         final int idIndex = cursor.getColumnIndex(COLUMN_ID);
         final int titleIndex = cursor.getColumnIndex(COLUMN_TITLE);
@@ -62,6 +63,43 @@ public final class Utils {
                 );
             }
 
+        } finally {
+            cursor.close();
+        }
+
+        return movies;
+    }
+
+    /**
+     * Convert {@link Cursor} to a {@link List} of {@link Movie}s.
+     */
+    public static List<MovieResult> toMoviesResultList(@NonNull final Cursor cursor) {
+        List<MovieResult> movies = new ArrayList<>();
+        final int idIndex = cursor.getColumnIndex(COLUMN_ID);
+        final int titleIndex = cursor.getColumnIndex(COLUMN_TITLE);
+        final int posterIndex = cursor.getColumnIndex(COLUMN_POSTER);
+        final int backdropIndex = cursor.getColumnIndex(COLUMN_BACKDROP);
+        final int overviewIndex = cursor.getColumnIndex(COLUMN_OVERVIEW);
+        final int releaseIndex = cursor.getColumnIndex(COLUMN_RELEASE);
+        final int popularityIndex = cursor.getColumnIndex(COLUMN_POPULARITY);
+        final int voteAverageIndex = cursor.getColumnIndex(COLUMN_VOTE_AVERAGE);
+        final int voteCountIndex = cursor.getColumnIndex(COLUMN_VOTE_COUNT);
+
+
+        try {
+            do {
+                movies.add(new MovieResult(
+                        cursor.getInt(idIndex),
+                        cursor.getString(titleIndex),
+                        cursor.getString(overviewIndex),
+                        cursor.getString(releaseIndex),
+                        cursor.getString(posterIndex),
+                        cursor.getString(backdropIndex),
+                        cursor.getInt(voteCountIndex),
+                        cursor.getDouble(voteAverageIndex),
+                        cursor.getDouble(popularityIndex)
+                ));
+            } while (cursor.moveToNext());
         } finally {
             cursor.close();
         }
@@ -99,9 +137,7 @@ public final class Utils {
     }
 
 
-
-    public static ContentValues toContentValues(@NonNull
-                                                final Movie movie) {
+    public static ContentValues toContentValues(@NonNull final Movie movie) {
         final ContentValues values = new ContentValues();
         values.put(COLUMN_ID, movie.getId());
         values.put(COLUMN_TITLE, movie.getTitle());

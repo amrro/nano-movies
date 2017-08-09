@@ -12,48 +12,7 @@
     tools:layout_editor_absoluteY="81dp">
 
     <LinearLayout
-        android:id="@+id/rating_asc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        android:paddingBottom="@dimen/padding_filter_layout"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="@dimen/padding_filter_layout"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rating_desc">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="@dimen/ic_filter_dimen"
-            android:layout_height="35dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="@dimen/ic_filter_dimen"
-            app:srcCompat="@drawable/ic_arrow_upward_black_24dp" />
-
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="50dp"
-            android:text="@string/rating"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/rating_desc"
+        android:id="@+id/rating"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -68,7 +27,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/popularity_asc">
+        app:layout_constraintTop_toBottomOf="@+id/popularity">
 
         <ImageView
             android:layout_width="@dimen/ic_filter_dimen"
@@ -90,7 +49,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/popularity_desc"
+        android:id="@+id/favorites"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -113,14 +72,14 @@
             android:layout_height="35dp"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="@dimen/ic_filter_dimen"
-            app:srcCompat="@drawable/ic_arrow_downward_black_24dp" />
+            app:srcCompat="@drawable/ic_favorite_fill" />
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="50dp"
-            android:text="@string/popularity"
+            android:text="@string/sort_favorites"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
 
@@ -128,7 +87,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/popularity_asc"
+        android:id="@+id/popularity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -143,14 +102,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/popularity_desc">
+        app:layout_constraintTop_toBottomOf="@+id/favorites">
 
         <ImageView
             android:layout_width="@dimen/ic_filter_dimen"
             android:layout_height="35dp"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="@dimen/ic_filter_dimen"
-            app:srcCompat="@drawable/ic_arrow_upward_black_24dp" />
+            app:srcCompat="@drawable/ic_arrow_downward_black_24dp" />
 
 
         <TextView
