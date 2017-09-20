@@ -26,9 +26,6 @@ import xyz.android.amrro.popularmovies.data.model.ReviewsResponse;
 
 import static com.android.example.github.util.LiveDataTestUtil.getValue;
 
-/**
- * Created by amrro <amr.elghobary@gmail.com> on 7/23/17.
- */
 public class MoviesServiceTest {
 
     private MoviesService service;
@@ -55,38 +52,7 @@ public class MoviesServiceTest {
     public void stopService() throws IOException {
         server.shutdown();
     }
-/*
 
-    @Test
-    public void movie() throws Exception {
-        enqueueResponse("logan.json");
-        final Response<Movie> response = service.movie(263115).execute();
-        final RecordedRequest request = server.takeRequest();
-
-        assertThat(request.getPath(), is("/movie/263115"));
-        assertThat(response.body(), notNullValue());
-        assertThat(response.body().getRevenue(), is(616218538));
-        assertThat(response.body().getVoteAverage(), is(7.5));
-        assertThat(response.body().getVoteCount(), is(4846));
-    }
-
-    @Test
-    public void credits() throws Exception {
-        enqueueResponse("logan_credit.json");
-        final Response<Credit> response = service.credits(263115).execute();
-        final RecordedRequest request = server.takeRequest();
-
-        assertThat(request.getPath(), is("/movie/263115/credits"));
-        assertThat(response.body(), notNullValue());
-        assertThat(response.body().getCast().size(), is(104));
-
-        assertThat(response.body().getCast().get(0), notNullValue());
-        assertThat(response.body().getCast().get(0).getName(), is("Hugh Jackman"));
-
-        assertThat(response.body().getCast().get(1), notNullValue());
-        assertThat(response.body().getCast().get(1).getName(), is("Patrick Stewart"));
-    }
-*/
     @Test
     public void discover() throws Exception {
         enqueueResponse("popular.json");

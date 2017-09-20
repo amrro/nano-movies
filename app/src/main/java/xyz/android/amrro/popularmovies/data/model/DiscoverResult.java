@@ -1,16 +1,10 @@
 package xyz.android.amrro.popularmovies.data.model;
 
-/**
- * Created by amrro <amr.elghobary@gmail.com> on 7/23/17.
- *
- *
- */
-
-
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public final class DiscoverResult {
@@ -19,18 +13,6 @@ public final class DiscoverResult {
     private final int totalPages;
     private final List<MovieResult> results;
 
-    /**
-     * No args constructor for use in serialization
-     */
-    /*public DiscoverResult() {
-    }*/
-
-    /**
-     * @param results
-     * @param totalResults
-     * @param page
-     * @param totalPages
-     */
     public DiscoverResult(int page, int totalResults, int totalPages, List<MovieResult> results) {
         super();
         this.page = page;
@@ -63,36 +45,19 @@ public final class DiscoverResult {
         return (ArrayList<MovieResult>) results;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof DiscoverResult)) return false;
-
-        DiscoverResult discoverResult = (DiscoverResult) o;
-
-        if (getPage() != discoverResult.getPage()) return false;
-        if (getTotalResults() != discoverResult.getTotalResults()) return false;
-        if (getTotalPages() != discoverResult.getTotalPages()) return false;
-        return getResults() != null ? getResults().equals(discoverResult.getResults()) : discoverResult.getResults() == null;
+        if (! (o instanceof DiscoverResult)) return false;
+        DiscoverResult that = (DiscoverResult) o;
+        return getPage() == that.getPage() &&
+                getTotalResults() == that.getTotalResults() &&
+                getTotalPages() == that.getTotalPages() &&
+                Objects.equals(getResults(), that.getResults());
     }
 
     @Override
     public int hashCode() {
-        int result = getPage();
-        result = 31 * result + getTotalResults();
-        result = 31 * result + getTotalPages();
-        result = 31 * result + (getResults() != null ? getResults().hashCode() : 0);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "DiscoverResult{" +
-                "page=" + page +
-                ", totalResults=" + totalResults +
-                ", totalPages=" + totalPages +
-                ", results=" + results +
-                '}';
+        return Objects.hash(getPage(), getTotalResults(), getTotalPages(), getResults());
     }
 }

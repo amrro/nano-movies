@@ -12,16 +12,6 @@ public final class Cast {
     private String profilePath;
 
 
-    /**
-     * @param id
-     * @param profilePath
-     * @param order
-     * @param castId
-     * @param name
-     * @param gender
-     * @param creditId
-     * @param character
-     */
     public Cast(Integer castId, String character, String creditId, Integer gender, Integer id, String name, Integer order, String profilePath) {
         super();
         this.castId = castId;

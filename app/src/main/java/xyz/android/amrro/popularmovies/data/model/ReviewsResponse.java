@@ -5,7 +5,7 @@ import java.util.Objects;
 
 /**
  * Created by amrro <amr.elghobary@gmail.com> on 7/29/17.
- *
+ * <p>
  * Represents {@link xyz.android.amrro.popularmovies.data.api.MoviesService#reviews(int)} Response.
  */
 
@@ -51,28 +51,18 @@ public final class ReviewsResponse {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ReviewsResponse)) return false;
-
-        ReviewsResponse that = (ReviewsResponse) o;
-
-        if (getId() != null ? !getId().equals(that.getId()) : that.getId() != null) return false;
-        if (getPage() != null ? !getPage().equals(that.getPage()) : that.getPage() != null)
-            return false;
-        if (getResults() != null ? !getResults().equals(that.getResults()) : that.getResults() != null)
-            return false;
-        if (getTotalPages() != null ? !getTotalPages().equals(that.getTotalPages()) : that.getTotalPages() != null)
-            return false;
-        return getTotalResults() != null ? getTotalResults().equals(that.getTotalResults()) : that.getTotalResults() == null;
+        if (! (o instanceof ReviewsResponse)) return false;
+        ReviewsResponse response = (ReviewsResponse) o;
+        return Objects.equals(getId(), response.getId()) &&
+                Objects.equals(getPage(), response.getPage()) &&
+                Objects.equals(getResults(), response.getResults()) &&
+                Objects.equals(getTotalPages(), response.getTotalPages()) &&
+                Objects.equals(getTotalResults(), response.getTotalResults());
     }
 
     @Override
     public int hashCode() {
-        int result = getId() != null ? getId().hashCode() : 0;
-        result = 31 * result + (getPage() != null ? getPage().hashCode() : 0);
-        result = 31 * result + (getResults() != null ? getResults().hashCode() : 0);
-        result = 31 * result + (getTotalPages() != null ? getTotalPages().hashCode() : 0);
-        result = 31 * result + (getTotalResults() != null ? getTotalResults().hashCode() : 0);
-        return result;
+        return Objects.hash(getId(), getPage(), getResults(), getTotalPages(), getTotalResults());
     }
 
     @Override

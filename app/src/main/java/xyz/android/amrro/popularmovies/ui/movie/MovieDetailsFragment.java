@@ -1,13 +1,13 @@
 package xyz.android.amrro.popularmovies.ui.movie;
 
 import android.app.Activity;
-import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +31,7 @@ import xyz.android.amrro.popularmovies.utils.Utils;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MovieDetailsFragment extends LifecycleFragment {
+public class MovieDetailsFragment extends Fragment {
 
     public static final int BEAUTY_AND_THE_BEAST = 321612;
     public static final int LOGAN = 263115;

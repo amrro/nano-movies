@@ -6,9 +6,6 @@ import dagger.Component;
 import dagger.android.AndroidInjectionModule;
 import xyz.android.amrro.popularmovies.MoviesApp;
 
-/**
- * Created by amrro <amr.elghobary@gmail.com> on 7/22/17.
- */
 @Singleton
 @Component(modules = {
         AndroidInjectionModule.class,

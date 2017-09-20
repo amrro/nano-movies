@@ -12,10 +12,6 @@ import timber.log.Timber;
 import xyz.android.amrro.popularmovies.di.AppModule;
 import xyz.android.amrro.popularmovies.di.DaggerAppComponent;
 
-/**
- * Created by amrro <amr.elghobary@gmail.com> on 7/22/17.
- */
-
 public class MoviesApp extends Application implements HasActivityInjector {
 
     @Inject

@@ -10,9 +10,6 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
-/**
- * Created by amrro <amr.elghobary@gmail.com> on 7/22/17.
- */
 @Module(includes = ViewModelModule.class)
 public class AppModule {
 

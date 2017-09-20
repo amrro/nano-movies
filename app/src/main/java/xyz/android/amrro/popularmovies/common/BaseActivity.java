@@ -9,12 +9,9 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
-
 
 import java.util.Objects;
 
@@ -59,7 +56,7 @@ public class BaseActivity extends AppCompatActivity {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    public void snack(final int mainTextStringId, final int actionStringId) {
+    /*public void snack(final int mainTextStringId, final int actionStringId) {
         snack(mainTextStringId, actionStringId, null);
     }
 
@@ -72,7 +69,7 @@ public class BaseActivity extends AppCompatActivity {
                 getString(mainTextStringId),
                 Snackbar.LENGTH_INDEFINITE)
                 .setAction(getString(actionStringId), listener).show();
-    }
+    }*/
 
     protected <T extends ViewModel> T getViewModel(final Class<T> cls) {
         return ViewModelProviders.of(this, viewModelFactory).get(cls);

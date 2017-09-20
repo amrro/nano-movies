@@ -21,7 +21,6 @@ import xyz.android.amrro.popularmovies.data.repository.DiscoverRepository;
  */
 
 public final class DiscoverViewModel extends ViewModel {
-
     private final MutableLiveData<String> sort = new MutableLiveData<>();
     private final LiveData<ApiResponse<DiscoverResult>> results;
 
@@ -32,10 +31,7 @@ public final class DiscoverViewModel extends ViewModel {
 
     void setSort(final String sorting) {
         Objects.requireNonNull(sorting);
-
-        if (sorting.equals(this.sort.getValue())) {
-            return;
-        }
+        if (sorting.equals(this.sort.getValue())) return;
         this.sort.setValue(sorting);
     }
 

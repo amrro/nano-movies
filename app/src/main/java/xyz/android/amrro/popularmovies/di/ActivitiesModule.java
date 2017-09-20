@@ -5,9 +5,6 @@ import dagger.android.ContributesAndroidInjector;
 import xyz.android.amrro.popularmovies.ui.movie.MovieDetailsActivity;
 import xyz.android.amrro.popularmovies.ui.home.HomeActivity;
 
-/**
- * Created by amrro <amr.elghobary@gmail.com> on 7/22/17.
- */
 @Module
 public abstract class ActivitiesModule {
     @ContributesAndroidInjector

@@ -1,12 +1,10 @@
 package xyz.android.amrro.popularmovies.ui.movie;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
-
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -16,15 +14,7 @@ import java.util.ArrayList;
 import xyz.android.amrro.popularmovies.data.model.Review;
 import xyz.android.amrro.popularmovies.databinding.ItemReviewBinding;
 
-/**
- * Created by amrro <amr.elghobary@gmail.com> on 7/29/17.
- */
-
 public final class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewViewHolder> {
-
-    @NonNull
-    private final Context context;
-
     @NonNull
     private ArrayList<Review> data;
 
@@ -32,8 +22,7 @@ public final class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.Re
     // after repetitive updates, we can ignore the old calculation
     private int dataVersion = 0;
 
-    public ReviewsAdapter(@NonNull Context context, @NonNull ArrayList<Review> data) {
-        this.context = context;
+    public ReviewsAdapter(@NonNull ArrayList<Review> data) {
         this.data = data;
     }
 

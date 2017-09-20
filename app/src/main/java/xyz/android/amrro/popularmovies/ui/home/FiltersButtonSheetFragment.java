@@ -23,14 +23,13 @@ import xyz.android.amrro.popularmovies.utils.FiltersHandler;
 
 public class FiltersButtonSheetFragment extends BottomSheetDialogFragment {
     private OnItemClickedListener<String> listener;
-    private FiltersSheetBinding binding;
 
     @SuppressLint("RestrictedApi")
     @Override
     public void setupDialog(Dialog dialog, int style) {
         super.setupDialog(dialog, style);
         View contentView = View.inflate(getContext(), R.layout.filters_sheet, null);
-        binding = DataBindingUtil.bind(contentView);
+        FiltersSheetBinding binding = DataBindingUtil.bind(contentView);
         dialog.setContentView(contentView);
 
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) ((View) contentView.getParent()).getLayoutParams();

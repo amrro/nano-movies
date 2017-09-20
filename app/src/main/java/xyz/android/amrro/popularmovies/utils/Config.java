@@ -1,9 +1,5 @@
 package xyz.android.amrro.popularmovies.utils;
 
-/**
- * Created by amrro <amr.elghobary@gmail.com> on 7/25/17.
- */
-
 public final class Config {
 
     public static final class Images {
