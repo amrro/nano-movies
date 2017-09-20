@@ -10,6 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        resValue "string", "movies_api_key", (project.findProperty("API_MOVIE_KEY") ?: "")
         multiDexEnabled = true
     }
 
