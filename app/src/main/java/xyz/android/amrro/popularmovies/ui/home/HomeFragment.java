@@ -1,18 +1,18 @@
 package xyz.android.amrro.popularmovies.ui.home;
 
 import android.app.Activity;
-import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.support.v4.app.LoaderManager;
 import android.content.Intent;
-import android.support.v4.content.Loader;
-import android.support.v4.content.CursorLoader;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -40,7 +40,7 @@ import xyz.android.amrro.popularmovies.utils.Utils;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class HomeFragment extends LifecycleFragment {
+public class HomeFragment extends Fragment {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -91,7 +91,6 @@ public class HomeFragment extends LifecycleFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         discoverViewModel = ViewModelProviders.of(this, viewModelFactory).get(DiscoverViewModel.class);
         discoverViewModel.getResults().observe(this, HomeFragment.this::updateAdapter);
         discoverViewModel.setSort(getString(R.string.sort_popularity_desc));
@@ -197,10 +196,10 @@ public class HomeFragment extends LifecycleFragment {
         super.onAttach(activity);
     }
 
-    @Override
+/*    @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
         adapter = null;
-    }
+    }*/
 }
