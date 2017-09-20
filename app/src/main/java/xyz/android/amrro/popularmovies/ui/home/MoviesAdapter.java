@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import xyz.android.amrro.popularmovies.common.OnItemClickedListener;
 import xyz.android.amrro.popularmovies.data.model.MovieResult;
 import xyz.android.amrro.popularmovies.databinding.CardMovieBinding;
 
@@ -33,15 +34,15 @@ public final class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.Movi
     private ArrayList<MovieResult> data ;
 
     @NonNull
-    HomeFragment.OnMovieSelectedListener listener;
+    private OnItemClickedListener<Integer> listener;
 
     // each time data is set, we update this variable so that if DiffUtil calculation returns
     // after repetitive updates, we can ignore the old calculation
     private int dataVersion = 0;
 
-    public MoviesAdapter(@NonNull Context context,
-                         @NonNull ArrayList<MovieResult> data,
-                         HomeFragment.OnMovieSelectedListener listener) {
+    MoviesAdapter(@NonNull Context context,
+                  @NonNull ArrayList<MovieResult> data,
+                  @NonNull OnItemClickedListener<Integer> listener) {
         Objects.requireNonNull(context, "Context cannot be null for adapter");
         Objects.requireNonNull(listener, "Listener cannot be null");
         this.context = context;
@@ -140,7 +141,7 @@ public final class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.Movi
         void bind(MovieResult movie) {
             binding.getRoot().setOnClickListener(view -> {
                 if (movie != null) {
-                    listener.onMovieSelected(movie.getId());
+                    listener.onClicked(movie.getId());
                 }
             });
             binding.setMovie(movie);
