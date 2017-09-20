@@ -87,7 +87,7 @@ public final class Utils {
 
 
         try {
-            do {
+            while (cursor.moveToNext()) {
                 movies.add(new MovieResult(
                         cursor.getInt(idIndex),
                         cursor.getString(titleIndex),
@@ -99,7 +99,8 @@ public final class Utils {
                         cursor.getDouble(voteAverageIndex),
                         cursor.getDouble(popularityIndex)
                 ));
-            } while (cursor.moveToNext());
+            }
+
         } finally {
             cursor.close();
         }

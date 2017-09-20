@@ -28,7 +28,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements HasSuppor
         detailsFragment.setMovieId(id);
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.detailsFragment, detailsFragment)
+                .replace(R.id.details_fragment, detailsFragment)
                 .commit();
     }
 

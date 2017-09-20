@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "25.0.3"
+    buildToolsVersion '26.0.1'
     defaultConfig {
         applicationId "xyz.android.amrro.popularmovies"
         minSdkVersion 21
@@ -39,15 +39,16 @@ android {
 }
 
 ext {
-    supportLibVersion = '26.0.0'
+    supportLibVersion = '26.1.0'
     retrofit = '2.3.0'
     okhttp_version = '3.8.0'
     dagger_version = "2.11"
-    arch_version = '1.0.0-alpha7'
+    arch_version = '1.0.0-alpha9-1'
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+
     // Support
     implementation "com.android.support:appcompat-v7:$supportLibVersion"
     implementation "com.android.support:design:$supportLibVersion"
@@ -55,12 +56,14 @@ dependencies {
     implementation "com.android.support:palette-v7:$supportLibVersion"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.jakewharton.timber:timber:4.5.1'
+
     // Arch
     implementation "android.arch.lifecycle:runtime:$arch_version"
     implementation "android.arch.lifecycle:extensions:$arch_version"
     implementation "android.arch.persistence.room:runtime:$arch_version"
     annotationProcessor "android.arch.lifecycle:compiler:$arch_version"
     annotationProcessor "android.arch.persistence.room:compiler:$arch_version"
+
     // API
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
@@ -68,7 +71,8 @@ dependencies {
     implementation 'com.github.simonpercic:oklog3:2.1.0'
 
     // UI
-    implementation 'com.github.bumptech.glide:glide:4.0.0-RC1'
+    implementation 'com.github.bumptech.glide:glide:4.1.1'
+
     // Dagger.
     implementation "com.google.dagger:dagger:$dagger_version"
     implementation "com.google.dagger:dagger-android:$dagger_version"
@@ -76,6 +80,7 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
     annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
     annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
+
     // test
     testImplementation 'junit:junit:4.12'
     testImplementation "com.squareup.okhttp3:mockwebserver:$okhttp_version"
