@@ -38,24 +38,21 @@ public final class MovieRepository {
     }
 
     public LiveData<ApiResponse<Movie>> movie(@NonNull final Integer id) {
-        Objects.requireNonNull(id, "Movie Id CANNOT be null.");
-        return api.movie(id);
+        return api.movie(Objects.requireNonNull(id));
     }
 
 
     public LiveData<ApiResponse<ReviewsResponse>> reviews(@NonNull final Integer id) {
-        Objects.requireNonNull(id, "Movie Id CANNOT be null.");
-        return api.reviews(id);
+        return api.reviews(Objects.requireNonNull(id));
     }
 
     public LiveData<ApiResponse<TrailerResponse>> trailers(@NonNull final Integer id) {
-        Objects.requireNonNull(id, "Movie Id CANNOT be null.");
-        return api.trailers(id);
+        return api.trailers(Objects.requireNonNull(id));
     }
 
     @NonNull
     public LiveData<Boolean> query(@NonNull final Integer movieId) {
-        Objects.requireNonNull(movieId, "Cannot query null movie in CP.");
+        Objects.requireNonNull(movieId);
 
         return new LiveData<Boolean>() {
 
@@ -95,7 +92,7 @@ public final class MovieRepository {
 
     @NonNull
     public LiveData<Boolean> un_Favorite(@NonNull final Movie movie) {
-        Objects.requireNonNull(movie, "Check twice, how to add null to favorites movie.");
+        Objects.requireNonNull(movie);
 
         return Transformations.switchMap(query(movie.getId()), isFavorite -> new LiveData<Boolean>() {
             @Override

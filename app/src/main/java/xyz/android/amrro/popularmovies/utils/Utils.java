@@ -113,8 +113,7 @@ public final class Utils {
      * Converts {@link ContentValues} into {@link Movie}
      */
     public static Movie fromContentValues(@NonNull final ContentValues values) {
-        Objects.requireNonNull(values);
-        final Integer id = values.containsKey(COLUMN_ID) ? values.getAsInteger(COLUMN_ID) : 0;
+        final Integer id = Objects.requireNonNull(values).containsKey(COLUMN_ID) ? values.getAsInteger(COLUMN_ID) : 0;
         if (id == 0) {
             throw new IllegalArgumentException("id Cannot be null.");
         }

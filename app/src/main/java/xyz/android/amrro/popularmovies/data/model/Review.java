@@ -3,8 +3,6 @@ package xyz.android.amrro.popularmovies.data.model;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
-import java.util.Objects;
-
 
 @Entity
 public final class Review {
@@ -20,11 +18,6 @@ public final class Review {
                   String author,
                   String content,
                   String url) {
-        Objects.requireNonNull(id);
-        Objects.requireNonNull(author);
-        Objects.requireNonNull(content);
-        Objects.requireNonNull(url);
-
         this.id = id;
         this.author = author;
         this.content = content;

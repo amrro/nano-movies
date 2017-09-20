@@ -43,7 +43,7 @@ public final class MovieViewModel extends ViewModel {
 
 
     void setMovieId(@NonNull final Integer id) {
-        Objects.requireNonNull(id, "Movie Id CANNOT be null.");
+        Objects.requireNonNull(id);
 
         if (id.equals(this.movieId.getValue())) {
             return;

@@ -43,11 +43,9 @@ public final class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.Movi
     MoviesAdapter(@NonNull Context context,
                   @NonNull ArrayList<MovieResult> data,
                   @NonNull OnItemClickedListener<Integer> listener) {
-        Objects.requireNonNull(context, "Context cannot be null for adapter");
-        Objects.requireNonNull(listener, "Listener cannot be null");
-        this.context = context;
+        this.context = Objects.requireNonNull(context);
         this.data = data;
-        this.listener = listener;
+        this.listener = Objects.requireNonNull(listener);
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import java.util.Objects;
 
 import xyz.android.amrro.popularmovies.ui.home.HomeActivity;
+import xyz.android.amrro.popularmovies.ui.movie.MovieDetailsActivity;
 
 /**
  * Created by amrro <amr.elghobary@gmail.com> on 9/20/17.
@@ -15,26 +16,23 @@ import xyz.android.amrro.popularmovies.ui.home.HomeActivity;
  * activities of the application.
  */
 
-final class Navigator {
-    public static String KEY_ITEM_ID = "KEY_ITEM_ID";
+public final class Navigator {
+    static String KEY_ITEM_ID = "KEY_ITEM_ID";
     private final Context context;
 
     Navigator(Context context) {
-        Objects.requireNonNull(context, "context cannot be null.");
-        this.context = context;
+        this.context = Objects.requireNonNull(context);
     }
 
     public void toHome() {
         navigateTo(HomeActivity.class, null);
     }
 
-    public void toDetails(@NonNull final String id) {
-        Objects.requireNonNull(id, "id cannot be null.");
-//        navigateTo(MovieDetailsActivity.class, id);
+    public void toDetails(@NonNull final Integer id) {
+        navigateTo(MovieDetailsActivity.class, Objects.requireNonNull(id));
     }
 
-
-    private void navigateTo(@NonNull final Class<? extends BaseActivity> cls, @Nullable final String id) {
+    private void navigateTo(@NonNull final Class<? extends BaseActivity> cls, @Nullable final Integer id) {
         final Intent intent = new Intent(context, cls);
         if (id != null) intent.putExtra(KEY_ITEM_ID, id);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);

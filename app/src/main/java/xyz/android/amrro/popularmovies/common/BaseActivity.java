@@ -1,9 +1,7 @@
 package xyz.android.amrro.popularmovies.common;
 
 import android.annotation.SuppressLint;
-import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -30,7 +28,7 @@ public class BaseActivity extends AppCompatActivity {
 
     @Inject
     protected ViewModelProvider.Factory viewModelFactory;
-    protected Navigator navigator;
+    public Navigator navigator;
     private String itemId;
 
     @Override
@@ -52,27 +50,8 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void toast(@NonNull final String message) {
-        Objects.requireNonNull(message, "message cannot be null");
+        Objects.requireNonNull(message);
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-
-    /*public void snack(final int mainTextStringId, final int actionStringId) {
-        snack(mainTextStringId, actionStringId, null);
-    }
-
-
-    public void snack(final int mainTextStringId,
-                      final int actionStringId,
-                      @Nullable View.OnClickListener listener) {
-        Snackbar.make(
-                findViewById(android.R.id.content),
-                getString(mainTextStringId),
-                Snackbar.LENGTH_INDEFINITE)
-                .setAction(getString(actionStringId), listener).show();
-    }*/
-
-    protected <T extends ViewModel> T getViewModel(final Class<T> cls) {
-        return ViewModelProviders.of(this, viewModelFactory).get(cls);
     }
 
     protected void setTitle(@NonNull final String title) {
@@ -86,7 +65,7 @@ public class BaseActivity extends AppCompatActivity {
         imm.hideSoftInputFromWindow(windowToken, 0);
     }
 
-    public String itemId() {
-        return getIntent().getStringExtra(Navigator.KEY_ITEM_ID);
+    public Integer itemId() {
+        return getIntent().getIntExtra(Navigator.KEY_ITEM_ID, - 1);
     }
 }

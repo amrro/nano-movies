@@ -9,6 +9,7 @@ import java.util.Objects;
  * Represents {@link xyz.android.amrro.popularmovies.data.api.MoviesService#reviews(int)} Response.
  */
 
+@SuppressWarnings("WeakerAccess")
 public final class ReviewsResponse {
 
     private final String id;
@@ -19,9 +20,7 @@ public final class ReviewsResponse {
 
 
     public ReviewsResponse(String id, Integer page, List<Review> results, Integer totalPages, Integer totalResults) {
-        Objects.requireNonNull(id);
-
-        this.id = id;
+        this.id = Objects.requireNonNull(id);
         this.page = page;
         this.results = results;
         this.totalPages = totalPages;

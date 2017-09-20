@@ -16,7 +16,6 @@ import xyz.android.amrro.popularmovies.data.repository.DiscoverRepository;
 
 /**
  * Created by amrro <amr.elghobary@gmail.com> on 7/27/17.
- * <p>
  * This class is responsible for getting list of movies based on sorting criteria.
  */
 

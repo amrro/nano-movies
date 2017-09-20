@@ -1,14 +1,9 @@
 package xyz.android.amrro.popularmovies.ui.home;
 
-import android.app.Activity;
-import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -22,43 +17,34 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import javax.inject.Inject;
-
-import dagger.android.support.AndroidSupportInjection;
 import xyz.android.amrro.popularmovies.R;
+import xyz.android.amrro.popularmovies.common.BaseActivity;
+import xyz.android.amrro.popularmovies.common.BaseFragment;
 import xyz.android.amrro.popularmovies.data.api.ApiResponse;
 import xyz.android.amrro.popularmovies.data.model.DiscoverResult;
 import xyz.android.amrro.popularmovies.data.model.Movie;
 import xyz.android.amrro.popularmovies.data.model.MovieResult;
 import xyz.android.amrro.popularmovies.data.provider.MoviesContentProvider;
 import xyz.android.amrro.popularmovies.databinding.FragmentHomeBinding;
-import xyz.android.amrro.popularmovies.ui.movie.MovieDetailsActivity;
-import xyz.android.amrro.popularmovies.ui.movie.MovieDetailsFragment;
 import xyz.android.amrro.popularmovies.utils.Utils;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class HomeFragment extends Fragment {
-
-    @Inject
-    ViewModelProvider.Factory viewModelFactory;
-
+public class HomeFragment extends BaseFragment {
     private FragmentHomeBinding binding;
     private MoviesAdapter adapter;
     private DiscoverViewModel discoverViewModel;
+    private String filter;
 
     private static final int LOADER_MOVIES = 684;
     public static final String KEY_ROTATE = "KEY_ROTATE";
-
-    private String filter;
 
     public HomeFragment() {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
         return binding.getRoot();
     }
@@ -90,7 +76,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        discoverViewModel = ViewModelProviders.of(this, viewModelFactory).get(DiscoverViewModel.class);
+        discoverViewModel = getViewModel(DiscoverViewModel.class);
         discoverViewModel.getResults().observe(this, HomeFragment.this::updateAdapter);
         discoverViewModel.setSort(getString(R.string.sort_popularity_desc));
     }
@@ -102,7 +88,6 @@ public class HomeFragment extends Fragment {
             adapter.replace(movieResults);
             binding.setShowLoading(false);
         }
-
     }
 
     @Override
@@ -126,9 +111,7 @@ public class HomeFragment extends Fragment {
             if (filter.equals(getString(R.string.sort_favorites))) {
                 getActivity().getSupportLoaderManager()
                         .initLoader(LOADER_MOVIES, null, loaderCallbacks);
-            } else {
-                discoverViewModel.setSort(filter);
-            }
+            } else discoverViewModel.setSort(filter);
         }
     }
 
@@ -136,11 +119,7 @@ public class HomeFragment extends Fragment {
     public void initRecyclerView() {
         RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 1);
         binding.grid.setLayoutManager(manager);
-        adapter = new MoviesAdapter(getContext(), new ArrayList<>(), id -> {
-            final Intent toDetailsIntent = new Intent(getContext(), MovieDetailsActivity.class);
-            toDetailsIntent.putExtra(MovieDetailsFragment.KEY_MOVIE_ID, id);
-            startActivity(toDetailsIntent);
-        });
+        adapter = new MoviesAdapter(getContext(), new ArrayList<>(), id -> ((BaseActivity) getActivity()).navigator.toDetails(id));
         binding.grid.setAdapter(adapter);
     }
 
@@ -163,7 +142,10 @@ public class HomeFragment extends Fragment {
                 public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
                     switch (loader.getId()) {
                         case LOADER_MOVIES:
-                            adapter.replace((ArrayList<MovieResult>) Utils.toMoviesResultList(cursor));
+                            final ArrayList<MovieResult> favorites = (ArrayList<MovieResult>) Utils.toMoviesResultList(cursor);
+                            if (favorites == null || favorites.size() == 0)
+                                snack(getString(R.string.prompt_no_fovorites));
+                            else adapter.replace(favorites);
                             break;
                     }
                     binding.setShowLoading(false);
@@ -177,19 +159,4 @@ public class HomeFragment extends Fragment {
                     }
                 }
             };
-
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void onAttach(Activity activity) {
-        AndroidSupportInjection.inject(this);
-        super.onAttach(activity);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-        adapter = null;
-    }
 }

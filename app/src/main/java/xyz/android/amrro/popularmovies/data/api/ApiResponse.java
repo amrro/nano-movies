@@ -25,9 +25,7 @@ public final class ApiResponse<V> {
      * @param Data received data from successful API Call.
      */
     public ApiResponse(@NonNull final V Data) {
-        Objects.requireNonNull(Data);
-
-        this.data = Data;
+        this.data = Objects.requireNonNull(Data);
         this.error = null;
     }
 
@@ -36,9 +34,7 @@ public final class ApiResponse<V> {
      * @param error The cause of the failed API Call.
      */
     public ApiResponse(@NonNull final Throwable error) {
-        Objects.requireNonNull(error);
-
-        this.error = error;
+        this.error = Objects.requireNonNull(error);
         this.data = null;
     }
 
