@@ -23,7 +23,6 @@
             android:layout_marginBottom="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:fontFamily="@font/comfortaa_regular"
             android:text="@{review.author}"
             android:textColor="@android:color/black"
             android:textSize="16sp"
