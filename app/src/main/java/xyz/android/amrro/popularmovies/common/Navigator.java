@@ -17,7 +17,7 @@ import xyz.android.amrro.popularmovies.ui.movie.MovieDetailsActivity;
  */
 
 public final class Navigator {
-    static String KEY_ITEM_ID = "KEY_ITEM_ID";
+    public static String KEY_ITEM_ID = "KEY_ITEM_ID";
     private final Context context;
 
     Navigator(Context context) {

@@ -24,7 +24,6 @@
         </android.support.design.widget.AppBarLayout>
 
         <LinearLayout
-            android:baselineAligned="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -40,7 +39,7 @@
 
             <fragment
                 android:id="@+id/details_fragment"
-                android:name="xyz.android.amrro.popularmovies.ui.home.HomeFragment"
+                android:name="xyz.android.amrro.popularmovies.ui.movie.MovieDetailsFragment"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"

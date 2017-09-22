@@ -18,14 +18,15 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import xyz.android.amrro.popularmovies.R;
-import xyz.android.amrro.popularmovies.common.BaseActivity;
 import xyz.android.amrro.popularmovies.common.BaseFragment;
+import xyz.android.amrro.popularmovies.common.Navigator;
 import xyz.android.amrro.popularmovies.data.api.ApiResponse;
 import xyz.android.amrro.popularmovies.data.model.DiscoverResult;
 import xyz.android.amrro.popularmovies.data.model.Movie;
 import xyz.android.amrro.popularmovies.data.model.MovieResult;
 import xyz.android.amrro.popularmovies.data.provider.MoviesContentProvider;
 import xyz.android.amrro.popularmovies.databinding.FragmentHomeBinding;
+import xyz.android.amrro.popularmovies.ui.movie.MovieDetailsFragment;
 import xyz.android.amrro.popularmovies.utils.Utils;
 
 /**
@@ -119,7 +120,20 @@ public class HomeFragment extends BaseFragment {
     public void initRecyclerView() {
         RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 1);
         binding.grid.setLayoutManager(manager);
-        adapter = new MoviesAdapter(getContext(), new ArrayList<>(), id -> ((BaseActivity) getActivity()).navigator.toDetails(id));
+        adapter = new MoviesAdapter(getContext(), new ArrayList<>(), id -> {
+            final HomeActivity parentActivity = (HomeActivity) getActivity();
+            if (parentActivity.isTwoPane) {
+                Bundle arguments = new Bundle();
+                arguments.putString(Navigator.KEY_ITEM_ID, String.valueOf(id));
+                MovieDetailsFragment fragment = new MovieDetailsFragment();
+                fragment.setArguments(arguments);
+                parentActivity.getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.details_fragment, fragment)
+                        .commit();
+            } else {
+                parentActivity.navigator.toDetails(id);
+            }
+        });
         binding.grid.setAdapter(adapter);
     }
 

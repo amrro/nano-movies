@@ -21,6 +21,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
 import xyz.android.amrro.popularmovies.R;
+import xyz.android.amrro.popularmovies.common.Navigator;
 import xyz.android.amrro.popularmovies.data.api.ApiResponse;
 import xyz.android.amrro.popularmovies.data.model.Movie;
 import xyz.android.amrro.popularmovies.data.model.Review;
@@ -32,15 +33,8 @@ import xyz.android.amrro.popularmovies.utils.Utils;
  * A placeholder fragment containing a simple view.
  */
 public class MovieDetailsFragment extends Fragment {
-
-    public static final int BEAUTY_AND_THE_BEAST = 321612;
-    public static final int LOGAN = 263115;
-    public static final int SPIDERMAN = 315635;
     public static final String KEY_MOVIE_ID = "KEY_MOVIE_ID";
-
-
     public static Integer movieId;
-
     private Movie movie;
 
     @Inject
@@ -70,13 +64,15 @@ public class MovieDetailsFragment extends Fragment {
         binding.favoriteFab.setOnClickListener(view1 ->
                 movieViewModel.un_favorite(movie).observe(this, aBoolean -> movieViewModel.retry()));
 //        initRecyclerView();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         movieViewModel = ViewModelProviders.of(this, viewModelFactory).get(MovieViewModel.class);
-        movieViewModel.setMovieId(movieId);
+        if (getArguments() != null && getArguments().containsKey(Navigator.KEY_ITEM_ID)) {
+            movieId = Integer.valueOf(getArguments().getString(Navigator.KEY_ITEM_ID));
+            binding.setNoMovie(false);
+            movieViewModel.setMovieId(movieId);
+        } else {
+            binding.setNoMovie(true);
+        }
+
         movieViewModel.getMovie().observe(this, this::updateMovieUI);
 //        movieViewModel.getReviews().observe(this, this::updateReviews);
         movieViewModel.getTrailers().observe(this, response -> {
@@ -89,8 +85,12 @@ public class MovieDetailsFragment extends Fragment {
                 binding.favoriteFab.setImageResource(R.drawable.ic_favorite_empty);
             }
         });
+    }
 
-}
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
 
     private void updateMovieUI(@NonNull final ApiResponse<Movie> response) {
         if (response.isSuccessful()) {

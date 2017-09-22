@@ -21,6 +21,8 @@ public class HomeActivity extends BaseActivity implements HasSupportFragmentInje
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
+    public boolean isTwoPane;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
@@ -30,6 +32,10 @@ public class HomeActivity extends BaseActivity implements HasSupportFragmentInje
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         animateToolbar(toolbar);
+
+        if (findViewById(R.id.details_fragment) != null) {
+            isTwoPane = true;
+        }
     }
 
     private void animateToolbar(Toolbar toolbar) {

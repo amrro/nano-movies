@@ -41,13 +41,13 @@ public class BaseActivity extends AppCompatActivity {
                 : getIntent().getStringExtra(Navigator.KEY_ITEM_ID);
     }
 
-    @Override
+    /*@Override
     protected void onSaveInstanceState(Bundle outState) {
         if (itemId() != null) {
             outState.putString(Navigator.KEY_ITEM_ID, itemId);
         }
         super.onSaveInstanceState(outState);
-    }
+    }*/
 
     protected void toast(@NonNull final String message) {
         Objects.requireNonNull(message);
