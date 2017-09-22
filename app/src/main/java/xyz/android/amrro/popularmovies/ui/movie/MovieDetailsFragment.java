@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -33,7 +34,6 @@ import xyz.android.amrro.popularmovies.utils.Utils;
  * A placeholder fragment containing a simple view.
  */
 public class MovieDetailsFragment extends Fragment {
-    public static final String KEY_MOVIE_ID = "KEY_MOVIE_ID";
     private Movie movie;
 
     @Inject
@@ -44,6 +44,14 @@ public class MovieDetailsFragment extends Fragment {
     private ReviewsAdapter adapter;
 
     public MovieDetailsFragment() {
+    }
+
+    public static MovieDetailsFragment newInstance(@NonNull final Integer id) {
+        Bundle args = new Bundle();
+        args.putInt(Navigator.KEY_ITEM_ID, Objects.requireNonNull(id));
+        MovieDetailsFragment fragment = new MovieDetailsFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -61,7 +69,7 @@ public class MovieDetailsFragment extends Fragment {
 //        initRecyclerView();
         movieViewModel = ViewModelProviders.of(this, viewModelFactory).get(MovieViewModel.class);
         if (getArguments() != null && getArguments().containsKey(Navigator.KEY_ITEM_ID)) {
-            Integer movieId = Integer.valueOf(getArguments().getString(Navigator.KEY_ITEM_ID));
+            Integer movieId = getArguments().getInt(Navigator.KEY_ITEM_ID);
             binding.setNoMovie(false);
             movieViewModel.setMovieId(movieId);
         } else {
@@ -74,11 +82,7 @@ public class MovieDetailsFragment extends Fragment {
         });
 
         movieViewModel.isFavorite().observe(this, isFavorite -> {
-            if (isFavorite != null && isFavorite) {
-                binding.favoriteFab.setImageResource(R.drawable.ic_favorite_fill);
-            } else {
-                binding.favoriteFab.setImageResource(R.drawable.ic_favorite_empty);
-            }
+            binding.favoriteFab.setImageResource(isFavorite ? R.drawable.ic_favorite_fill : R.drawable.ic_favorite_empty);
         });
     }
 

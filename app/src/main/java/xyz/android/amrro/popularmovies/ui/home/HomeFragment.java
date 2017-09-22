@@ -117,12 +117,9 @@ public class HomeFragment extends BaseFragment {
         adapter = new MoviesAdapter(getContext(), new ArrayList<>(), id -> {
             final HomeActivity parentActivity = (HomeActivity) getActivity();
             if (parentActivity.isTwoPane) {
-                Bundle arguments = new Bundle();
-                arguments.putString(Navigator.KEY_ITEM_ID, String.valueOf(id));
-                MovieDetailsFragment fragment = new MovieDetailsFragment();
-                fragment.setArguments(arguments);
+                final MovieDetailsFragment fragment = MovieDetailsFragment.newInstance(id);
                 parentActivity.getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.details_fragment, fragment)
+                        .replace(R.id.details_fragment, fragment, "Tow Pane")
                         .commit();
             } else {
                 parentActivity.navigator.toDetails(id);

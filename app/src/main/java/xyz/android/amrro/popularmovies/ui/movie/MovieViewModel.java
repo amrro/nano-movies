@@ -18,7 +18,7 @@ import xyz.android.amrro.popularmovies.data.repository.MovieRepository;
 
 /**
  * Created by amrro <amr.elghobary@gmail.com> on 7/29/17.
- *
+ * <p>
  * ViewModel for movie {@link MovieDetailsFragment}
  */
 
@@ -43,9 +43,7 @@ public final class MovieViewModel extends ViewModel {
 
 
     void setMovieId(@NonNull final Integer id) {
-        Objects.requireNonNull(id);
-
-        if (id.equals(this.movieId.getValue())) {
+        if (Objects.requireNonNull(id).equals(this.movieId.getValue())) {
             return;
         }
         this.movieId.setValue(id);
@@ -70,11 +68,8 @@ public final class MovieViewModel extends ViewModel {
     }
 
     LiveData<Boolean> un_favorite(@NonNull final Movie movie) {
-        Objects.requireNonNull(movie);
-
-        return repository.un_Favorite(movie);
+        return repository.un_Favorite(Objects.requireNonNull(movie));
     }
-
 
     void retry() {
         if (this.movieId.getValue() != null) {

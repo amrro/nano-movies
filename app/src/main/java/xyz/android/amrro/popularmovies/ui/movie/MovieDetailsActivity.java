@@ -10,7 +10,6 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import xyz.android.amrro.popularmovies.R;
 import xyz.android.amrro.popularmovies.common.BaseActivity;
-import xyz.android.amrro.popularmovies.common.Navigator;
 
 public class MovieDetailsActivity extends BaseActivity implements HasSupportFragmentInjector {
 
@@ -22,10 +21,7 @@ public class MovieDetailsActivity extends BaseActivity implements HasSupportFrag
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
 
-        Bundle arguments = new Bundle();
-        arguments.putString(Navigator.KEY_ITEM_ID, String.valueOf(itemId()));
-        MovieDetailsFragment fragment = new MovieDetailsFragment();
-        fragment.setArguments(arguments);
+        MovieDetailsFragment fragment = MovieDetailsFragment.newInstance(itemId());
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.details_fragment, fragment)
                 .commit();
