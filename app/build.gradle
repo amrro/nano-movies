@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+
 
 android {
     compileSdkVersion 26
@@ -12,6 +14,11 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         resValue "string", "movies_api_key", (project.findProperty("API_MOVIE_KEY") ?: "")
         multiDexEnabled = true
+
+        configurations.all {
+            resolutionStrategy.force 'com.google.code.gson:gson:2.8.0'
+        }
+
     }
 
     dataBinding {
@@ -23,10 +30,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     dexOptions {
@@ -48,46 +51,47 @@ ext {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(include: ['*.jar'], dir: 'libs')
 
     // Support
-    implementation "com.android.support:appcompat-v7:$supportLibVersion"
-    implementation "com.android.support:design:$supportLibVersion"
-    implementation "com.android.support:cardview-v7:$supportLibVersion"
-    implementation "com.android.support:palette-v7:$supportLibVersion"
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'com.jakewharton.timber:timber:4.5.1'
+    compile "com.android.support:appcompat-v7:$supportLibVersion"
+    compile "com.android.support:design:$supportLibVersion"
+    compile "com.android.support:cardview-v7:$supportLibVersion"
+    compile "com.android.support:palette-v7:$supportLibVersion"
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.jakewharton.timber:timber:4.5.1'
 
     // Arch
-    implementation "android.arch.lifecycle:runtime:$arch_version"
-    implementation "android.arch.lifecycle:extensions:$arch_version"
-    implementation "android.arch.persistence.room:runtime:$arch_version"
+    compile "android.arch.lifecycle:runtime:$arch_version"
+    compile "android.arch.lifecycle:extensions:$arch_version"
+    compile "android.arch.persistence.room:runtime:$arch_version"
     annotationProcessor "android.arch.lifecycle:compiler:$arch_version"
     annotationProcessor "android.arch.persistence.room:compiler:$arch_version"
 
     // API
-    implementation "com.squareup.retrofit2:retrofit:$retrofit"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit"
-    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
-    implementation 'com.github.simonpercic:oklog3:2.1.0'
+    compile "com.squareup.retrofit2:retrofit:$retrofit"
+    compile "com.squareup.retrofit2:converter-gson:$retrofit"
+    compile "com.squareup.okhttp3:okhttp:$okhttp_version"
+    compile 'com.github.simonpercic:oklog3:2.1.0'
 
     // UI
-    implementation 'com.github.bumptech.glide:glide:4.1.1'
+    compile 'com.github.bumptech.glide:glide:4.1.1'
 
     // Dagger.
-    implementation "com.google.dagger:dagger:$dagger_version"
-    implementation "com.google.dagger:dagger-android:$dagger_version"
-    implementation 'com.google.dagger:dagger-android-support:2.11'
-    implementation "com.google.dagger:dagger-android-support:$dagger_version"
+    compile "com.google.dagger:dagger:$dagger_version"
+    compile "com.google.dagger:dagger-android:$dagger_version"
+    compile 'com.google.dagger:dagger-android-support:2.11'
+    compile "com.google.dagger:dagger-android-support:$dagger_version"
     annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
     annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
 
     // test
-    testImplementation 'junit:junit:4.12'
-    testImplementation "com.squareup.okhttp3:mockwebserver:$okhttp_version"
-    testImplementation "android.arch.persistence.room:testing:$arch_version"
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+    testCompile 'junit:junit:4.12'
+    testCompile "com.squareup.okhttp3:mockwebserver:$okhttp_version"
+    testCompile "android.arch.persistence.room:testing:$arch_version"
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.google.code.findbugs'
     })
     androidTestCompile 'org.mockito:mockito-android:2.8.47'
 }
