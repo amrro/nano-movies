@@ -4,7 +4,7 @@
     tools:ignore="ContentDescription"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
+    <data class="ReviewCardBinding">
 
         <variable
             name="review"
