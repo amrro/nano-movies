@@ -37,6 +37,11 @@ public class BaseFragment extends Fragment {
         return ViewModelProviders.of(this, viewModelFactory).get(cls);
     }
 
+    @NonNull
+    protected Integer itemId() {
+        return getArguments().getInt(Navigator.KEY_ITEM_ID, - 1);
+    }
+
     @SuppressWarnings("deprecation")
     @Override
     public void onAttach(Activity activity) {

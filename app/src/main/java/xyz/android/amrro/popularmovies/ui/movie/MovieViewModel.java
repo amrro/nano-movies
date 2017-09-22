@@ -42,11 +42,12 @@ public final class MovieViewModel extends ViewModel {
     }
 
 
-    void setMovieId(@NonNull final Integer id) {
+    public MovieViewModel setMovieId(@NonNull final Integer id) {
         if (Objects.requireNonNull(id).equals(this.movieId.getValue())) {
-            return;
+            return this;
         }
         this.movieId.setValue(id);
+        return this;
     }
 
 
@@ -54,11 +55,11 @@ public final class MovieViewModel extends ViewModel {
         return movie;
     }
 
-    LiveData<ApiResponse<ReviewsResponse>> getReviews() {
+    public LiveData<ApiResponse<ReviewsResponse>> reviews() {
         return reviews;
     }
 
-    LiveData<ApiResponse<TrailerResponse>> getTrailers() {
+    public LiveData<ApiResponse<TrailerResponse>> trailers() {
         return trailers;
     }
 

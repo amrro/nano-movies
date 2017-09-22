@@ -26,15 +26,15 @@
         </activity>
         <activity
             android:name=".ui.movie.MovieDetailsActivity"
-            android:label="@string/title_activity_movie_details"
             android:exported="true"
+            android:label="@string/title_activity_movie_details"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <provider
-            android:authorities="xyz.android.amrro.popularmovies.provider"
             android:name=".data.provider.MoviesContentProvider"
+            android:authorities="xyz.android.amrro.popularmovies.provider"
             android:exported="true"
-            android:permission="xyz.android.amrro.popularmovies.provider.READ_WRITE"/>
+            android:permission="xyz.android.amrro.popularmovies.provider.READ_WRITE" />
     </application>
 
 </manifest>

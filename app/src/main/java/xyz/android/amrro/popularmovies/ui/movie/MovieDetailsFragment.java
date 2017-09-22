@@ -41,7 +41,6 @@ public class MovieDetailsFragment extends Fragment {
 
     private FragmentMovieDetailsBinding binding;
     private MovieViewModel movieViewModel;
-    private ReviewsAdapter adapter;
 
     public MovieDetailsFragment() {
     }
@@ -78,8 +77,6 @@ public class MovieDetailsFragment extends Fragment {
 
         movieViewModel.getMovie().observe(this, this::updateMovieUI);
 //        movieViewModel.getReviews().observe(this, this::updateReviews);
-        movieViewModel.getTrailers().observe(this, response -> {
-        });
 
         movieViewModel.isFavorite().observe(this, isFavorite -> {
             binding.favoriteFab.setImageResource(isFavorite ? R.drawable.ic_favorite_fill : R.drawable.ic_favorite_empty);
@@ -103,35 +100,10 @@ public class MovieDetailsFragment extends Fragment {
         }
     }
 
-    private void updateReviews(@NonNull final ApiResponse<ReviewsResponse> response) {
-        if (response.isSuccessful()) {
-            List<Review> reviews = response.getData().getResults();
-            if (reviews.size() > 0) {
-                adapter.replace((ArrayList<Review>) reviews);
-            } else {
-                adapter.replace(null);
-                binding.setNoReviews(true);
-            }
-        }
-    }
-
     private void initFAB() {
         // TODO: 7/29/17 animate fab.
         // TODO: 7/29/17 change icon.
     }
-
-    public void initRecyclerView() {
-//        RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext());
-//        binding.reviews.setLayoutManager(manager);
-//        adapter = new ReviewsAdapter(getContext(), null);
-//        binding.reviews.setAdapter(adapter);
-
-        /*binding.grid.setLayoutManager(manager);
-//        binding.grid.setHasFixedSize(true);
-        adapter = new MoviesAdapter(getContext(), new ArrayList<>());
-        binding.grid.setAdapter(adapter);*/
-    }
-
 
     @SuppressWarnings("deprecation")
     @Override
