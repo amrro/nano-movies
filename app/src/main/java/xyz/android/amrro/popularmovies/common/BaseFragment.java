@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -36,11 +35,6 @@ public class BaseFragment extends Fragment {
 
     protected <T extends ViewModel> T getViewModel(final Class<T> cls) {
         return ViewModelProviders.of(this, viewModelFactory).get(cls);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
     }
 
     @SuppressWarnings("deprecation")

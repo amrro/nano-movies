@@ -24,15 +24,15 @@ import xyz.android.amrro.popularmovies.utils.Utils;
 
 public final class MoviesContentProvider extends ContentProvider {
 
-    public static final String AUTHORITY = "xyz.android.amrro.popularmovies.provider";
+    private static final String AUTHORITY = "xyz.android.amrro.popularmovies.provider";
 
     /**
      * The URI for the Movie table.
      */
     public static final Uri URI_MOVIE = Uri.parse("content://" + AUTHORITY + "/" + Movie.TABLE_NAME);
 
-    public static final int CODE_MOVIE_DIR = 11;
-    public static final int CODE_MOVIE_ITEM = 22;
+    private static final int CODE_MOVIE_DIR = 11;
+    private static final int CODE_MOVIE_ITEM = 22;
 
     /**
      * The URI matcher.

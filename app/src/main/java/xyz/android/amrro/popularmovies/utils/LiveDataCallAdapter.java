@@ -14,11 +14,11 @@ import retrofit2.Response;
 import xyz.android.amrro.popularmovies.data.api.ApiResponse;
 
 /**
- * A Retrofit adapterthat converts the Call into a LiveData of ApiResponse.
+ * A Retrofit adapter that converts the Call into a LiveData of ApiResponse.
  *
  * @param <R>
  */
-public final class LiveDataCallAdapter<R> implements CallAdapter<R, LiveData<ApiResponse<R>>> {
+final class LiveDataCallAdapter<R> implements CallAdapter<R, LiveData<ApiResponse<R>>> {
     private final Type responseType;
 
     LiveDataCallAdapter(@NonNull final Type responseType) {
@@ -33,7 +33,7 @@ public final class LiveDataCallAdapter<R> implements CallAdapter<R, LiveData<Api
     @Override
     public LiveData<ApiResponse<R>> adapt(@NonNull Call<R> call) {
         return new LiveData<ApiResponse<R>>() {
-            AtomicBoolean started = new AtomicBoolean(false);
+            final AtomicBoolean started = new AtomicBoolean(false);
 
             @Override
             protected void onActive() {

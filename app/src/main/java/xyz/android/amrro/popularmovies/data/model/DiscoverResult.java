@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 
+@SuppressWarnings("WeakerAccess")
 public final class DiscoverResult {
     private final int page;
     private final int totalResults;

@@ -9,6 +9,7 @@ import java.util.Objects;
  */
 
 
+@SuppressWarnings("WeakerAccess")
 public final class MovieResult {
     private final Integer id;
     private final String title;

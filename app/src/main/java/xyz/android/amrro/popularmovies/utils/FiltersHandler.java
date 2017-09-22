@@ -6,7 +6,7 @@ import xyz.android.amrro.popularmovies.ui.home.FiltersButtonSheetFragment;
 
 /**
  * Created by amrro <amr.elghobary@gmail.com> on 9/20/17.
- * this interface handles the different click of fiters in {@link FiltersButtonSheetFragment}
+ * this interface handles the different click of filters in {@link FiltersButtonSheetFragment}
  */
 
 public interface FiltersHandler {

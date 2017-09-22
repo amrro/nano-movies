@@ -39,7 +39,7 @@ public class HomeFragment extends BaseFragment {
     private String filter;
 
     private static final int LOADER_MOVIES = 684;
-    public static final String KEY_ROTATE = "KEY_ROTATE";
+    private static final String KEY_ROTATE = "KEY_ROTATE";
 
     public HomeFragment() {
     }
@@ -69,12 +69,6 @@ public class HomeFragment extends BaseFragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putString(KEY_ROTATE, filter);
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         discoverViewModel = getViewModel(DiscoverViewModel.class);
@@ -82,7 +76,7 @@ public class HomeFragment extends BaseFragment {
         discoverViewModel.setSort(getString(R.string.sort_popularity_desc));
     }
 
-    public void updateAdapter(final ApiResponse<DiscoverResult> response) {
+    private void updateAdapter(final ApiResponse<DiscoverResult> response) {
         if (response != null && response.isSuccessful()) {
             final DiscoverResult result = response.getData();
             final ArrayList<MovieResult> movieResults = result.getResults();
@@ -117,7 +111,7 @@ public class HomeFragment extends BaseFragment {
     }
 
 
-    public void initRecyclerView() {
+    private void initRecyclerView() {
         RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 1);
         binding.grid.setLayoutManager(manager);
         adapter = new MoviesAdapter(getContext(), new ArrayList<>(), id -> {
@@ -137,7 +131,7 @@ public class HomeFragment extends BaseFragment {
         binding.grid.setAdapter(adapter);
     }
 
-    private LoaderManager.LoaderCallbacks<Cursor> loaderCallbacks =
+    private final LoaderManager.LoaderCallbacks<Cursor> loaderCallbacks =
             new LoaderManager.LoaderCallbacks<Cursor>() {
                 @Override
                 public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {

@@ -41,9 +41,7 @@ public final class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.Re
 
     @Override
     public int getItemCount() {
-        if (data != null)
-            return data.size();
-        return 0;
+        return data != null ? data.size() : 0;
     }
 
 
@@ -109,7 +107,7 @@ public final class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.Re
 
     final class ReviewViewHolder extends RecyclerView.ViewHolder {
 
-        private ItemReviewBinding binding;
+        private final ItemReviewBinding binding;
 
         public ReviewViewHolder(@NonNull final ItemReviewBinding binding) {
             super(binding.getRoot());

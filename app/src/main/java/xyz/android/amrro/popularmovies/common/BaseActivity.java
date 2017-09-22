@@ -29,14 +29,13 @@ public class BaseActivity extends AppCompatActivity {
     @Inject
     protected ViewModelProvider.Factory viewModelFactory;
     public Navigator navigator;
-    private String itemId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         navigator = new Navigator(this);
-        itemId = savedInstanceState != null ?
+        String itemId = savedInstanceState != null ?
                 savedInstanceState.getString(Navigator.KEY_ITEM_ID)
                 : getIntent().getStringExtra(Navigator.KEY_ITEM_ID);
     }
@@ -65,7 +64,7 @@ public class BaseActivity extends AppCompatActivity {
         imm.hideSoftInputFromWindow(windowToken, 0);
     }
 
-    public Integer itemId() {
+    protected Integer itemId() {
         return getIntent().getIntExtra(Navigator.KEY_ITEM_ID, - 1);
     }
 }

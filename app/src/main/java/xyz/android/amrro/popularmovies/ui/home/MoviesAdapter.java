@@ -34,7 +34,7 @@ public final class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.Movi
     private ArrayList<MovieResult> data ;
 
     @NonNull
-    private OnItemClickedListener<Integer> listener;
+    private final OnItemClickedListener<Integer> listener;
 
     // each time data is set, we update this variable so that if DiffUtil calculation returns
     // after repetitive updates, we can ignore the old calculation

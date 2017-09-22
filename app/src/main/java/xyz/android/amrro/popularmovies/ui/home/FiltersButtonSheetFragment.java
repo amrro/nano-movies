@@ -78,7 +78,7 @@ public class FiltersButtonSheetFragment extends BottomSheetDialogFragment {
         super.onDismiss(dialog);
     }
 
-    private BottomSheetBehavior.BottomSheetCallback mBottomSheetBehaviorCallback =
+    private final BottomSheetBehavior.BottomSheetCallback mBottomSheetBehaviorCallback =
             new BottomSheetBehavior.BottomSheetCallback() {
 
                 @Override

@@ -34,21 +34,16 @@ import xyz.android.amrro.popularmovies.utils.Utils;
  */
 public class MovieDetailsFragment extends Fragment {
     public static final String KEY_MOVIE_ID = "KEY_MOVIE_ID";
-    public static Integer movieId;
     private Movie movie;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
-    FragmentMovieDetailsBinding binding;
+    private FragmentMovieDetailsBinding binding;
     private MovieViewModel movieViewModel;
     private ReviewsAdapter adapter;
 
     public MovieDetailsFragment() {
-    }
-
-    public void setMovieId(Integer movieId) {
-        this.movieId = movieId;
     }
 
     @Override
@@ -66,7 +61,7 @@ public class MovieDetailsFragment extends Fragment {
 //        initRecyclerView();
         movieViewModel = ViewModelProviders.of(this, viewModelFactory).get(MovieViewModel.class);
         if (getArguments() != null && getArguments().containsKey(Navigator.KEY_ITEM_ID)) {
-            movieId = Integer.valueOf(getArguments().getString(Navigator.KEY_ITEM_ID));
+            Integer movieId = Integer.valueOf(getArguments().getString(Navigator.KEY_ITEM_ID));
             binding.setNoMovie(false);
             movieViewModel.setMovieId(movieId);
         } else {
@@ -79,17 +74,12 @@ public class MovieDetailsFragment extends Fragment {
         });
 
         movieViewModel.isFavorite().observe(this, isFavorite -> {
-            if (isFavorite) {
+            if (isFavorite != null && isFavorite) {
                 binding.favoriteFab.setImageResource(R.drawable.ic_favorite_fill);
             } else {
                 binding.favoriteFab.setImageResource(R.drawable.ic_favorite_empty);
             }
         });
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
     }
 
     private void updateMovieUI(@NonNull final ApiResponse<Movie> response) {
