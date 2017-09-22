@@ -112,7 +112,7 @@ public class HomeFragment extends BaseFragment {
 
 
     private void initRecyclerView() {
-        RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 1);
+        RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), getResources().getInteger(R.integer.span_count));
         binding.grid.setLayoutManager(manager);
         adapter = new MoviesAdapter(getContext(), new ArrayList<>(), id -> {
             final HomeActivity parentActivity = (HomeActivity) getActivity();
