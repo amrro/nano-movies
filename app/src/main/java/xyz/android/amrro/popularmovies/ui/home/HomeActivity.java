@@ -1,12 +1,15 @@
 package xyz.android.amrro.popularmovies.ui.home;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
+
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -45,6 +48,37 @@ public class HomeActivity extends BaseActivity implements HasSupportFragmentInje
             title.setAlpha(0f);
             title.setScaleX(0.8f);
             title.animate()
+                    .alpha(1f)
+                    .scaleX(1f)
+                    .setStartDelay(300)
+                    .setDuration(1000)
+                    .setInterpolator(AnimationUtils.loadInterpolator(
+                            this,
+                            android.R.interpolator.fast_out_slow_in));
+        }
+    }
+
+    private void replaceTitle(Toolbar toolbar, @NonNull final String title) {
+        Objects.requireNonNull(title);
+        View view = toolbar.getChildAt(0);
+        if (view != null && view instanceof TextView) {
+            TextView titleTV = (TextView) view;
+            // animate removing old title.
+            titleTV.animate()
+                    .alpha(0f)
+                    .scaleX(0f)
+                    .setStartDelay(300)
+                    .setDuration(1000)
+                    .setInterpolator(AnimationUtils.loadInterpolator(
+                            this,
+                            android.R.interpolator.fast_out_linear_in));
+            // add the new.
+            setTitle(title);
+
+            // animate adding new title.
+//            titleTV.setAlpha(0f);
+//            titleTV.setScaleX(0.8f);
+            titleTV.animate()
                     .alpha(1f)
                     .scaleX(1f)
                     .setStartDelay(300)
