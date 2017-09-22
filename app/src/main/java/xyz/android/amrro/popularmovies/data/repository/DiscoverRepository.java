@@ -28,10 +28,13 @@ public final class DiscoverRepository {
         this.moviesService = service;
     }
 
-
     @NonNull
-    public LiveData<ApiResponse<DiscoverResult>> discover(@NonNull String sorting) {
-        return moviesService.discover(sorting);
+    public LiveData<ApiResponse<DiscoverResult>> popular() {
+        return moviesService.popular();
     }
 
+    @NonNull
+    public LiveData<ApiResponse<DiscoverResult>> topRated() {
+        return moviesService.topRated();
+    }
 }

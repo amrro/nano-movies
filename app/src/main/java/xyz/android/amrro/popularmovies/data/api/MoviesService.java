@@ -4,7 +4,6 @@ import android.arch.lifecycle.LiveData;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 import xyz.android.amrro.popularmovies.data.model.DiscoverResult;
 import xyz.android.amrro.popularmovies.data.model.Movie;
 import xyz.android.amrro.popularmovies.data.model.ReviewsResponse;
@@ -18,8 +17,11 @@ import xyz.android.amrro.popularmovies.data.model.TrailerResponse;
 
 public interface MoviesService {
 
-    @GET("discover/movie")
-    LiveData<ApiResponse<DiscoverResult>> discover(@Query("sort_by") String sort);
+    @GET("movie/popular")
+    LiveData<ApiResponse<DiscoverResult>> popular();
+
+    @GET("movie/top_rated")
+    LiveData<ApiResponse<DiscoverResult>> topRated();
 
     @GET("movie/{movie_id}")
     LiveData<ApiResponse<Movie>> movie(@Path("movie_id") int id);

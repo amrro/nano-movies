@@ -123,7 +123,7 @@ public final class MovieRepository {
     public LiveData<Boolean> favorite(@NonNull final Movie movie) {
         Objects.requireNonNull(movie);
 
-        return new MutableLiveData<Boolean>(){
+        return new MutableLiveData<Boolean>() {
             @Override
             protected void onActive() {
                 super.onActive();

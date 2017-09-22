@@ -1,5 +1,6 @@
 package xyz.android.amrro.popularmovies.ui.home;
 
+import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
@@ -10,6 +11,7 @@ import java.util.Objects;
 
 import javax.inject.Inject;
 
+import xyz.android.amrro.popularmovies.R;
 import xyz.android.amrro.popularmovies.data.api.ApiResponse;
 import xyz.android.amrro.popularmovies.data.model.DiscoverResult;
 import xyz.android.amrro.popularmovies.data.repository.DiscoverRepository;
@@ -24,8 +26,16 @@ public final class DiscoverViewModel extends ViewModel {
     private final LiveData<ApiResponse<DiscoverResult>> results;
 
     @Inject
-    DiscoverViewModel(@NonNull DiscoverRepository repository) {
-        results = Transformations.switchMap(sort, repository::discover);
+    DiscoverViewModel(@NonNull final DiscoverRepository repository,
+                      @NonNull final Application app) {
+        results = Transformations.switchMap(sort, sorting -> {
+            if (sorting.equals(app.getString(R.string.sort_popularity_desc)))
+                return repository.popular();
+            else if (sorting.equals(app.getString(R.string.sort_vot_count_desc))) {
+                return repository.topRated();
+            }
+            return null;
+        });
     }
 
     void setSort(final String sorting) {
@@ -36,11 +46,5 @@ public final class DiscoverViewModel extends ViewModel {
 
     LiveData<ApiResponse<DiscoverResult>> getResults() {
         return results;
-    }
-
-    void retry() {
-        if (this.sort.getValue() != null) {
-            this.sort.setValue(this.sort.getValue());
-        }
     }
 }

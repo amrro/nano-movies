@@ -39,15 +39,16 @@ public final class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.Re
         holder.bind(review);
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public int getItemCount() {
         return data != null ? data.size() : 0;
     }
 
-
+    @SuppressWarnings("ConstantConditions")
     @SuppressLint("StaticFieldLeak")
     @MainThread
-    public void replace(final ArrayList<Review> update) {
+    void replace(final ArrayList<Review> update) {
         dataVersion++;
 
         if (data == null) {
@@ -62,7 +63,7 @@ public final class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.Re
             notifyItemRangeChanged(0, size);
         } else {
             int startVersion = this.dataVersion;
-            ArrayList<Review> old = this.data;
+            final ArrayList<Review> old = this.data;
             new AsyncTask<Void, Void, DiffUtil.DiffResult>() {
                 @Override
                 protected DiffUtil.DiffResult doInBackground(Void... voids) {
@@ -109,7 +110,7 @@ public final class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.Re
 
         private final ItemReviewBinding binding;
 
-        public ReviewViewHolder(@NonNull final ItemReviewBinding binding) {
+        ReviewViewHolder(@NonNull final ItemReviewBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
