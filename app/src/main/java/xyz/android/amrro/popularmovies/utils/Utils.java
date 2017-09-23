@@ -1,6 +1,8 @@
 package xyz.android.amrro.popularmovies.utils;
 
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -11,6 +13,7 @@ import java.util.Objects;
 
 import xyz.android.amrro.popularmovies.data.model.Movie;
 import xyz.android.amrro.popularmovies.data.model.MovieResult;
+import xyz.android.amrro.popularmovies.data.model.Trailer;
 import xyz.android.amrro.popularmovies.data.provider.MoviesContentProvider;
 
 import static xyz.android.amrro.popularmovies.data.model.Movie.COLUMN_BACKDROP;
@@ -157,7 +160,19 @@ public final class Utils {
     }
 
 
-    public static void shareLink() {
+    public static void shareYouTube(final Context context, @NonNull final String key) {
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+        share.putExtra(Intent.EXTRA_SUBJECT, "Title Of The Post");
+        share.putExtra(Intent.EXTRA_TEXT, Trailer.buildYouTubeLink(key));
+        context.startActivity(Intent.createChooser(share, "Share link!"));
+    }
 
+    public static void openYouTube(final Context context, @NonNull final String key) {
+        final String link = Trailer.buildYouTubeLink(key);
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(link));
+        context.startActivity(i);
     }
 }

@@ -8,10 +8,10 @@ import java.util.Objects;
 
 public final class Trailer {
 
-    private final String id;
-    private final String key;
-    private final String name;
-    private final Integer size;
+    public final String id;
+    public final String key;
+    public final String name;
+    public final Integer size;
 
     public Trailer(String id, String key, String name, Integer size) {
         this.id = id;
@@ -20,26 +20,11 @@ public final class Trailer {
         this.size = size;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Integer getSize() {
-        return size;
-    }
-
-
     public static String buildYouTubeLink(@NonNull final String key) {
         Objects.requireNonNull(key);
-        return "https://www.youtube.com/watch?v=FnCdOQsX5kc";
+        final Uri.Builder builder = Uri.parse("https://www.youtube.com/watch").buildUpon();
+        builder.appendQueryParameter("v", key);
+        return builder.build().toString();
     }
 
     public static String getYouTubeThumbnail(@NonNull final String key) {
@@ -54,23 +39,17 @@ public final class Trailer {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Trailer)) return false;
-
+        if (! (o instanceof Trailer)) return false;
         Trailer trailer = (Trailer) o;
-
-        return (getId() != null ? getId().equals(trailer.getId()) : trailer.getId() == null) &&
-                (getKey() != null ? getKey().equals(trailer.getKey()) : trailer.getKey() == null) &&
-                (getName() != null ? getName().equals(trailer.getName()) : trailer.getName() == null) &&
-                (getSize() != null ? getSize().equals(trailer.getSize()) : trailer.getSize() == null);
+        return Objects.equals(id, trailer.id) &&
+                Objects.equals(key, trailer.key) &&
+                Objects.equals(name, trailer.name) &&
+                Objects.equals(size, trailer.size);
     }
 
     @Override
     public int hashCode() {
-        int result = getId() != null ? getId().hashCode() : 0;
-        result = 31 * result + (getKey() != null ? getKey().hashCode() : 0);
-        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
-        result = 31 * result + (getSize() != null ? getSize().hashCode() : 0);
-        return result;
+        return Objects.hash(id, key, name, size);
     }
 
     @Override
