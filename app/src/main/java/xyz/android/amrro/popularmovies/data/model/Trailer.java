@@ -1,6 +1,11 @@
 package xyz.android.amrro.popularmovies.data.model;
 
 
+import android.net.Uri;
+import android.support.annotation.NonNull;
+
+import java.util.Objects;
+
 public final class Trailer {
 
     private final String id;
@@ -29,6 +34,20 @@ public final class Trailer {
 
     public Integer getSize() {
         return size;
+    }
+
+
+    public static String buildYouTubeLink(@NonNull final String key) {
+        Objects.requireNonNull(key);
+        return "https://www.youtube.com/watch?v=FnCdOQsX5kc";
+    }
+
+    public static String getYouTubeThumbnail(@NonNull final String key) {
+        Objects.requireNonNull(key);
+        final Uri.Builder builder = Uri.parse("https://img.youtube.com/vi").buildUpon();
+        builder.appendPath(key)
+                .appendPath("hqdefault.jpg");
+        return builder.build().toString();
     }
 
 

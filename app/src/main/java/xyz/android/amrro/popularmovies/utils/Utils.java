@@ -156,6 +156,7 @@ public final class Utils {
         return MoviesContentProvider.URI_MOVIE.buildUpon().appendPath(id.toString()).build();
     }
 
+
     public static void shareLink() {
 
     }

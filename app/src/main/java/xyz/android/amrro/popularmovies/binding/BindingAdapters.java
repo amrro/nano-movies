@@ -3,6 +3,11 @@ package xyz.android.amrro.popularmovies.binding;
 
 import android.databinding.BindingAdapter;
 import android.view.View;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
+
+import xyz.android.amrro.popularmovies.data.model.Trailer;
 
 /**
  * Data Binding adapters specific to the app.
@@ -17,5 +22,13 @@ public class BindingAdapters {
     @BindingAdapter("hideView")
     public static void hideView(View view, boolean hide) {
         showView(view, ! hide);
+    }
+
+    @BindingAdapter("YouTube")
+    public static void setYouTubeThumbnail(ImageView imageView, String key) {
+        final String thumbnail = Trailer.getYouTubeThumbnail(key);
+        Glide.with(imageView)
+                .load(thumbnail)
+                .into(imageView);
     }
 }
