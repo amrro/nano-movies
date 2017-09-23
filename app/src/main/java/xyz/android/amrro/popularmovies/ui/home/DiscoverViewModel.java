@@ -44,6 +44,10 @@ public final class DiscoverViewModel extends ViewModel {
         this.sort.setValue(sorting);
     }
 
+    String getFilter() {
+        return this.sort.getValue();
+    }
+
     LiveData<ApiResponse<DiscoverResult>> getResults() {
         return results;
     }

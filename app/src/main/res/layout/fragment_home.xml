@@ -21,13 +21,21 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/grid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
             android:clipToPadding="false"
             android:elevation="1dp"
             android:scrollbarStyle="outsideOverlay"
             android:scrollbars="vertical"
             android:visibility="@{showLoading? View.GONE: View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:spanCount="1"
             tools:listitem="@layout/card_movie" />
 

@@ -19,7 +19,6 @@ import java.util.Objects;
 
 import xyz.android.amrro.popularmovies.R;
 import xyz.android.amrro.popularmovies.common.BaseFragment;
-import xyz.android.amrro.popularmovies.common.Navigator;
 import xyz.android.amrro.popularmovies.data.api.ApiResponse;
 import xyz.android.amrro.popularmovies.data.model.DiscoverResult;
 import xyz.android.amrro.popularmovies.data.model.Movie;
@@ -35,7 +34,7 @@ import xyz.android.amrro.popularmovies.utils.Utils;
 public class HomeFragment extends BaseFragment {
     private FragmentHomeBinding binding;
     private MoviesAdapter adapter;
-    private DiscoverViewModel discoverViewModel;
+    private DiscoverViewModel discover;
     private String filter;
 
     private static final int LOADER_MOVIES = 684;
@@ -71,9 +70,9 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        discoverViewModel = getViewModel(DiscoverViewModel.class);
-        discoverViewModel.getResults().observe(this, HomeFragment.this::updateAdapter);
-        discoverViewModel.setSort(getString(R.string.sort_popularity_desc));
+        discover = getViewModel(DiscoverViewModel.class);
+        discover.getResults().observe(this, HomeFragment.this::updateAdapter);
+        discover.setSort(getString(R.string.sort_popularity_desc));
     }
 
     private void updateAdapter(final ApiResponse<DiscoverResult> response) {
@@ -106,7 +105,11 @@ public class HomeFragment extends BaseFragment {
             if (filter.equals(getString(R.string.sort_favorites))) {
                 getActivity().getSupportLoaderManager()
                         .initLoader(LOADER_MOVIES, null, loaderCallbacks);
-            } else discoverViewModel.setSort(filter);
+            } else {
+                discover.setSort(filter);
+            }
+        } else {
+            binding.setShowLoading(false);
         }
     }
 

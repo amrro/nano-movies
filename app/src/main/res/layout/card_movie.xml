@@ -19,8 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:elevation="4dp"
-        android:paddingLeft="7dp"
-        android:paddingRight="7dp"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
         android:paddingTop="7dp">
 
 
@@ -28,10 +28,7 @@
             android:id="@+id/backdrop"
             android:layout_width="0dp"
             android:layout_height="200dp"
-            android:layout_marginBottom="0dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
+            android:layout_marginBottom="2dp"
             android:foreground="@drawable/scrim"
             android:scaleType="centerCrop"
             android:src="@mipmap/movie_placeholder"
