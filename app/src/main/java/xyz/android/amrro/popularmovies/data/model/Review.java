@@ -3,15 +3,17 @@ package xyz.android.amrro.popularmovies.data.model;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.util.Objects;
+
 
 @Entity
 public final class Review {
 
     @PrimaryKey
-    private final String id;
-    private final String author;
-    private final String content;
-    private final String url;
+    public final String id;
+    public final String author;
+    public final String content;
+    public final String url;
 
 
     public Review(String id,
@@ -24,39 +26,20 @@ public final class Review {
         this.url = url;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Review)) return false;
-
+        if (! (o instanceof Review)) return false;
         Review review = (Review) o;
-
-        return (getId() != null ? getId().equals(review.getId()) : review.getId() == null) &&
-                (getAuthor() != null ? getAuthor().equals(review.getAuthor()) : review.getAuthor() == null) &&
-                (getContent() != null ? getContent().equals(review.getContent()) : review.getContent() == null) &&
-                (url != null ? url.equals(review.url) : review.url == null);
+        return Objects.equals(id, review.id) &&
+                Objects.equals(author, review.author) &&
+                Objects.equals(content, review.content) &&
+                Objects.equals(url, review.url);
     }
 
     @Override
     public int hashCode() {
-        int result = getId() != null ? getId().hashCode() : 0;
-        result = 31 * result + (getAuthor() != null ? getAuthor().hashCode() : 0);
-        result = 31 * result + (getContent() != null ? getContent().hashCode() : 0);
-        result = 31 * result + (url != null ? url.hashCode() : 0);
-        return result;
+        return Objects.hash(id, author, content, url);
     }
 
     @Override

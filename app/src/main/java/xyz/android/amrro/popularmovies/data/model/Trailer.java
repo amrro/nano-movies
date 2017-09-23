@@ -12,12 +12,14 @@ public final class Trailer {
     public final String key;
     public final String name;
     public final Integer size;
+    public final String site;
 
-    public Trailer(String id, String key, String name, Integer size) {
+    public Trailer(String id, String key, String name, Integer size, String site) {
         this.id = id;
         this.key = key;
         this.name = name;
         this.size = size;
+        this.site = site;
     }
 
     public static String buildYouTubeLink(@NonNull final String key) {

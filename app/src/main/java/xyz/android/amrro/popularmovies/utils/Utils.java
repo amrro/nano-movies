@@ -164,15 +164,20 @@ public final class Utils {
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("text/plain");
         share.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
-        share.putExtra(Intent.EXTRA_SUBJECT, "Title Of The Post");
+        share.putExtra(Intent.EXTRA_SUBJECT, "Watch this Trailer");
         share.putExtra(Intent.EXTRA_TEXT, Trailer.buildYouTubeLink(key));
         context.startActivity(Intent.createChooser(share, "Share link!"));
     }
 
     public static void openYouTube(final Context context, @NonNull final String key) {
         final String link = Trailer.buildYouTubeLink(key);
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(link));
-        context.startActivity(i);
+        openLink(context, link);
     }
+
+    public static void openLink(final Context context, @NonNull final String link) {
+        Intent share = new Intent(Intent.ACTION_VIEW);
+        share.setData(Uri.parse(link));
+        context.startActivity(share);
+    }
+
 }
