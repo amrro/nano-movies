@@ -23,7 +23,7 @@ public final class ReviewsAdapter extends DataListAdapter<Review, ReviewCardBind
         binding.getRoot().setOnClickListener(view -> {
             final Review review = binding.getReview();
             if (review != null) {
-                Utils.openLink(view.getContext(), review.url);
+                listener.onClicked(review);
             }
         });
         return binding;

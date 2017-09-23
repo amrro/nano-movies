@@ -1,15 +1,16 @@
 package xyz.android.amrro.popularmovies.ui.movie.trailer;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 
 import java.util.List;
 import java.util.Objects;
 
+import xyz.android.amrro.popularmovies.R;
 import xyz.android.amrro.popularmovies.common.Navigator;
 import xyz.android.amrro.popularmovies.common.SimpleRecyclerFragment;
 import xyz.android.amrro.popularmovies.data.model.Trailer;
 import xyz.android.amrro.popularmovies.ui.movie.MovieViewModel;
+import xyz.android.amrro.popularmovies.utils.Utils;
 
 public final class TrailersFragment extends SimpleRecyclerFragment<Trailer, TrailersAdapter> {
 
@@ -24,7 +25,7 @@ public final class TrailersFragment extends SimpleRecyclerFragment<Trailer, Trai
     @Override
     protected TrailersAdapter createAdapter() {
         return new TrailersAdapter(trailer -> {
-            // TODO: 9/22/17 view trailer intent
+            Utils.openYouTube(getContext(), trailer.key);
         });
     }
 
@@ -33,12 +34,16 @@ public final class TrailersFragment extends SimpleRecyclerFragment<Trailer, Trai
         setLoading(true);
         final MovieViewModel movie = getViewModel(MovieViewModel.class);
         movie.setMovieId(itemId()).trailers().observe(this, response -> {
-            if (response != null) {
+            if (response != null && response.isSuccessful()) {
                 final List<Trailer> results = response.getData().getResults();
                 if (results != null && results.size() != 0) {
                     adapter.replace(results);
                     setLoading(false);
+                } else {
+                    setNoData(R.string.no_trailers, R.drawable.ic_local_movies_red_54dp);
                 }
+            } else {
+
             }
         });
     }

@@ -24,7 +24,7 @@ public final class TrailersAdapter extends DataListAdapter<Trailer, CardTrailerB
         binding.getRoot().setOnClickListener(view -> {
             final Trailer trailer = binding.getTrailer();
             if (trailer != null) {
-                Utils.openYouTube(view.getContext(), trailer.key);
+                listener.onClicked(trailer);
                 binding.share.setOnClickListener(shareView -> Utils.shareYouTube(shareView.getContext(), trailer.key));
             }
         });

@@ -23,4 +23,6 @@
     <string name="menu_trailers">Trailers</string>
     <string name="menu_reviews">Reviews</string>
     <string name="overview">Overview</string>
+    <string name="no_review">No Reviews Available</string>
+    <string name="no_trailers">No Trailers Available.</string>
 </resources>

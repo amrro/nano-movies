@@ -2,7 +2,9 @@ package xyz.android.amrro.popularmovies.common;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,16 +29,6 @@ public abstract class SimpleRecyclerFragment<M, A extends DataListAdapter> exten
     public SimpleRecyclerFragment() {
     }
 
-    /*@SuppressWarnings("unused")
-    public static SimpleRecyclerFragment newInstance(@NonNull final Integer id) {
-        SimpleRecyclerFragment fragment = new SimpleRecyclerFragment();
-        Bundle args = new Bundle();
-        args.putInt(Navigator.KEY_ITEM_ID, Objects.requireNonNull(id));
-        fragment.setArguments(args);
-        return fragment;
-    }*/
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_simple_list, container, false);
@@ -53,6 +45,8 @@ public abstract class SimpleRecyclerFragment<M, A extends DataListAdapter> exten
         adapter = Objects.requireNonNull(createAdapter());
         binding.list.setAdapter(adapter);
         binding.list.setLayoutManager(new LinearLayoutManager(getContext()));
+        setLoading(true);
+        binding.setNoData(false);
         updateAdapter();
     }
 
@@ -64,7 +58,9 @@ public abstract class SimpleRecyclerFragment<M, A extends DataListAdapter> exten
         binding.setLoading(isLoading);
     }
 
-    protected void setNoData(final Boolean noData) {
-
+    protected void setNoData(@StringRes int message, @DrawableRes int icon) {
+        binding.setNoData(true);
+        binding.noDataMessage.setText(message);
+        binding.noDataIcon.setImageResource(icon);
     }
 }

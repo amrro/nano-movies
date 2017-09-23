@@ -1,15 +1,16 @@
 package xyz.android.amrro.popularmovies.ui.movie.review;
 
-import android.arch.lifecycle.ViewModel;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import java.util.List;
 
+import xyz.android.amrro.popularmovies.R;
 import xyz.android.amrro.popularmovies.common.Navigator;
 import xyz.android.amrro.popularmovies.common.SimpleRecyclerFragment;
 import xyz.android.amrro.popularmovies.data.model.Review;
 import xyz.android.amrro.popularmovies.ui.movie.MovieViewModel;
+import xyz.android.amrro.popularmovies.utils.Utils;
 
 public final class ReviewsFragment extends SimpleRecyclerFragment<Review, ReviewsAdapter> {
 
@@ -23,23 +24,23 @@ public final class ReviewsFragment extends SimpleRecyclerFragment<Review, Review
 
     @Override
     protected ReviewsAdapter createAdapter() {
-        return new ReviewsAdapter(review -> { /* DO NOTHING */});
+        return new ReviewsAdapter(review -> Utils.openLink(getContext(), review.url));
     }
 
     @Override
     protected void updateAdapter() {
-        setLoading(true);
         final MovieViewModel movie = getViewModel(MovieViewModel.class);
         movie.setMovieId(itemId()).reviews().observe(this, response -> {
-            if (response != null) {
+            if (response != null && response.isSuccessful()) {
                 final List<Review> results = response.getData().getResults();
                 if (results != null && results.size() != 0) {
                     adapter.replace(results);
                     setLoading(false);
                 } else {
-                    setNoData(true);
-                    snack("NO data");
+                    setNoData(R.string.no_review, R.drawable.ic_rate_review_black_24dp);
                 }
+            } else {
+
             }
         });
     }
