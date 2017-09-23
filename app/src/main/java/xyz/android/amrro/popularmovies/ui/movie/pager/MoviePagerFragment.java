@@ -25,8 +25,10 @@ import xyz.android.amrro.popularmovies.databinding.PagerFragmentBinding;
  * create an instance of this fragment.
  */
 public final class MoviePagerFragment extends BaseFragment {
+    static final String CURRENT_PAGE = "CURRENT_PAGE";
+
     private PagerFragmentBinding binding;
-    private MoviePagerAdapter pagerAdapter;
+    private int currentItem;
 
     public MoviePagerFragment() {
         // Required empty public constructor
@@ -41,8 +43,16 @@ public final class MoviePagerFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // restore current tab.
+        if (savedInstanceState != null && savedInstanceState.containsKey(CURRENT_PAGE)) {
+            currentItem = savedInstanceState.getInt(CURRENT_PAGE, 0);
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_pager, container, false);
         return binding.getRoot();
     }
@@ -50,22 +60,39 @@ public final class MoviePagerFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        pagerAdapter = new MoviePagerAdapter(getFragmentManager(), itemId());
+        MoviePagerAdapter pagerAdapter = new MoviePagerAdapter(getFragmentManager(), itemId());
         binding.pager.setAdapter(pagerAdapter);
         setUpTabs();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(CURRENT_PAGE, currentItem);
+        super.onSaveInstanceState(outState);
+    }
+
     private void setUpTabs() {
+        if (currentItem >= 0 && currentItem < 3) {
+            binding.pager.setCurrentItem(currentItem);
+        } else {
+            currentItem = 0;
+        }
+
         binding.navigation.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_info:
-                    binding.pager.setCurrentItem(0);
+                    currentItem = 0;
+                    binding.pager.setCurrentItem(currentItem);
                     break;
+
                 case R.id.action_trailers:
-                    binding.pager.setCurrentItem(1);
+                    currentItem = 1;
+                    binding.pager.setCurrentItem(currentItem);
                     break;
+
                 case R.id.action_reviews:
-                    binding.pager.setCurrentItem(2);
+                    currentItem = 2;
+                    binding.pager.setCurrentItem(currentItem);
                     break;
             }
             return true;
@@ -74,7 +101,8 @@ public final class MoviePagerFragment extends BaseFragment {
         binding.pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                binding.navigation.getMenu().getItem(position).setChecked(true);
+                currentItem = position;
+                binding.navigation.getMenu().getItem(currentItem).setChecked(true);
             }
         });
     }
