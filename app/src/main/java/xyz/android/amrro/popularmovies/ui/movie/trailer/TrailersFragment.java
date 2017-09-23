@@ -30,12 +30,14 @@ public final class TrailersFragment extends SimpleRecyclerFragment<Trailer, Trai
 
     @Override
     protected void updateAdapter() {
+        setLoading(true);
         final MovieViewModel movie = getViewModel(MovieViewModel.class);
         movie.setMovieId(itemId()).trailers().observe(this, response -> {
             if (response != null) {
                 final List<Trailer> results = response.getData().getResults();
-                if (results != null && results.size() == 0) {
+                if (results != null && results.size() != 0) {
                     adapter.replace(results);
+                    setLoading(false);
                 }
             }
         });

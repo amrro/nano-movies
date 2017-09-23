@@ -53,6 +53,7 @@ public abstract class SimpleRecyclerFragment<M, A extends DataListAdapter> exten
         adapter = Objects.requireNonNull(createAdapter());
         binding.list.setAdapter(adapter);
         binding.list.setLayoutManager(new LinearLayoutManager(getContext()));
+        updateAdapter();
     }
 
     protected abstract A createAdapter();

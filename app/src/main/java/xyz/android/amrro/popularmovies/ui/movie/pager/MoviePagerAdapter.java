@@ -2,20 +2,17 @@ package xyz.android.amrro.popularmovies.ui.movie.pager;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import xyz.android.amrro.popularmovies.ui.movie.MovieDetailsFragment;
 import xyz.android.amrro.popularmovies.ui.movie.review.ReviewsFragment;
 import xyz.android.amrro.popularmovies.ui.movie.trailer.TrailersFragment;
 
-/**
- * Created by amrro <amr.elghobary@gmail.com> on 9/22/17.
- */
 
-public final class MoviePagerAdapter extends FragmentPagerAdapter {
+public final class MoviePagerAdapter extends FragmentStatePagerAdapter {
     private final Integer id;
 
-    public MoviePagerAdapter(FragmentManager fm, final Integer id) {
+    MoviePagerAdapter(FragmentManager fm, final Integer id) {
         super(fm);
         this.id = id;
     }

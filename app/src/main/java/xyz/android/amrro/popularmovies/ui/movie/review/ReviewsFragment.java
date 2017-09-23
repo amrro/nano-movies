@@ -28,14 +28,18 @@ public final class ReviewsFragment extends SimpleRecyclerFragment<Review, Review
 
     @Override
     protected void updateAdapter() {
+        setLoading(true);
         final MovieViewModel movie = getViewModel(MovieViewModel.class);
         movie.setMovieId(itemId()).reviews().observe(this, response -> {
             if (response != null) {
                 final List<Review> results = response.getData().getResults();
-                if (results != null && results.size() == 0)
+                if (results != null && results.size() != 0) {
                     adapter.replace(results);
-                else
+                    setLoading(false);
+                } else {
                     setNoData(true);
+                    snack("NO data");
+                }
             }
         });
     }

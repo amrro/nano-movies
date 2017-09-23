@@ -5,7 +5,9 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +24,9 @@ import xyz.android.amrro.popularmovies.databinding.PagerFragmentBinding;
  * Use the {@link MoviePagerFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MoviePagerFragment extends BaseFragment {
+public final class MoviePagerFragment extends BaseFragment {
     private PagerFragmentBinding binding;
-    private MoviePagerAdapter pagerAdaper;
+    private MoviePagerAdapter pagerAdapter;
 
     public MoviePagerFragment() {
         // Required empty public constructor
@@ -48,7 +50,32 @@ public class MoviePagerFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        pagerAdaper = new MoviePagerAdapter(getFragmentManager(), itemId());
-        binding.pager.setAdapter(pagerAdaper);
+        pagerAdapter = new MoviePagerAdapter(getFragmentManager(), itemId());
+        binding.pager.setAdapter(pagerAdapter);
+        setUpTabs();
+    }
+
+    private void setUpTabs() {
+        binding.navigation.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.action_info:
+                    binding.pager.setCurrentItem(0);
+                    break;
+                case R.id.action_trailers:
+                    binding.pager.setCurrentItem(1);
+                    break;
+                case R.id.action_reviews:
+                    binding.pager.setCurrentItem(2);
+                    break;
+            }
+            return true;
+        });
+
+        binding.pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                binding.navigation.getMenu().getItem(position).setChecked(true);
+            }
+        });
     }
 }
