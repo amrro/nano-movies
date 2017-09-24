@@ -3,12 +3,14 @@ package xyz.android.amrro.popularmovies.ui.home;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -23,10 +25,8 @@ import javax.inject.Inject;
 import xyz.android.amrro.popularmovies.R;
 import xyz.android.amrro.popularmovies.common.BaseFragment;
 import xyz.android.amrro.popularmovies.data.api.ApiResponse;
-import xyz.android.amrro.popularmovies.data.db.MoviesContract;
 import xyz.android.amrro.popularmovies.data.db.MoviesContract.MovieEntry;
 import xyz.android.amrro.popularmovies.data.model.DiscoverResult;
-import xyz.android.amrro.popularmovies.data.model.Movie;
 import xyz.android.amrro.popularmovies.data.model.MovieResult;
 import xyz.android.amrro.popularmovies.databinding.FragmentHomeBinding;
 import xyz.android.amrro.popularmovies.ui.movie.MovieDetailsFragment;
@@ -40,9 +40,11 @@ public class HomeFragment extends BaseFragment {
     private MoviesAdapter adapter;
     private DiscoverViewModel discover;
     private String filter;
+    private Parcelable layoutManagerState;
 
     private static final int LOADER_MOVIES = 684;
-    private static final String KEY_ROTATE = "KEY_ROTATE";
+    private static final String KEY_FILTER_ROTATE = "KEY_FILTER_ROTATE";
+    private static final String KEY_RECYCLER_POSITION = "KEY_RECYCLER_POSITION";
 
     @Inject
     CountingIdlingResource idling;
@@ -65,22 +67,26 @@ public class HomeFragment extends BaseFragment {
     }
 
     @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState != null) {
-            setFilter(savedInstanceState.getString(KEY_ROTATE, getString(R.string.sort_popularity_desc)));
-        } else if (filter == null) {
-            filter = getString(R.string.sort_popularity_desc);
+    public void onViewStateRestored(@Nullable Bundle in) {
+        super.onViewStateRestored(in);
+        if (in != null) {
+            setFilter(in.getString(KEY_FILTER_ROTATE, getString(R.string.sort_popularity_desc)));
+            layoutManagerState = in.getParcelable(KEY_RECYCLER_POSITION);
+            binding.grid.getLayoutManager().onRestoreInstanceState(layoutManagerState);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle out) {
+        out.putString(KEY_FILTER_ROTATE, filter);
+        out.putParcelable(KEY_RECYCLER_POSITION, binding.grid.getLayoutManager().onSaveInstanceState());
+        super.onSaveInstanceState(out);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         discover = getViewModel(DiscoverViewModel.class);
-
-        idling.increment();
-
         discover.getResults().observe(this, HomeFragment.this::updateAdapter);
         discover.setSort(getString(R.string.sort_popularity_desc));
     }
@@ -93,6 +99,9 @@ public class HomeFragment extends BaseFragment {
             final DiscoverResult result = response.getData();
             final ArrayList<MovieResult> movieResults = result.getResults();
             adapter.replace(movieResults);
+            if (layoutManagerState != null) {
+                binding.grid.getLayoutManager().onRestoreInstanceState(layoutManagerState);
+            }
             binding.setShowLoading(false);
         }
     }
@@ -128,20 +137,25 @@ public class HomeFragment extends BaseFragment {
 
 
     private void initRecyclerView() {
-        RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), getResources().getInteger(R.integer.span_count));
-        binding.grid.setLayoutManager(manager);
-        adapter = new MoviesAdapter(getContext(), new ArrayList<>(), id -> {
-            final HomeActivity parentActivity = (HomeActivity) getActivity();
-            if (parentActivity.isTwoPane) {
-                final MovieDetailsFragment fragment = MovieDetailsFragment.newInstance(id);
-                parentActivity.getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.details_fragment, fragment, "Tow Pane")
-                        .commit();
-            } else {
-                parentActivity.navigator.toDetails(id);
-            }
-        });
-        binding.grid.setAdapter(adapter);
+        if (binding.grid.getLayoutManager() == null) {
+            RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), getResources().getInteger(R.integer.span_count));
+            binding.grid.setLayoutManager(manager);
+        }
+
+        if (adapter == null) {
+            adapter = new MoviesAdapter(getContext(), new ArrayList<>(), id -> {
+                final HomeActivity parentActivity = (HomeActivity) getActivity();
+                if (parentActivity.isTwoPane) {
+                    final MovieDetailsFragment fragment = MovieDetailsFragment.newInstance(id);
+                    parentActivity.getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.details_fragment, fragment, "Two Pane")
+                            .commit();
+                } else {
+                    parentActivity.navigator.toDetails(id);
+                }
+            });
+            binding.grid.setAdapter(adapter);
+        }
     }
 
     private final LoaderManager.LoaderCallbacks<Cursor> loaderCallbacks =
@@ -160,7 +174,6 @@ public class HomeFragment extends BaseFragment {
                                             MovieEntry.COL_RELEASE,
                                             MovieEntry.COL_POSTER,
                                             MovieEntry.COL_OVERVIEW,
-
                                     },
                                     null, null, null);
                         default:
@@ -189,4 +202,15 @@ public class HomeFragment extends BaseFragment {
                     }
                 }
             };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+    }
 }
