@@ -14,8 +14,6 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -25,8 +23,6 @@ import xyz.android.amrro.popularmovies.R;
 import xyz.android.amrro.popularmovies.common.Navigator;
 import xyz.android.amrro.popularmovies.data.api.ApiResponse;
 import xyz.android.amrro.popularmovies.data.model.Movie;
-import xyz.android.amrro.popularmovies.data.model.Review;
-import xyz.android.amrro.popularmovies.data.model.ReviewsResponse;
 import xyz.android.amrro.popularmovies.databinding.FragmentMovieDetailsBinding;
 import xyz.android.amrro.popularmovies.utils.Utils;
 

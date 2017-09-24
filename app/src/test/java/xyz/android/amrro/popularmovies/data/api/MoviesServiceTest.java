@@ -16,12 +16,10 @@ import java.util.Map;
 
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
-import okhttp3.mockwebserver.RecordedRequest;
 import okio.BufferedSource;
 import okio.Okio;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import xyz.android.amrro.popularmovies.data.model.DiscoverResult;
 import xyz.android.amrro.popularmovies.data.model.ReviewsResponse;
 
 import static com.android.example.github.util.LiveDataTestUtil.getValue;
@@ -32,11 +30,9 @@ public class MoviesServiceTest {
 
     private MockWebServer server;
 
-    private Gson gson;
-
     @Before
     public void createServer() {
-        gson = new GsonBuilder()
+        Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .create();
 
@@ -73,14 +69,13 @@ public class MoviesServiceTest {
 
     @Test
     public void reviews() throws Exception {
-        enqueueResponse("reviews.json");
+        enqueueResponse();
         final ApiResponse<ReviewsResponse> value = getValue(service.reviews(263115));
     }
 
 
-
-    private void enqueueResponse(String fileName) throws IOException {
-        enqueueResponse(fileName, Collections.emptyMap());
+    private void enqueueResponse() throws IOException {
+        enqueueResponse("reviews.json", Collections.emptyMap());
     }
 
     private void enqueueResponse(String fileName, Map<String, String> headers) throws IOException {

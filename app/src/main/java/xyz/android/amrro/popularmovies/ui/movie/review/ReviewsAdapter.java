@@ -9,7 +9,6 @@ import xyz.android.amrro.popularmovies.common.DataListAdapter;
 import xyz.android.amrro.popularmovies.common.OnItemClickedListener;
 import xyz.android.amrro.popularmovies.data.model.Review;
 import xyz.android.amrro.popularmovies.databinding.ReviewCardBinding;
-import xyz.android.amrro.popularmovies.utils.Utils;
 
 public final class ReviewsAdapter extends DataListAdapter<Review, ReviewCardBinding> {
 

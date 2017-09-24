@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="ContentDescription">
 
+    <!--suppress AndroidUnknownAttribute -->
     <data class="ReviewCardBinding">
 
         <variable

@@ -2,10 +2,8 @@ package xyz.android.amrro.popularmovies.ui.movie.trailer;
 
 import android.databinding.DataBindingUtil;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
-import okhttp3.internal.Util;
 import xyz.android.amrro.popularmovies.R;
 import xyz.android.amrro.popularmovies.common.DataListAdapter;
 import xyz.android.amrro.popularmovies.common.OnItemClickedListener;
