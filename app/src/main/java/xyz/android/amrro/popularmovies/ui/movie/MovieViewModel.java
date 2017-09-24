@@ -69,7 +69,7 @@ public final class MovieViewModel extends ViewModel {
     }
 
     LiveData<Boolean> un_favorite(@NonNull final Movie movie) {
-        return repository.un_Favorite(Objects.requireNonNull(movie));
+        return repository.toggleFavorite(Objects.requireNonNull(movie));
     }
 
     void retry() {

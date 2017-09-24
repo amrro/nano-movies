@@ -63,8 +63,6 @@ public class MovieDetailsFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.setShowLoading(true);
-        binding.favoriteFab.setOnClickListener(view1 ->
-                movieViewModel.un_favorite(movie).observe(this, aBoolean -> movieViewModel.retry()));
         movieViewModel = ViewModelProviders.of(this, viewModelFactory).get(MovieViewModel.class);
         if (getArguments() != null && getArguments().containsKey(Navigator.KEY_ITEM_ID)) {
             Integer movieId = getArguments().getInt(Navigator.KEY_ITEM_ID);
@@ -73,10 +71,7 @@ public class MovieDetailsFragment extends Fragment {
         } else {
             binding.setNoMovie(true);
         }
-
         movieViewModel.getMovie().observe(this, this::updateMovieUI);
-//        movieViewModel.getReviews().observe(this, this::updateReviews);
-
         movieViewModel.isFavorite().observe(this, isFavorite -> {
             if (isFavorite == null) isFavorite = false;
             binding.favoriteFab.setImageResource(isFavorite ? R.drawable.ic_favorite_fill : R.drawable.ic_favorite_empty);
@@ -103,6 +98,8 @@ public class MovieDetailsFragment extends Fragment {
     private void initFAB() {
         // TODO: 7/29/17 animate fab.
         // TODO: 7/29/17 change icon.
+        binding.favoriteFab.setOnClickListener(view1 ->
+                movieViewModel.un_favorite(movie).observe(this, aBoolean -> movieViewModel.retry()));
     }
 
     @SuppressWarnings("deprecation")

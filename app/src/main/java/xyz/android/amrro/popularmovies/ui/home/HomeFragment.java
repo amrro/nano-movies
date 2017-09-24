@@ -152,7 +152,16 @@ public class HomeFragment extends BaseFragment {
                         case LOADER_MOVIES:
                             return new CursorLoader(getContext(),
                                     MovieEntry.CONTENT_URI,
-                                    new String[]{Movie.COLUMN_ID, Movie.COLUMN_TITLE, Movie.COLUMN_BACKDROP, Movie.COLUMN_VOTE_AVERAGE},
+                                    new String[]{
+                                            MovieEntry.COL_MOVIE_ID,
+                                            MovieEntry.COL_TITLE,
+                                            MovieEntry.COL_BACKDROP,
+                                            MovieEntry.COL_VOTE_AVERAGE,
+                                            MovieEntry.COL_RELEASE,
+                                            MovieEntry.COL_POSTER,
+                                            MovieEntry.COL_OVERVIEW,
+
+                                    },
                                     null, null, null);
                         default:
                             throw new IllegalArgumentException("Supposedly, there is no id other 684");

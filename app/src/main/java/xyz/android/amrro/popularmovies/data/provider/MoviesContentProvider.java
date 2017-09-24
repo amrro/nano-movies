@@ -13,7 +13,6 @@ import android.support.annotation.Nullable;
 import xyz.android.amrro.popularmovies.data.db.MovieDbHelper;
 import xyz.android.amrro.popularmovies.data.db.MoviesContract;
 import xyz.android.amrro.popularmovies.data.db.MoviesContract.MovieEntry;
-import xyz.android.amrro.popularmovies.data.model.Movie;
 
 /**
  * Created by amrro <amr.elghobary@gmail.com> on 7/31/17.
@@ -29,8 +28,8 @@ public final class MoviesContentProvider extends ContentProvider {
     private static final UriMatcher MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
-        MATCHER.addURI(MoviesContract.CONTENT_AUTHORITY, Movie.TABLE_NAME, CODE_MOVIE_DIR);
-        MATCHER.addURI(MoviesContract.CONTENT_AUTHORITY, Movie.TABLE_NAME + "/#", CODE_MOVIE_ITEM);
+        MATCHER.addURI(MoviesContract.CONTENT_AUTHORITY, MovieEntry.TABLE_NAME, CODE_MOVIE_DIR);
+        MATCHER.addURI(MoviesContract.CONTENT_AUTHORITY, MovieEntry.TABLE_NAME + "/#", CODE_MOVIE_ITEM);
     }
 
     private SQLiteOpenHelper helper;
@@ -102,10 +101,14 @@ public final class MoviesContentProvider extends ContentProvider {
         int deletedRow;
 
         switch (MATCHER.match(uri)) {
-            case CODE_MOVIE_DIR: {
+            case CODE_MOVIE_DIR:
+                deletedRow = db.delete(MovieEntry.TABLE_NAME, null, null);
+                break;
+
+            case CODE_MOVIE_ITEM:
                 deletedRow = db.delete(MovieEntry.TABLE_NAME, selection, selectionArgs);
                 break;
-            }
+
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }

@@ -14,12 +14,10 @@ import javax.inject.Inject;
 
 import xyz.android.amrro.popularmovies.data.api.ApiResponse;
 import xyz.android.amrro.popularmovies.data.api.MoviesService;
-import xyz.android.amrro.popularmovies.data.db.MoviesContract;
 import xyz.android.amrro.popularmovies.data.db.MoviesContract.MovieEntry;
 import xyz.android.amrro.popularmovies.data.model.Movie;
 import xyz.android.amrro.popularmovies.data.model.ReviewsResponse;
 import xyz.android.amrro.popularmovies.data.model.TrailerResponse;
-import xyz.android.amrro.popularmovies.data.provider.MoviesContentProvider;
 import xyz.android.amrro.popularmovies.utils.Utils;
 
 /**
@@ -43,7 +41,6 @@ public final class MovieRepository {
         return api.movie(Objects.requireNonNull(id));
     }
 
-
     public LiveData<ApiResponse<ReviewsResponse>> reviews(@NonNull final Integer id) {
         return api.reviews(Objects.requireNonNull(id));
     }
@@ -61,12 +58,12 @@ public final class MovieRepository {
             @Override
             protected void onActive() {
                 super.onActive();
-                final String selectionClause = Movie.COLUMN_ID + " = ?";
+                final String selectionClause = MovieEntry.COL_MOVIE_ID + " = ?";
                 final String[] selectionArgs = {movieId.toString()};
                 final Cursor cursor = application
                         .getContentResolver()
                         .query(MovieEntry.buildMovieUri(movieId),
-                                new String[]{Movie.COLUMN_ID, Movie.COLUMN_TITLE},
+                                new String[]{MovieEntry.COL_MOVIE_ID, MovieEntry.COL_TITLE},
                                 selectionClause,
                                 selectionArgs,
                                 null
@@ -75,7 +72,7 @@ public final class MovieRepository {
                     if (cursor != null) {
                         if (cursor.getCount() == 1) {
                             cursor.moveToFirst();
-                            postValue(Objects.equals(cursor.getString(cursor.getColumnIndex(Movie.COLUMN_ID)), movieId.toString()));
+                            postValue(Objects.equals(cursor.getString(cursor.getColumnIndex(MovieEntry.COL_MOVIE_ID)), movieId.toString()));
 
                         } else {
                             postValue(false);
@@ -92,57 +89,32 @@ public final class MovieRepository {
 
 
     @NonNull
-    public LiveData<Boolean> un_Favorite(@NonNull final Movie movie) {
-        Objects.requireNonNull(movie);
-
-        return Transformations.switchMap(query(movie.getId()), isFavorite -> new LiveData<Boolean>() {
-            @Override
-            protected void onActive() {
-                super.onActive();
-                if (! isFavorite) {
-                    final Uri uri = application.getContentResolver().insert(
-                            MovieEntry.CONTENT_URI,
-                            Utils.toContentValues(movie)
-                    );
-
-                    if (uri != null) {
-                        postValue(uri.getLastPathSegment().equals(movie.getId().toString()));
-                    }
-                } else {
-                    final int count = application.getContentResolver().delete(
-                            Utils.itemUri(movie.getId()),
-                            null, null
-                    );
-
-                    postValue(count == 1);
-                }
-            }
+    public LiveData<Boolean> toggleFavorite(@NonNull final Movie movie) {
+        return Transformations.switchMap(this.query(Objects.requireNonNull(movie).getId()), isFavorite -> {
+            return isFavorite ? this.unfavorite(movie) : this.doFavorite(movie);
         });
     }
 
     @NonNull
-    public LiveData<Boolean> favorite(@NonNull final Movie movie) {
+    private LiveData<Boolean> doFavorite(@NonNull final Movie movie) {
         Objects.requireNonNull(movie);
 
         return new MutableLiveData<Boolean>() {
             @Override
             protected void onActive() {
                 super.onActive();
-
                 final Uri uri = application.getContentResolver().insert(
                         MovieEntry.CONTENT_URI,
                         Utils.toContentValues(movie)
                 );
 
-                if (uri != null) {
-                    postValue(uri.getLastPathSegment().equals(movie.getId().toString()));
-                }
+                postValue(uri != null && uri.getLastPathSegment().equals(movie.getId().toString()));
             }
         };
     }
 
     @NonNull
-    public LiveData<Boolean> unfavorite(@NonNull final Movie movie) {
+    private LiveData<Boolean> unfavorite(@NonNull final Movie movie) {
         Objects.requireNonNull(movie);
         return new LiveData<Boolean>() {
             @Override
@@ -150,9 +122,9 @@ public final class MovieRepository {
                 super.onActive();
                 final int count = application.getContentResolver().delete(
                         Utils.itemUri(movie.getId()),
-                        null, null
+                        MovieEntry.COL_MOVIE_ID + "=?",
+                        new String[]{String.valueOf(movie.getId())}
                 );
-
                 postValue(count == 1);
             }
         };

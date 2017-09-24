@@ -5,20 +5,17 @@ import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import xyz.android.amrro.popularmovies.data.model.Movie;
-
 /**
  * Created by amrro <amr.elghobary@gmail.com> on 9/24/17.
  * container for constants that define names for URIs, tables, and columns.
  */
 
 public final class MoviesContract {
-
     public static final String CONTENT_AUTHORITY = "xyz.android.amrro.popularmovies.provider";
     /**
      * The URI for the Movie table.
      */
-    static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY + "/" + Movie.TABLE_NAME);
+    static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY + "/" + MovieEntry.TABLE_NAME);
 
     private MoviesContract() {
     }
@@ -27,14 +24,8 @@ public final class MoviesContract {
     public static class MovieEntry implements BaseColumns {
 
         static final String PATH_LOCATION = "movies";
-
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().build();
-
         public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_LOCATION;
-
-        public static final String CONTENT_ITEM_TYPE =
-                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" +
-                        CONTENT_AUTHORITY + "/" + PATH_LOCATION;
 
         // movie columns
         public static final String COL_MOVIE_ID = "id";

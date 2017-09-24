@@ -3,21 +3,6 @@ package xyz.android.amrro.popularmovies.data.model;
 import java.util.Objects;
 
 public final class Movie {
-
-
-    public static final String TABLE_NAME = "favorite_movies";
-    public static final String COLUMN_ID = "id";
-    public static final String COLUMN_TITLE = "title";
-    public static final String COLUMN_RELEASE = "releaseDate";
-    public static final String COLUMN_OVERVIEW = "overview";
-    public static final String COLUMN_POSTER = "posterPath";
-    public static final String COLUMN_BACKDROP = "backdropPath";
-    public static final String COLUMN_POPULARITY = "popularity";
-    public static final String COLUMN_VOTE_AVERAGE = "voteAverage";
-    public static final String COLUMN_VOTE_COUNT = "voteCount";
-
-    public static final String BASE_URL = "https://image.tmdb.org/t/p";
-
     private /*final*/ Integer id;
     private /*final*/ String title;
     private /*final*/ String overview;
