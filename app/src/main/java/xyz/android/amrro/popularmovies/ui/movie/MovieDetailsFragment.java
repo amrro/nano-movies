@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 
 import com.bumptech.glide.Glide;
 
@@ -93,7 +94,7 @@ public class MovieDetailsFragment extends Fragment {
 
     private void initFAB() {
         // TODO: 7/29/17 animate fab.
-        // TODO: 7/29/17 change icon.
+        animateFAB();
         binding.favoriteFab.setOnClickListener(view1 ->
                 movieViewModel.un_favorite(movie).observe(this, aBoolean -> movieViewModel.retry()));
     }
@@ -103,5 +104,21 @@ public class MovieDetailsFragment extends Fragment {
     public void onAttach(Activity activity) {
         AndroidSupportInjection.inject(this);
         super.onAttach(activity);
+    }
+
+    private void animateFAB() {
+        binding.favoriteFab.setAlpha(0f);
+        binding.favoriteFab.setScaleX(0f);
+        binding.favoriteFab.setScaleY(0f);
+
+        binding.favoriteFab.animate()
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .setStartDelay(300)
+                .setDuration(1000)
+                .setInterpolator(AnimationUtils.loadInterpolator(
+                        getContext(),
+                        android.R.interpolator.fast_out_slow_in));
     }
 }
