@@ -25,4 +25,7 @@
     <string name="overview">Overview</string>
     <string name="no_review">No Reviews Available</string>
     <string name="no_trailers">No Trailers Available.</string>
+    <string name="title_popular">Popular Movies</string>
+    <string name="title_top_rated">Top Rated</string>
+    <string name="title_favorites">Your Favorites</string>
 </resources>

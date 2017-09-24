@@ -1,5 +1,6 @@
 package xyz.android.amrro.popularmovies.ui.home;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -19,35 +20,35 @@ import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import xyz.android.amrro.popularmovies.R;
 import xyz.android.amrro.popularmovies.common.BaseActivity;
+import xyz.android.amrro.popularmovies.databinding.ActivityHomeBinding;
 
 public class HomeActivity extends BaseActivity implements HasSupportFragmentInjector {
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
-
+    private ActivityHomeBinding binding;
     public boolean isTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        animateToolbar(toolbar);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
+        setSupportActionBar(binding.toolbar);
+        animateToolbar(getString(R.string.sort_popularity_desc));
 
         if (findViewById(R.id.details_fragment) != null) {
             isTwoPane = true;
         }
     }
 
-    private void animateToolbar(Toolbar toolbar) {
-        View view = toolbar.getChildAt(0);
+    void animateToolbar(String title) {
+        View view = binding.toolbar.getChildAt(0);
         if (view != null && view instanceof TextView) {
-            TextView title = (TextView) view;
-            title.setAlpha(0f);
-            title.setScaleX(0.8f);
-            title.animate()
+            TextView titleTv = (TextView) view;
+            titleTv.setAlpha(0f);
+            titleTv.setScaleX(0.8f);
+            titleTv.setText(title);
+            titleTv.animate()
                     .alpha(1f)
                     .scaleX(1f)
                     .setStartDelay(300)
@@ -56,6 +57,10 @@ public class HomeActivity extends BaseActivity implements HasSupportFragmentInje
                             this,
                             android.R.interpolator.fast_out_slow_in));
         }
+    }
+
+    void uptateTitle(@NonNull final String title) {
+
     }
 
     private void replaceTitle(Toolbar toolbar, @NonNull final String title) {

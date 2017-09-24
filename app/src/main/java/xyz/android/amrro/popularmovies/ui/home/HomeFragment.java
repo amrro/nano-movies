@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v4.app.LoaderManager;
@@ -123,9 +124,9 @@ public class HomeFragment extends BaseFragment {
         binding.setShowLoading(true);
         if (! Objects.equals(this.filter, newFilter)) {
             this.filter = newFilter;
+            ((HomeActivity) getActivity()).animateToolbar(getTitle(filter));
             if (filter.equals(getString(R.string.sort_favorites))) {
-                getActivity().getSupportLoaderManager()
-                        .initLoader(LOADER_MOVIES, null, loaderCallbacks);
+                getActivity().getSupportLoaderManager().initLoader(LOADER_MOVIES, null, loaderCallbacks);
             } else {
                 discover.setSort(filter);
             }
@@ -202,14 +203,13 @@ public class HomeFragment extends BaseFragment {
                 }
             };
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
+    @NonNull
+    private String getTitle(@NonNull final String filter) {
+        String title = getString(R.string.title_popular);
+        if (filter.equals(getString(R.string.sort_vot_count_desc)))
+            title = getString(R.string.title_top_rated);
+        else if (filter.equals(getString(R.string.sort_favorites)))
+            title = getString(R.string.title_favorites);
+        return title;
     }
 }
