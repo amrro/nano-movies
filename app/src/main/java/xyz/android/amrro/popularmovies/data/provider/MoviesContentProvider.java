@@ -13,12 +13,11 @@ import android.support.annotation.Nullable;
 import xyz.android.amrro.popularmovies.data.db.MovieDbHelper;
 import xyz.android.amrro.popularmovies.data.db.MoviesContract;
 import xyz.android.amrro.popularmovies.data.db.MoviesContract.MovieEntry;
-import xyz.android.amrro.popularmovies.data.db.MoviesDb;
 import xyz.android.amrro.popularmovies.data.model.Movie;
 
 /**
  * Created by amrro <amr.elghobary@gmail.com> on 7/31/17.
- * This {@link ContentProvider} will wrap the {@link MoviesDb}
+ * This {@link ContentProvider} will wrap the
  */
 
 public final class MoviesContentProvider extends ContentProvider {

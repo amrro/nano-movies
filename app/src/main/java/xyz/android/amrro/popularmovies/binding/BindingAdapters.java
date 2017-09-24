@@ -28,8 +28,13 @@ public class BindingAdapters {
     @BindingAdapter("YouTube")
     public static void setYouTubeThumbnail(ImageView imageView, String key) {
         final String thumbnail = Trailer.getYouTubeThumbnail(key);
+        setImageUrl(imageView, thumbnail);
+    }
+
+    @BindingAdapter("imageUrl")
+    public static void setImageUrl(ImageView imageView, String url) {
         Glide.with(imageView)
-                .load(thumbnail)
+                .load(url)
                 .into(imageView);
     }
 

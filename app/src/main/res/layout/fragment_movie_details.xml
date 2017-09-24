@@ -103,19 +103,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
                 app:elevation="13dp"
+                app:fabSize="normal"
                 app:layout_constraintBottom_toBottomOf="@+id/backdrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/backdrop"
+                app:layout_constraintVertical_bias="0.562"
                 app:srcCompat="@drawable/ic_favorite_empty" />
 
             <ImageView
                 android:id="@+id/backdrop"
                 hideView="@{showLoading}"
                 android:layout_width="0dp"
-                android:layout_height="200dp"
+                android:layout_height="199dp"
                 android:elevation="8dp"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/logan_back"

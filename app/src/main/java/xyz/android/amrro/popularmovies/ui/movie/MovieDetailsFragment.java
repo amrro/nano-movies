@@ -65,7 +65,6 @@ public class MovieDetailsFragment extends Fragment {
         binding.setShowLoading(true);
         binding.favoriteFab.setOnClickListener(view1 ->
                 movieViewModel.un_favorite(movie).observe(this, aBoolean -> movieViewModel.retry()));
-//        initRecyclerView();
         movieViewModel = ViewModelProviders.of(this, viewModelFactory).get(MovieViewModel.class);
         if (getArguments() != null && getArguments().containsKey(Navigator.KEY_ITEM_ID)) {
             Integer movieId = getArguments().getInt(Navigator.KEY_ITEM_ID);
@@ -79,7 +78,9 @@ public class MovieDetailsFragment extends Fragment {
 //        movieViewModel.getReviews().observe(this, this::updateReviews);
 
         movieViewModel.isFavorite().observe(this, isFavorite -> {
+            if (isFavorite == null) isFavorite = false;
             binding.favoriteFab.setImageResource(isFavorite ? R.drawable.ic_favorite_fill : R.drawable.ic_favorite_empty);
+            initFAB();
         });
     }
 
@@ -96,7 +97,6 @@ public class MovieDetailsFragment extends Fragment {
                     .into(binding.poster);
 
             binding.setShowLoading(false);
-            initFAB();
         }
     }
 

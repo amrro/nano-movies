@@ -66,9 +66,7 @@ dependencies {
     // Arch
     compile "android.arch.lifecycle:runtime:$arch_version"
     compile "android.arch.lifecycle:extensions:$arch_version"
-    compile "android.arch.persistence.room:runtime:$arch_version"
     annotationProcessor "android.arch.lifecycle:compiler:$arch_version"
-    annotationProcessor "android.arch.persistence.room:compiler:$arch_version"
 
     // API
     compile "com.squareup.retrofit2:retrofit:$retrofit"

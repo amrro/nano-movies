@@ -1,15 +1,8 @@
 package xyz.android.amrro.popularmovies.data.model;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
-
 import java.util.Objects;
 
-
-@Entity
 public final class Review {
-
-    @PrimaryKey
     public final String id;
     public final String author;
     public final String content;

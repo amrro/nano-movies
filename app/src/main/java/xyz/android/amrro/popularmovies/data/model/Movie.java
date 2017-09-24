@@ -1,11 +1,7 @@
 package xyz.android.amrro.popularmovies.data.model;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
-
 import java.util.Objects;
 
-@Entity(tableName = Movie.TABLE_NAME)
 public final class Movie {
 
 
@@ -22,7 +18,6 @@ public final class Movie {
 
     public static final String BASE_URL = "https://image.tmdb.org/t/p";
 
-    @PrimaryKey
     private /*final*/ Integer id;
     private /*final*/ String title;
     private /*final*/ String overview;
