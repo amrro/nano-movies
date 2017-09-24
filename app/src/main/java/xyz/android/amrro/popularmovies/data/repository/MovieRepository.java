@@ -14,6 +14,8 @@ import javax.inject.Inject;
 
 import xyz.android.amrro.popularmovies.data.api.ApiResponse;
 import xyz.android.amrro.popularmovies.data.api.MoviesService;
+import xyz.android.amrro.popularmovies.data.db.MoviesContract;
+import xyz.android.amrro.popularmovies.data.db.MoviesContract.MovieEntry;
 import xyz.android.amrro.popularmovies.data.model.Movie;
 import xyz.android.amrro.popularmovies.data.model.ReviewsResponse;
 import xyz.android.amrro.popularmovies.data.model.TrailerResponse;
@@ -63,8 +65,7 @@ public final class MovieRepository {
                 final String[] selectionArgs = {movieId.toString()};
                 final Cursor cursor = application
                         .getContentResolver()
-                        .query(
-                                Utils.itemUri(movieId),
+                        .query(MovieEntry.buildMovieUri(movieId),
                                 new String[]{Movie.COLUMN_ID, Movie.COLUMN_TITLE},
                                 selectionClause,
                                 selectionArgs,
@@ -100,7 +101,7 @@ public final class MovieRepository {
                 super.onActive();
                 if (! isFavorite) {
                     final Uri uri = application.getContentResolver().insert(
-                            MoviesContentProvider.URI_MOVIE,
+                            MovieEntry.CONTENT_URI,
                             Utils.toContentValues(movie)
                     );
 
@@ -129,7 +130,7 @@ public final class MovieRepository {
                 super.onActive();
 
                 final Uri uri = application.getContentResolver().insert(
-                        MoviesContentProvider.URI_MOVIE,
+                        MovieEntry.CONTENT_URI,
                         Utils.toContentValues(movie)
                 );
 
@@ -156,6 +157,4 @@ public final class MovieRepository {
             }
         };
     }
-
-
 }

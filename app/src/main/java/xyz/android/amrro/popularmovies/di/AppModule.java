@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.test.espresso.idling.CountingIdlingResource;
 
 import javax.inject.Singleton;
 
@@ -23,14 +24,20 @@ public class AppModule {
 
     @Singleton
     @Provides
-    public Application provideApplication() {
+    Application provideApplication() {
         return application;
     }
 
     @Singleton
     @Provides
-    public SharedPreferences providesSharedPreferences(@NonNull Application application) {
+    SharedPreferences providesSharedPreferences(@NonNull Application application) {
         return PreferenceManager.getDefaultSharedPreferences(application);
+    }
+
+    @Singleton
+    @Provides
+    CountingIdlingResource providesCountingIdlingResource() {
+        return new CountingIdlingResource("ESPRESSO");
     }
 
 }

@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import xyz.android.amrro.popularmovies.data.db.MoviesContract.MovieEntry;
 import xyz.android.amrro.popularmovies.data.model.Movie;
 import xyz.android.amrro.popularmovies.data.model.MovieResult;
 import xyz.android.amrro.popularmovies.data.model.Trailer;
-import xyz.android.amrro.popularmovies.data.provider.MoviesContentProvider;
 
 import static xyz.android.amrro.popularmovies.data.model.Movie.COLUMN_BACKDROP;
 import static xyz.android.amrro.popularmovies.data.model.Movie.COLUMN_ID;
@@ -156,7 +156,7 @@ public final class Utils {
 
     public static Uri itemUri(@NonNull final Integer id) {
         Objects.requireNonNull(id);
-        return MoviesContentProvider.URI_MOVIE.buildUpon().appendPath(id.toString()).build();
+        return MovieEntry.CONTENT_URI.buildUpon().appendPath(id.toString()).build();
     }
 
 

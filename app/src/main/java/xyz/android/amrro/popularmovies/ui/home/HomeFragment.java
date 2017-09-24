@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -17,13 +18,16 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import javax.inject.Inject;
+
 import xyz.android.amrro.popularmovies.R;
 import xyz.android.amrro.popularmovies.common.BaseFragment;
 import xyz.android.amrro.popularmovies.data.api.ApiResponse;
+import xyz.android.amrro.popularmovies.data.db.MoviesContract;
+import xyz.android.amrro.popularmovies.data.db.MoviesContract.MovieEntry;
 import xyz.android.amrro.popularmovies.data.model.DiscoverResult;
 import xyz.android.amrro.popularmovies.data.model.Movie;
 import xyz.android.amrro.popularmovies.data.model.MovieResult;
-import xyz.android.amrro.popularmovies.data.provider.MoviesContentProvider;
 import xyz.android.amrro.popularmovies.databinding.FragmentHomeBinding;
 import xyz.android.amrro.popularmovies.ui.movie.MovieDetailsFragment;
 import xyz.android.amrro.popularmovies.utils.Utils;
@@ -39,6 +43,9 @@ public class HomeFragment extends BaseFragment {
 
     private static final int LOADER_MOVIES = 684;
     private static final String KEY_ROTATE = "KEY_ROTATE";
+
+    @Inject
+    CountingIdlingResource idling;
 
     public HomeFragment() {
     }
@@ -71,11 +78,17 @@ public class HomeFragment extends BaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         discover = getViewModel(DiscoverViewModel.class);
+
+        idling.increment();
+
         discover.getResults().observe(this, HomeFragment.this::updateAdapter);
         discover.setSort(getString(R.string.sort_popularity_desc));
     }
 
     private void updateAdapter(final ApiResponse<DiscoverResult> response) {
+        if (! idling.isIdleNow())
+            idling.decrement();
+
         if (response != null && response.isSuccessful()) {
             final DiscoverResult result = response.getData();
             final ArrayList<MovieResult> movieResults = result.getResults();
@@ -138,7 +151,7 @@ public class HomeFragment extends BaseFragment {
                     switch (id) {
                         case LOADER_MOVIES:
                             return new CursorLoader(getContext(),
-                                    MoviesContentProvider.URI_MOVIE,
+                                    MovieEntry.CONTENT_URI,
                                     new String[]{Movie.COLUMN_ID, Movie.COLUMN_TITLE, Movie.COLUMN_BACKDROP, Movie.COLUMN_VOTE_AVERAGE},
                                     null, null, null);
                         default:

@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import xyz.android.amrro.popularmovies.data.db.MovieDaoTest;
+import xyz.android.amrro.popularmovies.data.db.MoviesContract.MovieEntry;
 import xyz.android.amrro.popularmovies.data.db.MoviesDb;
 import xyz.android.amrro.popularmovies.data.model.Movie;
 import xyz.android.amrro.popularmovies.utils.Utils;
@@ -42,7 +43,7 @@ public class MoviesContentProviderTest {
         /*
          * DB supposedly is empty.
          */
-        final Cursor cursor = mContentResolver.query(MoviesContentProvider.URI_MOVIE,
+        final Cursor cursor = mContentResolver.query(MovieEntry.CONTENT_URI,
                 new String[]{Movie.COLUMN_TITLE}, null, null, null);
 
         assertThat(cursor, notNullValue());
@@ -54,14 +55,14 @@ public class MoviesContentProviderTest {
     @Test
     public void movie_insert() throws Exception {
         final Uri itemUri = mContentResolver.insert(
-                MoviesContentProvider.URI_MOVIE,
+                MovieEntry.CONTENT_URI,
                 Utils.toContentValues(MovieDaoTest.createMovie())
         );
 
         assertThat(itemUri, notNullValue());
 
         final Cursor cursor = mContentResolver.query(
-                MoviesContentProvider.URI_MOVIE,
+                MovieEntry.CONTENT_URI,
                 new String[]{Movie.COLUMN_TITLE}, null, null, null
         );
 
@@ -78,12 +79,12 @@ public class MoviesContentProviderTest {
     @Test
     public void movie_delete() throws Exception {
         final Uri itemUri = mContentResolver.insert(
-                MoviesContentProvider.URI_MOVIE,
+                MovieEntry.CONTENT_URI,
                 Utils.toContentValues(MovieDaoTest.createMovie())
         );
 
         final Cursor cursor = mContentResolver.query(
-                MoviesContentProvider.URI_MOVIE,
+                MovieEntry.CONTENT_URI,
                 new String[]{Movie.COLUMN_TITLE}, null, null, null
         );
 
@@ -98,7 +99,7 @@ public class MoviesContentProviderTest {
         assertThat(count, is(1));
 
         final Cursor cursor2 = mContentResolver.query(
-                MoviesContentProvider.URI_MOVIE,
+                MovieEntry.CONTENT_URI,
                 new String[]{Movie.COLUMN_TITLE}, null, null, null
         );
 

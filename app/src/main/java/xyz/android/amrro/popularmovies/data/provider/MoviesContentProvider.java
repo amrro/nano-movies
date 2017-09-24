@@ -1,98 +1,66 @@
 package xyz.android.amrro.popularmovies.data.provider;
 
-import android.arch.persistence.room.Room;
 import android.content.ContentProvider;
-import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import timber.log.Timber;
+import xyz.android.amrro.popularmovies.data.db.MovieDbHelper;
+import xyz.android.amrro.popularmovies.data.db.MoviesContract;
+import xyz.android.amrro.popularmovies.data.db.MoviesContract.MovieEntry;
 import xyz.android.amrro.popularmovies.data.db.MoviesDb;
 import xyz.android.amrro.popularmovies.data.model.Movie;
-import xyz.android.amrro.popularmovies.utils.Utils;
 
 /**
  * Created by amrro <amr.elghobary@gmail.com> on 7/31/17.
- * <p>
  * This {@link ContentProvider} will wrap the {@link MoviesDb}
  */
 
 public final class MoviesContentProvider extends ContentProvider {
-
-    private static final String AUTHORITY = "xyz.android.amrro.popularmovies.provider";
-
-    /**
-     * The URI for the Movie table.
-     */
-    public static final Uri URI_MOVIE = Uri.parse("content://" + AUTHORITY + "/" + Movie.TABLE_NAME);
-
     private static final int CODE_MOVIE_DIR = 11;
     private static final int CODE_MOVIE_ITEM = 22;
-
     /**
      * The URI matcher.
      */
     private static final UriMatcher MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
 
-    private MoviesDb db;
-    private Context context;
-
-
     static {
-        MATCHER.addURI(AUTHORITY, Movie.TABLE_NAME, CODE_MOVIE_DIR);
-        MATCHER.addURI(AUTHORITY, Movie.TABLE_NAME + "/*", CODE_MOVIE_ITEM);
+        MATCHER.addURI(MoviesContract.CONTENT_AUTHORITY, Movie.TABLE_NAME, CODE_MOVIE_DIR);
+        MATCHER.addURI(MoviesContract.CONTENT_AUTHORITY, Movie.TABLE_NAME + "/#", CODE_MOVIE_ITEM);
     }
 
-/*
-    public MoviesContentProvider(MoviesDb db) {
-        super();
-        this.db = db;
-    }*/
+    private SQLiteOpenHelper helper;
 
-
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean onCreate() {
-        if (getContext() != null) {
-            context = getContext();
-            db = Room
-                    .databaseBuilder(getContext(), MoviesDb.class, "moviesDb")
-                    .allowMainThreadQueries()
-                    .build();
-            return true;
-        }
-
-        Timber.d("getContext() in MoviesContentProvider is NULL.");
-        return false;
+        helper = new MovieDbHelper(getContext());
+        return true;
     }
 
     @Override
-    public Cursor query(@NonNull Uri uri,
-                        @Nullable String[] strings,
-                        @Nullable String s,
-                        @Nullable String[] strings1,
-                        @Nullable String s1) {
-        final Cursor cursor;
+    public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection,
+                        @Nullable String[] selectionArgs, @Nullable String sortOrder) {
+        SQLiteDatabase db = helper.getReadableDatabase();
         switch (MATCHER.match(uri)) {
-            /* return all stored movies.*/
-            case CODE_MOVIE_DIR:
-                cursor = db.movies().selectAll();
-                break;
-            case CODE_MOVIE_ITEM:
-                cursor = db.movies().findById(ContentUris.parseId(uri));
-                break;
+            case CODE_MOVIE_DIR: {
+                // return all movies.
+                return db.query(MovieEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+            }
+
+            case CODE_MOVIE_ITEM: {
+                /* return movie with specific _ID  */
+                String movieId = MovieEntry.getMovieId(uri);
+                return db.query(MovieEntry.TABLE_NAME, projection, MovieEntry.COL_MOVIE_ID + "= ?", new String[]{movieId},
+                        null, null, null);
+            }
             default:
-                throw new IllegalArgumentException("Unknown URI: " + uri);
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
-        cursor.setNotificationUri(context.getContentResolver(), uri);
-        return cursor;
     }
 
 
@@ -100,59 +68,69 @@ public final class MoviesContentProvider extends ContentProvider {
     public String getType(@NonNull Uri uri) {
         switch (MATCHER.match(uri)) {
             case CODE_MOVIE_DIR:
-                return "vnd.android.cursor.dir/" + AUTHORITY + "." + Movie.TABLE_NAME;
+                return MovieEntry.CONTENT_TYPE;
             case CODE_MOVIE_ITEM:
-                return "vnd.android.cursor.item/" + AUTHORITY + "." + Movie.TABLE_NAME;
+                return MovieEntry.CONTENT_TYPE;
             default:
-                throw new IllegalArgumentException("Unknown URI: " + uri);
+                throw new IllegalArgumentException("not valid Uri");
         }
     }
 
     @Nullable
     @Override
-    public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
+    public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        Uri retUri = null;
+
         switch (MATCHER.match(uri)) {
-            case CODE_MOVIE_DIR:
-                if (contentValues != null) {
-                    final Long id = db.movies().insert(Utils.fromContentValues(contentValues));
-                    context.getContentResolver().notifyChange(uri, null);
-                    return ContentUris.withAppendedId(uri, id);
-                }
-            case CODE_MOVIE_ITEM:
-                throw new IllegalArgumentException("Invalid URI, cannot insert with ID: " + uri);
+            case CODE_MOVIE_DIR: {
+                long rowId = db.insert(MovieEntry.TABLE_NAME, null, values);
+                if (rowId > 0 && values != null)
+                    retUri = MovieEntry.buildMovieUri(values.getAsString(MovieEntry.COL_MOVIE_ID));
+                break;
+            }
             default:
-                throw new IllegalArgumentException("Unknown URI: " + uri);
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
+        if (getContext() != null)
+            getContext().getContentResolver().notifyChange(uri, null);
+        return retUri;
     }
 
     @Override
-    public int delete(@NonNull Uri uri, @Nullable String s, @Nullable String[] strings) {
+    public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        int deletedRow;
+
         switch (MATCHER.match(uri)) {
-            case CODE_MOVIE_DIR:
-                throw new IllegalArgumentException("Specify the row ID not the whole table: " + uri);
-            case CODE_MOVIE_ITEM:
-                final int count = db.movies().deleteById(ContentUris.parseId(uri));
-                context.getContentResolver().notifyChange(uri, null);
-                return count;
+            case CODE_MOVIE_DIR: {
+                deletedRow = db.delete(MovieEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            }
             default:
-                throw new IllegalArgumentException("Unknown URI: " + uri);
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
+        if (deletedRow != 0 && getContext() != null)
+            getContext().getContentResolver().notifyChange(uri, null);
+
+        return deletedRow;
     }
 
     @Override
-    public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String s, @Nullable String[] strings) {
+    public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
+        int updatedRows;
+        SQLiteDatabase db = helper.getWritableDatabase();
+
         switch (MATCHER.match(uri)) {
-            case CODE_MOVIE_DIR:
-                throw new IllegalArgumentException("Specify the row ID; You cannot update the whole table: " + uri);
-            case CODE_MOVIE_ITEM:
-                if (contentValues != null) {
-                    final int count = db.movies().update(Utils.fromContentValues(contentValues));
-                    context.getContentResolver().notifyChange(uri, null);
-                    return count;
-                }
-                return 0;
+            case CODE_MOVIE_DIR: {
+                updatedRows = db.update(MovieEntry.TABLE_NAME, values, selection, selectionArgs);
+                break;
+            }
             default:
-                throw new IllegalArgumentException("Unknown URI: " + uri);
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
+        if (updatedRows != 0 && getContext() != null)
+            getContext().getContentResolver().notifyChange(uri, null);
+        return updatedRows;
     }
 }

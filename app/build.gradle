@@ -88,6 +88,7 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
 
     // test
+    compile 'com.android.support.test.espresso:espresso-idling-resource:2.2.2'
     testCompile 'junit:junit:4.12'
     testCompile "com.squareup.okhttp3:mockwebserver:$okhttp_version"
     testCompile "android.arch.persistence.room:testing:$arch_version"
@@ -96,4 +97,11 @@ dependencies {
         exclude group: 'com.google.code.findbugs'
     })
     androidTestCompile 'org.mockito:mockito-android:2.8.47'
+    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'design'
+        exclude group: 'com.android.support', module: 'recyclerview-v7'
+        exclude group: 'com.google.code.findbugs', module: 'jsr305'
+    }
 }
