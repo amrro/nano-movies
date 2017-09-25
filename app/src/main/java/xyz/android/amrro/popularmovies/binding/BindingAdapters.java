@@ -1,7 +1,10 @@
 
 package xyz.android.amrro.popularmovies.binding;
 
+import android.content.res.ColorStateList;
 import android.databinding.BindingAdapter;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.graphics.Palette;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -46,6 +49,23 @@ public class BindingAdapters {
                 break;
             default:
                 imageView.setImageResource(R.drawable.ic_play_circle_outline_white_24dp);
+        }
+    }
+
+    @BindingAdapter("palette")
+    public static void setPaletteFAB(FloatingActionButton button, Palette palette) {
+        if (palette != null) {
+            final Palette.Swatch vibrant = palette.getVibrantSwatch();
+            if (vibrant != null) {
+                int[][] states = new int[][]{
+                        new int[]{android.R.attr.state_enabled} // enabled
+                };
+                int[] colors = new int[]{
+                        vibrant.getRgb()
+                };
+                ColorStateList list = new ColorStateList(states, colors);
+                button.setBackgroundTintList(list);
+            }
         }
     }
 }

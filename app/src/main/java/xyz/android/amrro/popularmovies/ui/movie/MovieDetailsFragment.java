@@ -3,8 +3,10 @@ package xyz.android.amrro.popularmovies.ui.movie;
 import android.app.Activity;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.res.ColorStateList;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,7 +26,6 @@ import java.util.Objects;
 import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
-import timber.log.Timber;
 import xyz.android.amrro.popularmovies.R;
 import xyz.android.amrro.popularmovies.common.Navigator;
 import xyz.android.amrro.popularmovies.data.api.ApiResponse;
@@ -85,13 +86,24 @@ public class MovieDetailsFragment extends Fragment {
         if (response.isSuccessful()) {
             movie = response.getData();
             binding.setMovie(movie);
-            Glide.with(this)
-                    .load(Utils.toPosterFullPath(movie.getBackdropPath()))
-                    .into(binding.backdrop);
 
             Glide.with(this)
                     .load(Utils.toPosterFullPath(movie.getPosterPath()))
                     .into(binding.poster);
+
+            Glide.with(this)
+                    .asBitmap()
+                    .load(Utils.toPosterFullPath(movie.getBackdropPath()))
+                    .into(new BitmapImageViewTarget(binding.backdrop) {
+                        @Override
+                        public void onResourceReady(Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                            super.onResourceReady(resource, transition);
+                            new Palette.Builder(resource).generate(palette -> {
+                                binding.setPalette(palette);
+                                binding.setShowLoading(false);
+                            });
+                        }
+                    });
 
             binding.setShowLoading(false);
         }
@@ -112,7 +124,6 @@ public class MovieDetailsFragment extends Fragment {
     }
 
     private void animateFAB() {
-        binding.favoriteFab.setAlpha(0f);
         binding.favoriteFab.setScaleX(0f);
         binding.favoriteFab.setScaleY(0f);
 
