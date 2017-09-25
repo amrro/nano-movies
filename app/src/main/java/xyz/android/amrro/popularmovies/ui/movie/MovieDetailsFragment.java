@@ -3,10 +3,8 @@ package xyz.android.amrro.popularmovies.ui.movie;
 import android.app.Activity;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.res.ColorStateList;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -100,6 +98,9 @@ public class MovieDetailsFragment extends Fragment {
                             super.onResourceReady(resource, transition);
                             new Palette.Builder(resource).generate(palette -> {
                                 binding.setPalette(palette);
+                                final int oldBarColor = getActivity().getWindow().getStatusBarColor();
+                                final Palette.Swatch vibrant = palette.getVibrantSwatch();
+                                getActivity().getWindow().setStatusBarColor(vibrant == null ? oldBarColor : vibrant.getRgb());
                                 binding.setShowLoading(false);
                             });
                         }
