@@ -4,22 +4,27 @@ import android.app.Activity;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.graphics.Palette;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.transition.Transition;
 
 import java.util.Objects;
 
 import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
+import timber.log.Timber;
 import xyz.android.amrro.popularmovies.R;
 import xyz.android.amrro.popularmovies.common.Navigator;
 import xyz.android.amrro.popularmovies.data.api.ApiResponse;

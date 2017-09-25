@@ -51,11 +51,11 @@ class NetModule {
 
     @Singleton
     @Provides
-    OkHttpClient provideOkHttpClient(OkLogInterceptor logInterceptor, AuthInterceptor auth) {
+    OkHttpClient provideOkHttpClient(OkLogInterceptor log, AuthInterceptor auth) {
         return new OkHttpClient.Builder()
                 .retryOnConnectionFailure(true)
                 .addInterceptor(auth)
-                .addInterceptor(logInterceptor)
+//                .addInterceptor(logInterceptor)
                 .build();
     }
 
