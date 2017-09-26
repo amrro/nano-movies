@@ -1,17 +1,24 @@
 package xyz.android.amrro.popularmovies.ui.movie.pager;
 
 
+import android.content.res.ColorStateList;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.graphics.Palette;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
+
 import java.util.Objects;
+
+import javax.inject.Inject;
 
 import xyz.android.amrro.popularmovies.R;
 import xyz.android.amrro.popularmovies.common.BaseFragment;
@@ -26,6 +33,8 @@ import xyz.android.amrro.popularmovies.databinding.PagerFragmentBinding;
 public final class MoviePagerFragment extends BaseFragment {
     static final String CURRENT_PAGE = "CURRENT_PAGE";
 
+    @Inject
+    Bus bus;
     private PagerFragmentBinding binding;
     private int currentItem;
 
@@ -59,6 +68,7 @@ public final class MoviePagerFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        bus.register(this);
         MoviePagerAdapter pagerAdapter = new MoviePagerAdapter(getFragmentManager(), itemId());
         binding.pager.setAdapter(pagerAdapter);
         setUpTabs();
@@ -81,19 +91,17 @@ public final class MoviePagerFragment extends BaseFragment {
             switch (item.getItemId()) {
                 case R.id.action_info:
                     currentItem = 0;
-                    binding.pager.setCurrentItem(currentItem);
                     break;
 
                 case R.id.action_trailers:
                     currentItem = 1;
-                    binding.pager.setCurrentItem(currentItem);
                     break;
 
                 case R.id.action_reviews:
                     currentItem = 2;
-                    binding.pager.setCurrentItem(currentItem);
                     break;
             }
+            binding.pager.setCurrentItem(currentItem);
             return true;
         });
 
@@ -104,5 +112,13 @@ public final class MoviePagerFragment extends BaseFragment {
                 binding.navigation.getMenu().getItem(currentItem).setChecked(true);
             }
         });
+    }
+
+    @Subscribe
+    public void setPalette(final Palette.Swatch swatch) {
+        if (swatch != null) {
+            // TODO: 9/26/17 change tint colors of icon & text
+//            binding.navigation.setBackgroundColor(swatch.getRgb());
+        }
     }
 }

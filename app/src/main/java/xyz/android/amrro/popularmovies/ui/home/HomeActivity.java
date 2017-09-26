@@ -42,20 +42,22 @@ public class HomeActivity extends BaseActivity implements HasSupportFragmentInje
     }
 
     void animateToolbar(String title) {
-        View view = binding.toolbar.getChildAt(0);
-        if (view != null && view instanceof TextView) {
-            TextView titleTv = (TextView) view;
-            titleTv.setAlpha(0f);
-            titleTv.setScaleX(0.8f);
-            titleTv.setText(title);
-            titleTv.animate()
-                    .alpha(1f)
-                    .scaleX(1f)
-                    .setStartDelay(300)
-                    .setDuration(1000)
-                    .setInterpolator(AnimationUtils.loadInterpolator(
-                            this,
-                            android.R.interpolator.fast_out_slow_in));
+        if (binding != null) {
+            View view = binding.toolbar.getChildAt(0);
+            if (view != null && view instanceof TextView) {
+                TextView titleTv = (TextView) view;
+                titleTv.setAlpha(0f);
+                titleTv.setScaleX(0.8f);
+                titleTv.setText(title);
+                titleTv.animate()
+                        .alpha(1f)
+                        .scaleX(1f)
+                        .setStartDelay(300)
+                        .setDuration(1000)
+                        .setInterpolator(AnimationUtils.loadInterpolator(
+                                this,
+                                android.R.interpolator.fast_out_slow_in));
+            }
         }
     }
 
