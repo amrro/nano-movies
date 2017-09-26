@@ -18,6 +18,7 @@ import android.view.animation.AnimationUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.squareup.otto.Bus;
 
 import java.util.Objects;
 
@@ -25,6 +26,7 @@ import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
 import xyz.android.amrro.popularmovies.R;
+import xyz.android.amrro.popularmovies.common.BaseFragment;
 import xyz.android.amrro.popularmovies.common.Navigator;
 import xyz.android.amrro.popularmovies.data.api.ApiResponse;
 import xyz.android.amrro.popularmovies.data.model.Movie;
@@ -34,14 +36,12 @@ import xyz.android.amrro.popularmovies.utils.Utils;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MovieDetailsFragment extends Fragment {
-    private Movie movie;
-
+public class MovieDetailsFragment extends BaseFragment {
     @Inject
-    ViewModelProvider.Factory viewModelFactory;
-
+    Bus bus;
     private FragmentMovieDetailsBinding binding;
     private MovieViewModel movieViewModel;
+    private Movie movie;
 
     public MovieDetailsFragment() {
     }
@@ -63,8 +63,9 @@ public class MovieDetailsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        bus.register(this);
         binding.setShowLoading(true);
-        movieViewModel = ViewModelProviders.of(this, viewModelFactory).get(MovieViewModel.class);
+        movieViewModel = getViewModel(MovieViewModel.class);
         if (getArguments() != null && getArguments().containsKey(Navigator.KEY_ITEM_ID)) {
             Integer movieId = getArguments().getInt(Navigator.KEY_ITEM_ID);
             binding.setNoMovie(false);
@@ -100,7 +101,10 @@ public class MovieDetailsFragment extends Fragment {
                                 binding.setPalette(palette);
                                 final int oldBarColor = getActivity().getWindow().getStatusBarColor();
                                 final Palette.Swatch vibrant = palette.getVibrantSwatch();
-                                getActivity().getWindow().setStatusBarColor(vibrant == null ? oldBarColor : vibrant.getRgb());
+                                if (vibrant != null) {
+                                    bus.post(vibrant);
+                                    getActivity().getWindow().setStatusBarColor(vibrant.getRgb());
+                                }
                                 binding.setShowLoading(false);
                             });
                         }
@@ -111,17 +115,9 @@ public class MovieDetailsFragment extends Fragment {
     }
 
     private void initFAB() {
-        // TODO: 7/29/17 animate fab.
         animateFAB();
         binding.favoriteFab.setOnClickListener(view1 ->
                 movieViewModel.un_favorite(movie).observe(this, aBoolean -> movieViewModel.retry()));
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void onAttach(Activity activity) {
-        AndroidSupportInjection.inject(this);
-        super.onAttach(activity);
     }
 
     private void animateFAB() {

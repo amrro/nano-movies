@@ -6,6 +6,8 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.test.espresso.idling.CountingIdlingResource;
 
+import com.squareup.otto.Bus;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -40,4 +42,9 @@ public class AppModule {
         return new CountingIdlingResource("ESPRESSO");
     }
 
+    @Singleton
+    @Provides
+    Bus providesBus() {
+        return new Bus("MOVIES");
+    }
 }

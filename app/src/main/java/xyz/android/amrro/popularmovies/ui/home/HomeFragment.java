@@ -41,6 +41,7 @@ public class HomeFragment extends BaseFragment {
     private DiscoverViewModel discover;
     private String filter;
     private Parcelable layoutManagerState;
+    private LoaderManager loaderManager;
 
     private static final int LOADER_MOVIES = 684;
     private static final String KEY_FILTER_ROTATE = "KEY_FILTER_ROTATE";
@@ -50,6 +51,12 @@ public class HomeFragment extends BaseFragment {
     CountingIdlingResource idling;
 
     public HomeFragment() {
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        loaderManager = getActivity().getSupportLoaderManager();
     }
 
     @Override
@@ -126,7 +133,7 @@ public class HomeFragment extends BaseFragment {
             this.filter = newFilter;
             ((HomeActivity) getActivity()).animateToolbar(getTitle(filter));
             if (filter.equals(getString(R.string.sort_favorites))) {
-                getActivity().getSupportLoaderManager().initLoader(LOADER_MOVIES, null, loaderCallbacks);
+                loaderManager.initLoader(LOADER_MOVIES, null, loaderCallbacks);
             } else {
                 discover.setSort(filter);
             }
