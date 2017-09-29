@@ -1,9 +1,11 @@
 package xyz.android.amrro.popularmovies.ui.home;
 
+import android.app.LoaderManager;
+import android.content.Loader;
+import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,12 +13,16 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import xyz.android.amrro.popularmovies.R;
 import xyz.android.amrro.popularmovies.common.BaseActivity;
-import xyz.android.amrro.popularmovies.common.SlideUpItemAnimator;
+import xyz.android.amrro.popularmovies.data.db.MoviesContract.MovieEntry;
+import xyz.android.amrro.popularmovies.data.model.MovieResult;
 import xyz.android.amrro.popularmovies.databinding.ActivityHomeBinding;
+import xyz.android.amrro.popularmovies.utils.Utils;
+
 
 public class HomeActivity extends BaseActivity {
     private ActivityHomeBinding binding;
@@ -27,7 +33,7 @@ public class HomeActivity extends BaseActivity {
     private static final int LOADER_MOVIES = 684;
     private static final String KEY_FILTER_ROTATE = "KEY_FILTER_ROTATE";
     private static final String KEY_RECYCLER_POSITION = "KEY_RECYCLER_POSITION";
-    private Parcelable layoutManagerState;
+    private LoaderManager loaderManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +41,8 @@ public class HomeActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
         setSupportActionBar(binding.toolbar);
         animateToolbar(getString(R.string.sort_popularity_desc));
+        loaderManager = getLoaderManager();
+
 
         initRecyclerView();
         buildViewModel();
@@ -53,7 +61,7 @@ public class HomeActivity extends BaseActivity {
         super.onRestoreInstanceState(in);
         if (in != null) {
             setFilter(in.getString(KEY_FILTER_ROTATE, getString(R.string.sort_popularity_desc)));
-            layoutManagerState = in.getParcelable(KEY_RECYCLER_POSITION);
+            Parcelable layoutManagerState = in.getParcelable(KEY_RECYCLER_POSITION);
             binding.grid.getLayoutManager().onRestoreInstanceState(layoutManagerState);
         }
     }
@@ -79,7 +87,7 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void initRecyclerView() {
-        adapter = new MoviesAdapter(movie -> snack(movie.getTitle()));
+        adapter = new MoviesAdapter(movie -> navigator.toDetails(movie.getId()));
         binding.grid.setAdapter(adapter);
 
         final GridLayoutManager layoutManager = new GridLayoutManager(this, getResources().getInteger(R.integer.span_count));
@@ -108,7 +116,7 @@ public class HomeActivity extends BaseActivity {
         if (! Objects.equals(this.filter, newFilter)) {
             this.filter = newFilter;
             if (filter.equals(getString(R.string.sort_favorites))) {
-//                loaderManager.initLoader(LOADER_MOVIES, null, loaderCallbacks);
+                loaderManager.initLoader(LOADER_MOVIES, null, loaderCallbacks);
             } else {
                 discover.setSort(filter);
             }
@@ -134,6 +142,50 @@ public class HomeActivity extends BaseActivity {
             }
         }
     }
+
+    private final LoaderManager.LoaderCallbacks<Cursor> loaderCallbacks =
+            new LoaderManager.LoaderCallbacks<Cursor>() {
+                @Override
+                public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
+                    switch (id) {
+                        case LOADER_MOVIES:
+                            return new android.content.CursorLoader(HomeActivity.this,
+                                    MovieEntry.CONTENT_URI,
+                                    new String[]{
+                                            MovieEntry.COL_MOVIE_ID,
+                                            MovieEntry.COL_TITLE,
+                                            MovieEntry.COL_BACKDROP,
+                                            MovieEntry.COL_VOTE_AVERAGE,
+                                            MovieEntry.COL_RELEASE,
+                                            MovieEntry.COL_POSTER,
+                                            MovieEntry.COL_OVERVIEW,
+                                    },
+                                    null, null, null);
+                        default:
+                            throw new IllegalArgumentException("Supposedly, there is no id other 684");
+                    }
+                }
+
+                @Override
+                public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+                    switch (loader.getId()) {
+                        case LOADER_MOVIES:
+                            final ArrayList<MovieResult> favorites = (ArrayList<MovieResult>) Utils.toMoviesResultList(cursor);
+                            if (favorites == null || favorites.size() == 0)
+                                snack(getString(R.string.prompt_no_fovorites));
+                            else adapter.replace(favorites);
+                            break;
+                    }
+                }
+
+                @Override
+                public void onLoaderReset(Loader<Cursor> loader) {
+                    switch (loader.getId()) {
+                        case LOADER_MOVIES:
+                            adapter.replace(null);
+                    }
+                }
+            };
 
 
 }
