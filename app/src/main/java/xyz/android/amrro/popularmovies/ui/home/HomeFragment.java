@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -20,15 +19,13 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import javax.inject.Inject;
-
 import xyz.android.amrro.popularmovies.R;
 import xyz.android.amrro.popularmovies.common.BaseFragment;
 import xyz.android.amrro.popularmovies.data.api.ApiResponse;
 import xyz.android.amrro.popularmovies.data.db.MoviesContract.MovieEntry;
 import xyz.android.amrro.popularmovies.data.model.DiscoverResult;
 import xyz.android.amrro.popularmovies.data.model.MovieResult;
-import xyz.android.amrro.popularmovies.databinding.FragmentHomeBinding;
+import xyz.android.amrro.popularmovies.databinding.ContentHomeBinding;
 import xyz.android.amrro.popularmovies.ui.movie.MovieDetailsFragment;
 import xyz.android.amrro.popularmovies.utils.Utils;
 
@@ -36,7 +33,7 @@ import xyz.android.amrro.popularmovies.utils.Utils;
  * A placeholder fragment containing a simple view.
  */
 public class HomeFragment extends BaseFragment {
-    private FragmentHomeBinding binding;
+    private ContentHomeBinding binding;
     private MoviesAdapter adapter;
     private DiscoverViewModel discover;
     private String filter;
@@ -47,8 +44,6 @@ public class HomeFragment extends BaseFragment {
     private static final String KEY_FILTER_ROTATE = "KEY_FILTER_ROTATE";
     private static final String KEY_RECYCLER_POSITION = "KEY_RECYCLER_POSITION";
 
-    @Inject
-    CountingIdlingResource idling;
 
     public HomeFragment() {
     }
@@ -61,7 +56,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.content_home, container, false);
         return binding.getRoot();
     }
 
@@ -69,7 +64,7 @@ public class HomeFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
-        binding.setShowLoading(true);
+        binding.setLoading(true);
         initRecyclerView();
     }
 
@@ -99,9 +94,6 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void updateAdapter(final ApiResponse<DiscoverResult> response) {
-        if (! idling.isIdleNow())
-            idling.decrement();
-
         if (response != null && response.isSuccessful()) {
             final DiscoverResult result = response.getData();
             final ArrayList<MovieResult> movieResults = result.getResults();
@@ -109,7 +101,7 @@ public class HomeFragment extends BaseFragment {
             if (layoutManagerState != null) {
                 binding.grid.getLayoutManager().onRestoreInstanceState(layoutManagerState);
             }
-            binding.setShowLoading(false);
+            binding.setLoading(false);
         }
     }
 
@@ -128,17 +120,17 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void setFilter(String newFilter) {
-        binding.setShowLoading(true);
+        binding.setLoading(true);
         if (! Objects.equals(this.filter, newFilter)) {
             this.filter = newFilter;
-            ((HomeActivity) getActivity()).animateToolbar(getTitle(filter));
+//            ((HomeActivity) getActivity()).animateToolbar(filterTitle(filter));
             if (filter.equals(getString(R.string.sort_favorites))) {
                 loaderManager.initLoader(LOADER_MOVIES, null, loaderCallbacks);
             } else {
                 discover.setSort(filter);
             }
         } else {
-            binding.setShowLoading(false);
+            binding.setLoading(false);
         }
     }
 
@@ -150,9 +142,10 @@ public class HomeFragment extends BaseFragment {
         }
 
         if (adapter == null) {
+/*
             adapter = new MoviesAdapter(getContext(), new ArrayList<>(), id -> {
                 final HomeActivity parentActivity = (HomeActivity) getActivity();
-                if (parentActivity.isTwoPane) {
+                if (false) {
                     final MovieDetailsFragment fragment = MovieDetailsFragment.newInstance(id);
                     parentActivity.getSupportFragmentManager().beginTransaction()
                             .replace(R.id.details_fragment, fragment, "Two Pane")
@@ -161,6 +154,7 @@ public class HomeFragment extends BaseFragment {
                     parentActivity.navigator.toDetails(id);
                 }
             });
+*/
             binding.grid.setAdapter(adapter);
         }
     }
@@ -198,7 +192,7 @@ public class HomeFragment extends BaseFragment {
                             else adapter.replace(favorites);
                             break;
                     }
-                    binding.setShowLoading(false);
+                    binding.setLoading(false);
                 }
 
                 @Override
@@ -210,8 +204,7 @@ public class HomeFragment extends BaseFragment {
                 }
             };
 
-    @NonNull
-    private String getTitle(@NonNull final String filter) {
+    private String filterTitle(@NonNull final String filter) {
         String title = getString(R.string.title_popular);
         if (filter.equals(getString(R.string.sort_vot_count_desc)))
             title = getString(R.string.title_top_rated);

@@ -13,8 +13,7 @@ import xyz.android.amrro.popularmovies.ui.home.HomeFragment;
 
 /**
  * Created by amrro <amr.elghobary@gmail.com> on 7/27/17.
- * <p>
- * This Repository is solely responsible for loading the discover results in the {@link HomeFragment}
+ * This Repository is solely responsible for loading the discover results in the {@link Home}
  */
 
 @Singleton
