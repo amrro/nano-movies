@@ -116,7 +116,7 @@ public class HomeActivity extends BaseActivity {
         if (! Objects.equals(this.filter, newFilter)) {
             this.filter = newFilter;
             if (filter.equals(getString(R.string.sort_favorites))) {
-                loaderManager.initLoader(LOADER_MOVIES, null, loaderCallbacks);
+                loaderManager.restartLoader(LOADER_MOVIES, null, loaderCallbacks);
             } else {
                 discover.setSort(filter);
             }
