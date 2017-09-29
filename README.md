@@ -5,6 +5,16 @@ The project of the udacity course: https://goo.gl/uymidr
 Update API key for code navigation. replace `<put your key here>` in [gradle.properties][api]  with your API key.
 
 
+## Screens 
+
+Home                       |  Trailers
+:-------------------------:|:------------------:
+![home]                    | ![wonder] 
+You know who               |  Reviews 
+![joker]                   | ![reviews]   
+
+
+
 ## Used Libraries
 * [Android Architecture Components][arch]
 * [Android Data Binding][data-binding]
@@ -22,3 +32,8 @@ Update API key for code navigation. replace `<put your key here>` in [gradle.pro
 [glide]: https://github.com/bumptech/glide
 [timber]: https://github.com/JakeWharton/timber
 [api]: https://github.com/amrro/nano-movies/blob/master/gradle.properties
+
+[home]: https://github.com/amrro/nano-movies/blob/master/screenshot/device-2017-09-29-220558.png
+[wonder]: https://github.com/amrro/nano-movies/blob/master/screenshot/device-2017-09-29-220508.png
+[joker]: https://github.com/amrro/nano-movies/blob/master/screenshot/device-2017-09-29-220739.png
+[reviews]: https://github.com/amrro/nano-movies/blob/master/screenshot/device-2017-09-29-220420.png
