@@ -10,12 +10,6 @@ import xyz.android.amrro.popularmovies.common.OnItemClickedListener;
 import xyz.android.amrro.popularmovies.data.model.MovieResult;
 import xyz.android.amrro.popularmovies.databinding.CardMovieBinding;
 
-/**
- * Created by amrro <amr.elghobary@gmail.com> on 7/23/17.
- *
- * Adapter to populate discover results in the {@link HomeFragment}
- */
-
 public final class MoviesAdapter extends DataListAdapter<MovieResult, CardMovieBinding> {
 
     MoviesAdapter(OnItemClickedListener<MovieResult> listener) {
