@@ -1,5 +1,8 @@
 package xyz.android.amrro.popularmovies.data.model;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
 import java.util.Objects;
 
 /**
@@ -10,7 +13,7 @@ import java.util.Objects;
 
 
 @SuppressWarnings("WeakerAccess")
-public final class MovieResult {
+public final class MovieResult extends BaseObservable {
     private final Integer id;
     private final String title;
     private final String overview;
@@ -66,7 +69,7 @@ public final class MovieResult {
         return popularity;
     }
 
-
+    @Bindable
     public String getPosterPath() {
         if (posterPath != null)
             return "https://image.tmdb.org/t/p/w500" + posterPath;
@@ -74,6 +77,7 @@ public final class MovieResult {
     }
 
 
+    @Bindable
     public String getBackdropPath() {
         if (backdropPath != null)
             return String.format("https://image.tmdb.org/t/p/w500%s", backdropPath);

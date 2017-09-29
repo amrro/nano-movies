@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="ContentDescription">
 
 
     <data>
+
+        <import type="xyz.android.amrro.popularmovies.utils.Utils" />
 
         <variable
             name="movie"
@@ -18,14 +21,12 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:elevation="4dp"
-        android:paddingLeft="2dp"
-        android:paddingRight="2dp"
-        android:paddingTop="7dp">
+        android:elevation="4dp">
 
 
         <ImageView
             android:id="@+id/backdrop"
+            imageUrl="@{movie.backdropPath}"
             android:layout_width="0dp"
             android:layout_height="200dp"
             android:layout_marginBottom="2dp"
